@@ -1,0 +1,74 @@
+https://leetcode.com/problems/plus-one/
+
+My Solution:
+
+Thought：
+	从数组的最后一位开始，判断当前位是否等于9，若等于，将该位置0，若不等于，该位加1，返回；
+	最后只剩下全部为9的情况，位数加1，最高位置1。
+		
+Code：
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        vector<int> res;
+        int n = digits.size();
+        
+        for(int i = n - 1;i >= 0;i--)
+        {
+            if(digits[i] == 9)
+            {
+                digits[i] = 0;
+            }
+            else  //找到不需进位的那一位
+            {
+                digits[i]++;
+                return digits;
+            }   
+        }
+        
+        //只剩全部是9的情况
+        res.resize(n + 1);
+        res[0] = 1;
+        return res;
+    }
+};
+
+Performance:
+	Runtime:8ms, beats 48.41%
+	Memory:8.6MB, beats 32.31%
+		
+Superior Solution:
+
+Thought：
+	没必要重新开一个vector存放结果，直接操作digits即可；
+	另外，全部是9的情况可以使用insert函数插入1即可。
+		
+Code：
+class Solution {
+public:
+	vector<int> plusOne(vector<int>& digits)
+	{
+		int n = digits.size();
+
+		for (int i = n - 1; i >= 0; i--)
+		{
+			if (digits[i] == 9)
+			{
+				digits[i] = 0;
+				if (i == 0)
+					digits.insert(digits.begin(), 1);
+			}
+			else
+			{
+				digits[i]++;
+				return digits;
+			}
+		}
+
+		return digits;
+	}
+};
+
+Performance:
+	Runtime:4ms, beats 100%
+	Memory:8.8MB, beats 5.11%
