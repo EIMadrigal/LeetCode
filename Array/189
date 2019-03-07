@@ -1,0 +1,47 @@
+https://leetcode.com/problems/rotate-array/
+
+My Solution:
+
+Thought：
+	每次先弹出最后一个元素，插入到数组最前面。
+	由于insert的复杂度是O(n)，总的复杂度是O(n^2)。
+		
+Code：
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        for (int i = 0; i < k; i++)
+		{
+			int tmp = nums.back();
+            nums.pop_back();
+			nums.insert(nums.begin(), tmp);
+		}
+    }
+};
+
+Performance:
+	Runtime:276ms, beats 25.89%
+	Memory:9.6MB, beats 49.11%
+		
+Superior Solution:
+
+Thought：
+	题目说要在O(1)的空间复杂度内完成。
+	大佬的解法：先逆置前n-k个，再逆置后k个，最后逆置整个数组。
+		
+Code：
+class Solution {
+public:
+	void rotate(vector<int>& nums, int k)
+	{
+		int n = nums.size();
+		k = k % n;
+		reverse(nums.begin(), nums.begin() + n - k);
+		reverse(nums.begin() + n - k, nums.begin() + n);
+		reverse(nums.begin(), nums.end());
+	}
+};
+
+Performance:
+	Runtime:16ms, beats 100%
+	Memory:9.5MB, beats 78.88%
