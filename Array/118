@@ -9,7 +9,7 @@ Code：
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>> ans;
+        	vector<vector<int>> ans;
 		vector<int> row;
 		if (!numRows)
 			return ans;
