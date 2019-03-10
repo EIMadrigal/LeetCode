@@ -1,0 +1,69 @@
+https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+
+My Solution:
+
+Thought：
+	先将vector中元素插入到set中，遍历set，找到没有出现过的元素。
+	时间复杂度O(n^2)，空间复杂度O(n)。
+		
+Code：
+class Solution {
+public:
+	vector<int> findDisappeardNumbers(vector<int>& nums)
+	{
+		int n = nums.size();
+		vector<int> ans;
+		set<int> saved;
+		for (int num : nums)
+		{
+			saved.insert(num);
+		}
+		for (int i = 1; i <= n; i++)
+		{
+			if (saved.find(i) == saved.end())
+			{
+				ans.push_back(i);
+			}
+		}
+		return ans;
+	}
+};
+
+Performance:
+	Runtime:224ms, beats 5.57%
+	Memory:28.1MB, beats 5.13%
+		
+Superior Solution:
+
+Thought：
+	对vector中的每个数，将其指向的数标记为负；
+	第二次遍历，将数组中的正数对应的下标返回。
+		
+Code：
+class Solution {
+public:
+	vector<int> findDisappeardNumbers(vector<int>& nums)
+	{
+		int n = nums.size();
+		vector<int> ans;
+		
+		for (int i = 0; i < n; i++)
+		{
+			int index = abs(nums[i]) - 1;
+			if(nums[index] > 0)
+				nums[index] = -nums[index];
+		}
+
+		for (int i = 0; i < n; i++)
+		{
+			if (nums[i] > 0)
+				ans.push_back(i + 1);
+		}
+
+		return ans;
+	}
+};
+
+Performance:
+	Runtime:116ms, beats 95.31%
+	Memory:15.3MB, beats 29.23%
