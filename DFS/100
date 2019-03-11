@@ -1,0 +1,55 @@
+https://leetcode.com/problems/same-tree/
+
+My Solution:
+
+Thought：
+	递归先序遍历，先判断根是否相等，接着是左子树和右子树。
+		
+Code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode{
+ * 		int val;
+ * 		TreeNode* left;
+ * 		TreeNode* right;
+ * 		TreeNode(int x):val(x),left(NULL),right(NULL) {}
+ * };
+ */
+class Solution{
+public:
+	bool isSametree(TreeNode* p,TreeNode* q)
+	{
+		if(!p && !q)  //都空
+			return true;
+		if(!p || !q)  //有一个为空，另一个不空
+			return false;
+		if(p->val == q->val)
+			return isSametree(p->left,q->left) && isSametree(p->right,q->right);
+		else
+			return false;
+	}
+ };
+ 
+Performance:
+	Runtime:8ms, beats 52.85%
+	Memory:10.1MB, beats 73.13%
+		
+Superior Solution:
+
+Thought：
+	讨论区做法就是将上述代码简化。
+		
+Code：
+class Solution{
+public:
+	bool isSametree(TreeNode* p,TreeNode* q)
+	{
+		if(!p || !q)
+			return p == q;
+		return p->val == q->val && isSametree(p->left,q->left) && isSametree(p->right,q->right);
+	}
+ };
+
+Performance:
+	Runtime:4ms, beats 100%
+	Memory:10.1MB, beats 66.76%
