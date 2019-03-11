@@ -22,7 +22,7 @@ public:
 	{
 		if (!p || !q)
 			return p == q;
-        if (p->val != q->val)
+        	if (p->val != q->val)
 			return false;
 		return symmetric_node(p->left, q->right) && symmetric_node(p->right, q->left);
 	}
