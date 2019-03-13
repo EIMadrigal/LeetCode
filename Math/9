@@ -1,0 +1,62 @@
+https://leetcode.com/problems/palindrome-number/
+
+My Solution:
+
+Thought：
+	小于0的数必然不是回文数；
+	将整数转为字符串，反转字符串，比较即可。
+		
+Code：
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0)
+			return false;
+
+		stringstream ans;
+		ans << x;
+		string str = ans.str();
+		int len = str.size();
+		string str2 = str;
+
+		reverse(str.begin(),str.begin() + len);
+
+		if (str == str2)
+			return true;
+		return false;
+    }
+};
+
+Performance:
+	Runtime:128ms, beats 57.69%
+	Memory:73.2MB, beats 26.38%
+		
+Superior Solution:
+
+Thought：
+	小于0的数必然不是回文数；
+	把整数反着构造出来，比较两数是否相等。
+		
+Code：
+class Solution {
+public:
+    bool isPalindrome(int x) {
+       if (x < 0 || (x && x % 10 == 0))  //个位为0的也不是回文数
+			return false;
+
+		int num = x;  //原数备份
+		long long ans = 0;  //反转的数
+
+		while (x)
+		{
+			ans = ans * 10 + x % 10;
+			x /= 10;
+		}
+
+		return num == ans;
+    }
+};
+
+Performance:
+	Runtime:108ms, beats 97.47%
+	Memory:73.1MB, beats 29.27%
