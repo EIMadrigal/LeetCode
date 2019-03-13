@@ -11,19 +11,19 @@ class Solution {
 public:
     bool isPalindrome(int x) {
         if (x < 0)
-			return false;
-
-		stringstream ans;
-		ans << x;
-		string str = ans.str();
-		int len = str.size();
-		string str2 = str;
-
-		reverse(str.begin(),str.begin() + len);
-
-		if (str == str2)
-			return true;
 		return false;
+
+	stringstream ans;
+	ans << x;
+	string str = ans.str();
+	int len = str.size();
+	string str2 = str;
+
+	reverse(str.begin(),str.begin() + len);
+
+	if (str == str2)
+		return true;
+	return false;
     }
 };
 
@@ -42,18 +42,18 @@ class Solution {
 public:
     bool isPalindrome(int x) {
        if (x < 0 || (x && x % 10 == 0))  //个位为0的也不是回文数
-			return false;
+		return false;
 
-		int num = x;  //原数备份
-		long long ans = 0;  //反转的数
+	int num = x;  //原数备份
+	long long ans = 0;  //反转的数
 
-		while (x)
-		{
-			ans = ans * 10 + x % 10;
-			x /= 10;
-		}
+	while (x)
+	{
+		ans = ans * 10 + x % 10;
+		x /= 10;
+	}
 
-		return num == ans;
+	return num == ans;
     }
 };
 
