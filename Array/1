@@ -8,7 +8,7 @@ Thought：
 Code：
 int* twoSum(int* nums, int numsSize, int target)
 {
-    int* p = (int *)malloc(numsSize*sizeof(int));
+    	int* p = (int *)malloc(numsSize*sizeof(int));
 	for (int i = 0; i < numsSize; i++)
 		for (int j = i + 1; j < numsSize; j++)
 		{
@@ -36,7 +36,7 @@ Code：
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> HashTable;
+        	unordered_map<int, int> HashTable;
 		vector<int> ans;
 		int len = nums.size();
 
@@ -49,7 +49,7 @@ public:
 				ans.push_back(i);
 				break;
 			}
-            HashTable[nums[i]] = i;  //没找到，将当前数放入map，避免use the same element twice.
+            		HashTable[nums[i]] = i;  //没找到，将当前数放入map，避免use the same element twice.
 		}
 		return ans;
     }
