@@ -1,0 +1,123 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+My Solution:
+
+Thought：
+	先遍历拿到两链表长度，让长的链表指针先走差值步，
+	之后两指针同时走，如果能相遇，则即为交点。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+	{
+        int lenA = 0, lenB = 0;
+		ListNode* tmpA = headA, *tmpB = headB;
+
+		while (tmpA)
+		{
+			lenA++;
+			tmpA = tmpA->next;
+		}
+		while (tmpB)
+		{
+			lenB++;
+			tmpB = tmpB->next;
+		}
+
+		tmpA = headA;
+		tmpB = headB;
+
+		int diff = 0;
+
+		if (lenA > lenB)
+		{
+			diff = lenA - lenB;
+			while (diff--)
+			{
+				tmpA = tmpA->next;
+			}
+		}
+
+		else if (lenB > lenA)
+		{
+			diff = lenB - lenA;
+			while (diff--)
+			{
+				tmpB = tmpB->next;
+			}
+		}
+
+		while (tmpA != tmpB)
+		{
+			tmpA = tmpA->next;
+			tmpB = tmpB->next;
+		}
+
+		if (tmpA == NULL || tmpB == NULL)
+			return NULL;
+		else
+			return tmpA;
+    }
+};
+
+Performance:
+	Runtime:52ms, beats 98.09%
+	Memory:16.6MB, beats 92.55%
+		
+Superior Solution:
+
+Thought：
+	讨论区的代码总是很简洁。。。
+	当p1和p2相遇时，返回其中一个；
+	否则，假设p1先等于null，那么让p1重新指向headB；p2先等于null，让p2重新指向headA；
+	这样在相遇点之前p1走了：lenA+lenB-public，p2走了：lenB+lenA-public。
+	也就是说，如果有交叉点，那么p1和p2必然相遇。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+    {
+        ListNode* p1 = headA, *p2 = headB;
+
+		if (!p1 || !p2)
+			return NULL;
+
+		while (p1 && p2 && p1 != p2)
+		{
+			p1 = p1->next;
+			p2 = p2->next;
+
+			if (p1 == p2)
+				return p1;
+
+			if (p1 == NULL)
+				p1 = headB;
+			if (p2 == NULL)
+				p2 = headA;
+		}
+
+		return p1;
+    }
+};
+
+Performance:
+	Runtime:60ms, beats 33.44%
+	Memory:16.6MB, beats 89.57%
