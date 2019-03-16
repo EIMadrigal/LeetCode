@@ -1,0 +1,42 @@
+https://leetcode.com/problems/linked-list-cycle/
+
+My Solution:
+
+Thought：
+	快慢指针，若有环两指针必然相遇。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+       if (!head)
+			return false;
+
+		ListNode* slow = head;
+		ListNode* fast = head;
+
+		while (fast && fast->next)
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+            if (fast == slow)
+				return true;
+		}
+		return false;
+    }
+};
+
+Performance:
+	Runtime:12ms, beats 99.68%
+	Memory:9.6MB, beats 95.09%
+		
+Superior Solution:
+	无
