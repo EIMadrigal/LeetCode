@@ -1,0 +1,96 @@
+https://leetcode.com/problems/merge-two-sorted-lists/
+
+My Solution:
+
+Thought：
+	比较两个头结点的值，选择较小的插入新链表。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode preHead(0), *p = &preHead;
+		while (l1 && l2)
+		{
+			int tmp;
+
+			if (l1->val < l2->val)
+			{
+				tmp = l1->val;
+				l1 = l1->next;
+			}
+			else
+			{
+				tmp = l2->val;
+				l2 = l2->next;
+			}
+
+			p->next = new ListNode(tmp);
+			p = p->next;
+		}
+
+		while (l1)
+		{
+			p->next = new ListNode(l1->val);
+			p = p->next;
+			l1 = l1->next;
+		}
+
+		while (l2)
+		{
+			p->next = new ListNode(l2->val);
+			p = p->next;
+			l2 = l2->next;
+		}
+
+		return preHead.next;
+    }
+};
+
+Performance:
+	Runtime:12ms, beats 99.26%
+	Memory:10.1MB, beats 45.20%
+		
+Superior Solution:
+
+Thought：
+	讨论区的代码更简洁，不用生成新结点。
+		
+Code：
+class Solution {
+public:
+	ListNode * addTwoNumbers(ListNode* l1, ListNode* l2)
+	{
+		ListNode preHead(0), *p = &preHead;
+		while (l1 && l2)
+		{
+			if (l1->val < l2->val)
+			{
+				p->next = l1;
+				l1 = l1->next;
+			}
+			else
+			{
+				p->next = l2;
+				l2 = l2->next;
+			}
+
+			p = p->next;
+		}
+
+		p->next = l1 ? l1 : l2;
+		
+		return preHead.next;
+	}
+};
+Performance:
+	Runtime:16ms, beats 32.34%
+	Memory:9.9MB, beats 87.68%

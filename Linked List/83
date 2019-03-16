@@ -1,0 +1,70 @@
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
+My Solution:
+
+Thought：
+	两个指针，head用于遍历整个链表，ans用于存储没有重复的元素；
+	head指向的如果与ans不同，就将该结点插入ans。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode preHead(INT_MIN), *ans = &preHead;
+		
+        if(!head)
+            return NULL;
+        
+		while (head)
+		{
+			if (head->val != ans->val)
+			{
+                ans->next = new ListNode(head->val);
+				ans = ans->next;
+			}
+			head = head->next;
+		}
+        
+		return preHead.next;
+    }
+};
+
+Performance:
+	Runtime:20ms, beats 14.47%
+	Memory:9.4MB, beats 10.37%
+		
+Superior Solution:
+
+Thought：
+	讨论区的代码更简洁，不用生成新结点。
+	如果有相同的结点，保留第一个，指针的next域不断向后指；
+	否则cur向后走。
+		
+Code：
+class Solution {
+public:
+	ListNode* deleteDuplicates(ListNode* head)
+	{
+		ListNode* cur = head;
+		
+		while(cur)
+		{
+			while(cur->next && cur->val == cur->next->val)
+				cur->next = cur->next->next;
+			cur = cur->next;
+		}
+		
+		return head;
+	}
+};
+Performance:
+	Runtime:12ms, beats 100.00%
+	Memory:9.2MB, beats 55.04%
