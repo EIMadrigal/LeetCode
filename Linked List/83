@@ -27,7 +27,7 @@ public:
 		{
 			if (head->val != ans->val)
 			{
-                ans->next = new ListNode(head->val);
+                		ans->next = new ListNode(head->val);
 				ans = ans->next;
 			}
 			head = head->next;
