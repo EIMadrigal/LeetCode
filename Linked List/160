@@ -19,7 +19,7 @@ class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
 	{
-        int lenA = 0, lenB = 0;
+        	int lenA = 0, lenB = 0;
 		ListNode* tmpA = headA, *tmpB = headB;
 
 		while (tmpA)
@@ -95,7 +95,7 @@ class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
     {
-        ListNode* p1 = headA, *p2 = headB;
+        	ListNode* p1 = headA, *p2 = headB;
 
 		if (!p1 || !p2)
 			return NULL;
