@@ -1,0 +1,91 @@
+https://leetcode.com/problems/remove-linked-list-elements/
+
+My Solution:
+
+Thought：
+	定义一个前驱结点prev，便于删除元素。
+	我的代码就是A piece of shit!!!
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) 
+    {
+        if(!head)
+            return NULL;
+        
+        while(head && head->val == val)
+        {
+            head = head->next;
+        }
+        
+        ListNode preHead(0), *prev = &preHead;
+		ListNode* p = head;
+		prev->next = p;
+
+		while (p)
+		{
+			if (p->val == val)
+			{
+				prev->next = p->next;
+			}
+            else
+            {
+                prev = p;
+            }
+            p = p->next;
+		}
+		return head;   
+    }
+};
+
+Performance:
+	Runtime:28ms, beats 99.77%
+	Memory:11.4MB, beats 37.55%
+		
+Superior Solution:
+
+Thought：
+	讨论区的代码总是很简洁。。。
+	
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) 
+    {
+        ListNode preHead(0), *prev = &preHead;
+		ListNode* p = prev;
+		prev->next = head;
+
+		while (p)
+		{
+			if (p->next && p->next->val == val)
+				p->next = p->next->next;
+			else
+				p = p->next;
+		}
+
+		return prev->next;
+    }
+};
+
+Performance:
+	Runtime:28ms, beats 99.77%
+	Memory:11.2MB, beats 91.56%
