@@ -1,0 +1,83 @@
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+
+My Solution:
+
+Thought：
+	找到中间结点作为根结点，左边划为左子树，右边划为右子树，
+	递归处理左右两边。
+		
+Code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        int len = nums.size();
+		if (0 == len)
+			return NULL;
+
+		TreeNode* root = new TreeNode(nums[len / 2]);
+
+		vector<int> left = vector<int>(nums.begin(), nums.begin() + len / 2);
+		vector<int> right = vector<int>(nums.begin() + len / 2 + 1, nums.end());
+
+		root->left = sortedArrayToBST(left);
+		root->right = sortedArrayToBST(right);
+
+		return root;
+    }
+};
+
+Performance:
+	Runtime:40ms, beats 12.27%
+	Memory:24.4MB, beats 21.07%
+		
+Superior Solution:
+
+Thought：
+	构造向量的开销是O(n)，所以单独写一个函数，传递两个下标。
+		
+Code：
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+	TreeNode * DFS(vector<int>& nums, int low, int high)
+	{
+		int index = low + (high - low) / 2;
+		TreeNode* p = new TreeNode(nums[index]);
+
+        if(low < index)
+            p->left = DFS(nums, low, index - 1);
+		if(index < high)   
+            p->right = DFS(nums, index + 1, high);
+
+		return p;
+	}
+public:
+	TreeNode * sortedArrayToBST(vector<int>& nums)
+	{
+		if (nums.empty())
+			return nullptr;
+
+		return DFS(nums, 0, nums.size() - 1);
+	}
+};
+
+Performance:
+	Runtime:20ms, beats 100%
+	Memory:21MB, beats 85.46%
