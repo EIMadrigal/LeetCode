@@ -1,0 +1,42 @@
+https://leetcode.com/problems/middle-of-the-linked-list/
+
+My Solution:
+
+Thought：
+	快慢指针。
+	快指针走到链尾，慢指针刚好走到中间。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution
+{
+public:
+	ListNode * middleNode(ListNode* head)
+	{
+		if (!head)
+			return NULL;
+		ListNode* fast = head;
+		ListNode* slow = head;
+
+		while (fast && fast->next)
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+		}
+		return slow;
+	}
+};
+
+Performance:
+	Runtime:4ms, beats 100%
+	Memory:8.5MB, beats 52.07%
+		
+Superior Solution:
+	无
