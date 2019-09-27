@@ -41,7 +41,7 @@ public:
     }
 };
 
-Sliding Window: O(n), Space: O(n)
+Sliding Window: at most O(2n), Space: O(n)
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
@@ -67,4 +67,4 @@ public:
     }
 };
 
-Sliding Window Optimized: 
+Sliding Window Optimized: at most O(n), Space: O(n)
