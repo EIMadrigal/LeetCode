@@ -1,0 +1,107 @@
+https://leetcode.com/problems/palindrome-linked-list/
+
+My Solution:
+
+Thought：
+    用一个数组存储前一半元素，再进行对比。
+		
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        vector<int> firstHalf;
+        ListNode *fast = head, *slow = head;
+        
+        while(fast && fast->next)
+        {
+            fast = fast->next->next;
+            firstHalf.push_back(slow->val);
+            slow = slow->next;
+        }
+        
+        int n = firstHalf.size();
+        if(fast && fast->next == nullptr)
+                slow = slow->next;
+        
+        for(int i = n - 1;i >= 0;i--)
+        {
+            if(firstHalf[i] != slow->val)
+                return false;
+            slow = slow->next;
+        }
+        
+        return true;
+    }
+};
+
+Performance:
+	Runtime:24ms, beats 68%
+	Memory:13.1MB, beats 38%
+		
+Superior Solution:
+
+Thought：
+    将后一半链表逆置，再进行对比。
+	
+Code：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* reverse(ListNode* head)
+    {
+        if(!head)
+            return head;
+        
+        ListNode* pre = nullptr;
+        ListNode* next = head;
+        
+        while(head)
+        {
+            next = head->next;
+            head->next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode *fast = head, *slow = head;
+        
+        while(fast && fast->next)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        
+        fast = reverse(slow);
+        slow = head;
+        while(fast)
+        {
+            if(fast->val != slow->val)
+                return false;
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return true;
+    }
+};
+
+Performance:
+	Runtime:20ms, beats 91.49%
+	Memory:12.7MB, beats 75.86%
