@@ -20,23 +20,21 @@ Code：
  */
 class Solution {
 public:
-    ListNode* removeElements(ListNode* head, int val) 
-    {
-        if(!head)
-            return NULL;
-        
-		ListNode* pre = NULL;
-		while(head)
-		{
-			ListNode* next = head->next;
-			head->next = pre;
-			pre = head;
-			head = head->next;
-		}
-		
-		return pre;
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL)
+		    return NULL;
+	    ListNode* pre = NULL;
+	    while (head)
+	    {
+		    ListNode* next = head->next;  //保存下一个结点
+		    head->next = pre;   //完成该结点逆置
+		    pre = head;  //为下次准备
+		    head = next;
+	    }
+	    return pre;
     }
 };
+
 
 Performance:
 	Runtime:8ms, beats 100%
