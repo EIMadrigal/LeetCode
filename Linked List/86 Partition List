@@ -1,0 +1,87 @@
+/**
+两种解法
+1、遍历链表，将比x大的结点链接到big指针后，修改原链表中的指针关系使得原链表中都比x小，最后将big链接到原链表之后即可。
+2、定位第一个比x大的结点firLarge，以后每次碰到比x小的，将其插到firLarge之前。
+**/
+解一：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *big = new ListNode(-1), *travel = big;
+        ListNode *dummy = new ListNode(-1);
+        
+        dummy->next = head;
+        big->next = nullptr;
+        ListNode *cur = dummy;
+        
+        while(cur && cur->next)
+        {
+            if(cur->next->val >= x)
+            {
+                travel->next = cur->next;
+                cur->next = cur->next->next;
+                travel = travel->next;
+            }
+            else
+            {
+                cur = cur->next;
+            }
+        }
+        travel->next = nullptr;
+        cur->next = big->next;
+        
+        return dummy->next;
+    }
+};
+
+解二：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *dummy = new ListNode(-1);
+        ListNode *cur = dummy, *firLarge = nullptr, *preFir = nullptr;
+        dummy->next = head;
+        
+        while(cur->next)
+        {
+            if(cur->next->val >= x)
+            {
+                preFir = cur;
+                firLarge = cur->next;
+                break;
+            }
+            cur = cur->next;
+        }
+        
+        while(cur && cur->next)
+        {
+            if(cur->next->val < x)
+            {
+                preFir->next = cur->next;
+                cur->next = cur->next->next;
+                preFir->next->next = firLarge;
+                preFir = preFir->next;
+            }
+            else
+                cur = cur->next;
+        }
+        
+        return dummy->next;
+    }
+};
