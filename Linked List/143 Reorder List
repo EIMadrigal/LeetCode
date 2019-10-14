@@ -1,4 +1,3 @@
-//找到中间结点，将后一半链表逆置，依次从后一链表的头部摘取结点，间隔插入到前一半链表。
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -43,16 +42,15 @@ public:
         
         while(firstHalf && lastHalf)
         {
-            ListNode *afterFir = firstHalf->next, *afterSec = lastHalf->next;
+            ListNode *afterSec = lastHalf->next;
+            lastHalf->next = firstHalf->next;
             firstHalf->next = lastHalf;
-            lastHalf->next = afterFir;
             
             tmp = lastHalf;
+            firstHalf = lastHalf->next;
             lastHalf = afterSec;
-            firstHalf = afterFir;
         }
         
-        //奇数个结点
         if(lastHalf)
         {
             tmp->next = lastHalf;
