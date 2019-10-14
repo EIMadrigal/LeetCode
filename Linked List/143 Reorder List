@@ -1,0 +1,61 @@
+//找到中间结点，将后一半链表逆置，依次从后一链表的头部摘取结点，间隔插入到前一半链表。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode *reverse(ListNode *h)
+    {
+        if(!h)
+            return nullptr;
+        
+        ListNode *pre = nullptr;
+        while(h)
+        {
+            ListNode *after = h->next;
+            h->next = pre;
+            pre = h;
+            h = after;
+        }
+        
+        return pre;
+    }
+public:
+    void reorderList(ListNode* head) {
+        if(!head || !(head->next))
+            return ;
+        
+        ListNode *fast = head, *slow = head, *preSlow = head;
+        
+        while(fast && fast->next)
+        {
+            fast = fast->next->next;
+            preSlow = slow;
+            slow = slow->next;
+        }
+        preSlow->next = nullptr;
+        ListNode *lastHalf = reverse(slow), *firstHalf = head, *tmp = nullptr;
+        
+        while(firstHalf && lastHalf)
+        {
+            ListNode *afterFir = firstHalf->next, *afterSec = lastHalf->next;
+            firstHalf->next = lastHalf;
+            lastHalf->next = afterFir;
+            
+            tmp = lastHalf;
+            lastHalf = afterSec;
+            firstHalf = afterFir;
+        }
+        
+        //奇数个结点
+        if(lastHalf)
+        {
+            tmp->next = lastHalf;
+        }
+    }
+};
