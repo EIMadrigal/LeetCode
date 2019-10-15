@@ -1,0 +1,32 @@
+//要返回的结果初始为{-1, null}，将输入链表每个结点插入到相应的结果链表的位置。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode *dummy = new ListNode(INT_MIN), *cur = head;
+        
+        while(cur)
+        {
+            //从头开始找到插入位置
+            ListNode *travel = dummy, *after = cur->next;
+            while(travel->next && cur->val > travel->next->val)
+            {
+                travel = travel->next;
+            }
+            //插入结点
+            cur->next = travel->next;
+            travel->next = cur;
+            
+            cur = after;
+        }
+        
+        return dummy->next;
+    }
+};
