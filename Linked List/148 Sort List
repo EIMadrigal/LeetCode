@@ -1,0 +1,55 @@
+/**
+快排：
+指针slow指向比枢轴小的最后一个元素，fast作为遍历指针；如果fast发现了一个比数轴小的，slow前移，交换fast和slow的值，这样保证slow仍然指向
+比枢轴小的最后一个元素。最后交换pivot和slow的值，返回slow即是partition的位置。
+**/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode *partition(ListNode *head, ListNode *end)
+    {
+        //let head be pivot
+        ListNode *slow = head, *fast = head->next;
+        while(fast != end)
+        {
+            if(fast->val < head->val)
+            {
+                slow = slow->next;
+                swap(slow->val, fast->val);
+            }
+            fast = fast->next;
+        }
+        swap(slow->val, head->val);
+        
+        return slow;
+    }
+    
+    void Qsort(ListNode *head, ListNode *end)
+    {
+        if(head != end)
+        {
+            ListNode *pivotPos = partition(head, end);
+            Qsort(head, pivotPos);
+            Qsort(pivotPos->next, end);
+        }
+    }
+public:
+    ListNode* sortList(ListNode* head) {
+        ListNode *end = nullptr;
+        Qsort(head, end);
+        
+        return head;
+    }
+};
+
+/**
+归并排序：
+
+**/
