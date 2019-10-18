@@ -51,5 +51,57 @@ public:
 
 /**
 归并排序：
-
+先找到中间结点，将链表一分为二，对左右子链表归并排序，最后归并两个有序子表。
 **/
+class Solution {
+private:
+	ListNode* mergeSort(ListNode* head)
+	{
+		if (!head || !(head->next))
+			return head;
+
+		ListNode* fast = head, *slow = head, *mid = head;
+		while (fast && fast->next)
+		{
+            mid = slow;
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+
+        //一定要找到最中间结点，将链表等额划分
+		ListNode* leftHead = head, *rightHead = slow;
+		mid->next = nullptr;
+
+		leftHead = mergeSort(leftHead);
+		rightHead = mergeSort(rightHead);
+
+		return merge(leftHead, rightHead);
+	}
+	ListNode* merge(ListNode* l1, ListNode* l2)
+	{
+		ListNode p(-1), * dummy = &p;
+
+		while (l1 && l2)
+		{
+			if (l1->val < l2->val)
+			{
+				dummy->next = l1;
+				l1 = l1->next;
+			}
+			else
+			{
+				dummy->next = l2;
+				l2 = l2->next;
+			}
+			dummy = dummy->next;
+		}
+
+		dummy->next = l1 ? l1 : l2;
+
+		return p.next;
+	}
+public:
+	ListNode* sortList(ListNode* head) {
+		return mergeSort(head);
+	}
+};
