@@ -1,0 +1,45 @@
+/**
+要求在O(1)时间复杂度拿到栈的最小值。
+法一：建立一个辅助栈，存放曾经遇到过的最小值；
+法二：用一个变量curMin记录当前最小值，如果要入栈的元素小于等于curMin，先将curMin入栈，再更新curMin的值；
+    弹出时，如果要弹出最小值，先pop()，再更新curMin为栈顶元素，弹出栈顶元素。
+**/
+class MinStack {
+private:
+    stack<int> s1, s2;
+    int curMin = INT_MAX;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        s1.push(x);
+        if(x <= curMin)
+        {
+            s2.push(x);
+            curMin = x;
+        }
+    }
+    
+    void pop() {
+        if(s1.top() == curMin)
+        { 
+            s2.pop();
+            if(!s2.empty())
+                curMin = s2.top();
+            else
+                curMin = INT_MAX;
+        }
+        s1.pop();
+    }
+    
+    int top() {
+        return s1.top();
+    }
+    
+    int getMin() {
+        return curMin;
+    }
+};
