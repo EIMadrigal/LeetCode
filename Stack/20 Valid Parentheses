@@ -1,0 +1,31 @@
+/**
+遇到左括号压栈，遇到右括号判断其与栈顶的左括号是否匹配，若匹配，弹出。
+**/
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> sta;    
+    
+        for(int i = 0;i < s.size();i++)
+        {
+            char tmp = s[i];
+            if(tmp == '(' || tmp == '[' || tmp == '{')
+            {
+                sta.push(tmp);
+            }
+            else if(!sta.empty() && (tmp == ')' && sta.top() == '(' || tmp == ']' && sta.top() == '[' || tmp == '}' && sta.top() == '{'))
+            {
+                    sta.pop();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        if(!sta.empty())
+            return false;
+        
+        return true;
+    }
+};
