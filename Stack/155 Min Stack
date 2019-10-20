@@ -43,3 +43,52 @@ public:
         return curMin;
     }
 };
+
+
+
+class MinStack {
+private:
+    int curMin = INT_MAX;
+    stack<int> s;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        //遇到一个更小的，就将次小值再入栈，这样次小值位于次栈顶
+        if(x <= curMin)
+        {
+            s.push(curMin);
+            s.push(x);
+            curMin = x;
+        }
+        else
+        {
+            s.push(x);
+        }
+    }
+    
+    void pop() {
+        //如果要pop最小值，就将次小值更新为最小值，并将多余的一个次小值pop
+        if(s.top() == curMin)
+        {
+            s.pop();
+            curMin = s.top();
+            s.pop();
+        }
+        else
+        {
+            s.pop();
+        }
+    }
+    
+    int top() {
+        return s.top();
+    }
+    
+    int getMin() {
+        return curMin;
+    }
+};
