@@ -1,0 +1,74 @@
+/**
+将绝对路径转为规范路径。
+所谓的规范路径：/开头；多个/只保留一个；遇到当前目录.将其删除；
+                遇到返回上一级目录..（比如/a/b/..从a进b再返回a，相当于/a）：如果前面不空，就删掉一个字母。
+利用/拿到子串，用栈处理子串。
+**/
+
+class Solution {
+public:
+    string simplifyPath(string path) {
+        string ans = "/";
+        stack<string> s1,s2;
+        
+        vector<string> subString;
+        for(int i = 0;i < path.size();)
+        {
+            string cur;
+            while(i < path.size() && path[i] == '/')
+                i++;
+            while(i < path.size() && path[i] != '/')
+            {
+                cur += path[i++];
+            }
+            if(cur != "")
+                subString.push_back(cur);
+        }
+        
+        for(int i = 0;i < subString.size();i++)
+        {
+            if(subString[i] != ".")
+            {
+                s1.push(subString[i]);
+            }
+        }
+        
+        int cnt = 0;  //..的个数
+        while(s1.size())
+        {
+            if(s1.size() && s1.top() == "..")
+            {
+                s1.pop();
+                cnt++;
+            }
+           
+            if(s1.size() && s1.top() != "..")
+            {
+                if(cnt > 0)
+                {
+                    s1.pop();
+                    cnt--;
+                }
+                else
+                {
+                    s2.push(s1.top());
+                    s1.pop();  
+                }
+            }
+        }
+        
+        while(s2.size())
+        {
+            ans += s2.top();
+            s2.pop();
+            ans += "/";
+        }
+        
+        if(ans.size() > 1)
+            ans.erase(ans.size() - 1, 1);
+        
+        return ans;
+    }
+};
+
+//简洁版
