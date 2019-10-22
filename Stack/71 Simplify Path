@@ -71,4 +71,29 @@ public:
     }
 };
 
-//简洁版
+//简洁版, 用stringstream和getline拿到子串.
+class Solution {
+public:
+    string simplifyPath(string path) {
+        stringstream ss(path);
+        string cur, ans;
+        
+        vector<string> valid;
+        while(getline(ss, cur, '/'))
+        {
+            if(cur == "" || cur == ".")
+                continue;
+            else if(cur == ".." && !valid.empty())
+                valid.pop_back();
+            else if(cur != "..")
+            {
+                valid.push_back(cur);
+            }
+        }
+        
+        for(string s:valid)
+            ans += "/" + s;
+        
+        return ans.empty() ? "/" : ans;
+    }
+};
