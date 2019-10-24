@@ -1,0 +1,118 @@
+/**
+比较标准的做法是：先把中缀转为后缀，在计算后缀的值。
+**/
+class Solution {
+private:
+	vector<string> toPostfix(string& s)
+	{
+		vector<string> postfix;
+		stack<char> operand;
+
+		for (int i = 0; i < s.size(); i++)
+		{
+			char c = s[i];
+			if (c == ' ')
+				continue;
+			else if (c == '(')
+			{
+				operand.push(c);
+			}
+			else if (c == ')')
+			{
+				while (operand.top() != '(')
+				{
+                    char tmp = operand.top();
+			        string stmp(1, tmp);
+			        postfix.push_back(stmp);
+			        operand.pop();
+				}
+				operand.pop();
+			}
+			else if ((c == '+' || c == '-') && (operand.empty() || operand.top() == '('))
+			{
+				operand.push(c);
+			}
+			//遇到+-，并且栈顶也是+-
+			else if ((c == '+' || c == '-') && (operand.top() == '+' || operand.top() == '-'))
+			{
+				while (!operand.empty() && operand.top() != '(')
+				{
+					char tmp = operand.top();
+			        string stmp(1, tmp);
+			        postfix.push_back(stmp);
+			        operand.pop();
+				}
+				operand.push(c);
+			}
+			else  //遇到数字
+			{
+				string num;
+				while (c >= '0' && c <= '9')
+				{
+					num += c;
+					c = s[++i];
+				}
+                i--;
+				postfix.push_back(num);
+			}
+		}
+
+		while (!operand.empty())
+		{
+            //注意将char转为string不能直接char+""
+			char c = operand.top();
+			string stmp(1, c);
+			postfix.push_back(stmp);
+			operand.pop();
+		}
+
+		return postfix;
+	}
+
+	int evalRPN(vector<string> tokens) {
+		stack<int> num;
+		int op1, op2, n;
+
+		for (string s : tokens)
+		{
+			if (s == "+")
+			{
+				op1 = num.top(); num.pop();
+				op2 = num.top(); num.pop();
+				num.push(op2 + op1);
+			}
+			else if (s == "-")
+			{
+				op1 = num.top(); num.pop();
+				op2 = num.top(); num.pop();
+				num.push(op2 - op1);
+			}
+			else if (s == "*")
+			{
+				op1 = num.top(); num.pop();
+				op2 = num.top(); num.pop();
+				num.push(op2 * op1);
+			}
+			else if (s == "/")
+			{
+				op1 = num.top(); num.pop();
+				op2 = num.top(); num.pop();
+				num.push(op2 / op1);
+			}
+			else
+			{
+				stringstream is(s);
+				is >> n;
+				num.push(n);
+			}
+		}
+
+		return num.top();
+	}
+public:
+	int calculate(string s) {
+		return evalRPN(toPostfix(s));
+	}
+};
+
+/**两个栈，一个操作数，一个运算符**/
