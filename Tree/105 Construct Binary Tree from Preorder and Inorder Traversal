@@ -52,3 +52,42 @@ public:
         return root;
     }
 };
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    TreeNode* buildTreeCore(vector<int>& preorder, vector<int>& inorder, int preLow, int preHigh, int inLow, int inHigh)
+    {
+        //递归边界
+        if(preLow > preHigh || inLow > inHigh)
+            return nullptr;
+        
+        TreeNode* root = new TreeNode(preorder[preLow]);
+        int rootIndex;
+        for(rootIndex = inLow;rootIndex <= inHigh;rootIndex++)
+        {
+            if(inorder[rootIndex] == root->val)
+                break;
+        }
+        
+        root->left = buildTreeCore(preorder, inorder, preLow + 1, rootIndex - inLow + preLow, inLow, rootIndex - 1);
+        root->right = buildTreeCore(preorder, inorder, preLow + rootIndex - inLow + 1, preHigh, rootIndex + 1, inHigh);
+        
+        return root;
+    }
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if(preorder.empty() || inorder.empty())
+            return nullptr;
+        
+        return buildTreeCore(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+    }
+};
