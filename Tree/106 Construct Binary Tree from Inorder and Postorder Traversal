@@ -1,0 +1,29 @@
+class Solution {
+private:
+    TreeNode* buildTreeCore(vector<int>& inorder, vector<int>& postorder, int inSta, int inEnd, int postSta, int postEnd)
+    {
+        //递归边界
+        if(inSta > inEnd || postSta > postEnd)
+            return nullptr;
+        
+        TreeNode* root = new TreeNode(postorder[postEnd]);
+        int rootIndex;
+        for(rootIndex = inSta;rootIndex <= inEnd;rootIndex++)
+        {
+            if(inorder[rootIndex] == root->val)
+                break;
+        }
+        
+        root->left = buildTreeCore(inorder, postorder, inSta, rootIndex - 1, postSta, postSta + rootIndex - inSta - 1);
+        root->right = buildTreeCore(inorder, postorder, rootIndex + 1, inEnd, postSta + rootIndex - inSta, postEnd - 1);
+        
+        return root;
+    }
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if(inorder.empty() || postorder.empty())
+            return nullptr;
+        
+        return buildTreeCore(inorder, postorder, 0, inorder.size() - 1, 0, postorder.size() - 1);
+    }
+};
