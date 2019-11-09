@@ -1,0 +1,81 @@
+//first version
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> s;
+        TreeNode* pCur = root,*pLastVisit = nullptr;
+        
+        while(!s.empty() || pCur)
+        {
+            if(pCur)
+            {
+                s.push(pCur);
+                pCur = pCur->left;
+            }
+            
+            else
+            {
+                pCur = s.top();
+                if(pCur->right && pCur->right != pLastVisit)
+                {
+                    pCur = pCur->right;
+                    s.push(pCur);
+                    pCur = pCur->left;
+                }
+                else
+                {
+                    result.push_back(pCur->val);
+                    s.pop();
+                    pLastVisit = pCur;
+                    pCur = nullptr;
+                }
+            }
+        }
+        
+        return result;
+    }
+};
+
+//second version
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> s;
+        TreeNode* pCur = root,*pLastVisit = nullptr;
+        vector<int> result;
+        
+        //先把pCur移到左子树最下边
+        while(pCur)
+        {
+            s.push(pCur);
+            pCur = pCur->left;
+        }
+        
+        while(!s.empty())
+        {
+            pCur = s.top();
+            s.pop();
+            
+            //根节点被访问：没有右子树或者右子树被访问过
+            if(pCur->right == nullptr || pCur->right == pLastVisit)
+            {
+                result.push_back(pCur->val);
+                pLastVisit = pCur;
+            }
+            //pCur->left == pLastVisit，先访问右子树
+            else
+            {
+                s.push(pCur);
+                pCur = pCur->right;
+                while(pCur)
+                {
+                    s.push(pCur);
+                    pCur = pCur->left;
+                }
+            }
+        }
+        
+        return result;
+    }
+};
