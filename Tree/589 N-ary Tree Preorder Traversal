@@ -34,3 +34,28 @@ public:
 };
 
 //迭代
+class Solution {
+public:
+    vector<int> preorder(Node* root) {
+        vector<int> ans;
+        if(!root)
+            return ans;
+        
+        stack<Node*> s;
+        Node* p = root;
+        s.push(p);
+        
+        while(!s.empty()) {
+            s.pop();
+            ans.push_back(p->val);
+            //将孩子逆序压栈
+            for(int i = p->children.size() - 1; i >= 0;i--) {
+                s.push(p->children[i]);
+            }
+            if(!s.empty())
+                p = s.top();
+        }
+        
+        return ans;
+    }
+};
