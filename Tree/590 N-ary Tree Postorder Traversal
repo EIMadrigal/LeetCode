@@ -33,3 +33,28 @@ private:
 };
 
 //二、迭代
+//后根遍历是左右根，类似前序遍历，不过先去右孩子（顺序压栈），这样的次序就是根右左，最后逆置即可。
+class Solution {
+public:
+    vector<int> postorder(Node* root) {
+        vector<int> ans;
+        if(!root) return ans;
+        
+        stack<Node*> s;
+        Node* p = root;
+        s.push(p);
+        
+        while(!s.empty()) {
+            ans.push_back(s.top()->val);
+            s.pop();
+            
+            for(Node* n : p->children) {
+                s.push(n);
+            }
+            if(!s.empty())
+                p = s.top();
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
