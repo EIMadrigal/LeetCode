@@ -33,7 +33,7 @@ public:
     }
 };
 
-//迭代
+//迭代，前序是根左右，所以要将孩子逆序压栈，这样出栈访问就是先左后右
 class Solution {
 public:
     vector<int> preorder(Node* root) {
