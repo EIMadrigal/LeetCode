@@ -7,6 +7,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ 
+ //先序、中序、后序都可以，但不知道为什么先序4ms，其他两个8ms
 class Solution {
 public:
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
