@@ -1,1 +1,96 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
 
+    Node() {}
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+*/
+
+//法一：hashtable
+class Solution {
+private:
+    unordered_map<Node*, Node*> copy;  //original to copied
+public:
+    Node* copyRandomList(Node* head) {
+        if(!head) return nullptr;
+
+        Node* newHead = new Node(head->val, nullptr, nullptr);
+        Node* oldList = head, *newList = newHead;
+        
+        while(oldList->next) {
+            copy[oldList] = newList;
+            oldList = oldList->next;
+            newList->next = new Node(oldList->val, nullptr, nullptr);
+            newList = newList->next; 
+        }
+        //处理好尾巴
+        copy[oldList] = newList;
+        newList->next = nullptr;
+        
+        oldList = head;
+        newList = newHead;
+        while(oldList) {
+            newList->random = copy[oldList->random];
+            oldList = oldList->next;
+            newList = newList->next;
+        }
+        
+        return newHead;
+    }
+};
+
+//法二：构造1, 1', 2, 2'
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(!head) return nullptr;
+        
+        //构造interweave结构
+        Node* pre = head, *cur = pre->next;
+        while(pre) {
+            pre->next = new Node(pre->val, cur, nullptr);
+            pre = cur;
+            if(cur)
+                cur = cur->next;
+        }
+        
+        pre = head;
+        cur = pre->next;
+        //搞定random指针
+        while(pre) {
+            if(pre->random)
+                cur->random = pre->random->next;
+            else
+                cur->random = nullptr;
+            if(cur->next)
+                cur = cur->next->next;
+            pre = pre->next->next;
+        }
+        
+        //拆出最后结果
+        pre = head, cur = head->next;
+        Node* copy = cur;
+        while(cur) {
+            if(cur->next == nullptr) {
+                pre->next = nullptr;
+                break;
+            }
+            pre->next = cur->next;
+            cur->next = cur->next->next;
+            cur = cur->next;
+            pre = pre->next;
+        }
+        
+        return copy;
+    }
+};
