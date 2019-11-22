@@ -1,1 +1,29 @@
-
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.empty()) return 0;
+        
+        int row = grid.size();
+        int col = grid[0].size();
+        int ans = 0;
+        for(int i = 0;i < row;i++)
+            for(int j = 0;j < col;j++) {
+                if(grid[i][j] == '1') {
+                    ans++;
+                    dfs(grid, row, col, i, j);
+                }       
+            }
+        
+        return ans;
+    }
+private:
+    void dfs(vector<vector<char>>& grid, int row, int col, int y, int x) {
+        if(y < 0 || y >= row || x < 0 || x >= col || grid[y][x] == '0') return;
+        
+        grid[y][x] = '0';
+        dfs(grid, row, col, y, x - 1);
+        dfs(grid, row, col, y - 1, x);
+        dfs(grid, row, col, y, x + 1);
+        dfs(grid, row, col, y + 1, x);
+    }
+};
