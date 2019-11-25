@@ -22,7 +22,8 @@ public:
             for(int j = 0;j < col;j++) {
                 if(grid[i][j] == 0) {
                     int curArea = 1;
-                    for(int id_ : set<int>{getId(grid, row, col, i - 1, j), getId(grid, row, col, i + 1, j), getId(grid, row, col, i, j - 1), getId(grid, row, col, i, j + 1)})
+                    for(int id_ : set<int>{getId(grid, row, col, i - 1, j), getId(grid, row, col, i + 1, j),
+                                           getId(grid, row, col, i, j - 1), getId(grid, row, col, i, j + 1)})
                         curArea += areas[id_];
                     ans = max(ans, curArea);
                 }
