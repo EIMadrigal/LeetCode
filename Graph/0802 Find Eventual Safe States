@@ -1,0 +1,2 @@
+// 一个node是unsafe：node是环的一部分或者node的neighbors形成环
+
