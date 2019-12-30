@@ -1,0 +1,49 @@
+// dfs
+class Solution {
+public:
+	vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+		vector<double> ans;
+		unordered_map<string, unordered_map<string, double>> g;
+		for (int i = 0; i < equations.size(); ++i) {
+			g[equations[i][0]][equations[i][1]] = values[i];
+			g[equations[i][1]][equations[i][0]] = 1 / values[i];
+		}
+
+		for (int i = 0; i < queries.size(); ++i) {
+			if (g.find(queries[i][0]) == g.end() || g.find(queries[i][1]) == g.end())
+				ans.push_back(-1.0);
+			else if (queries[i][0] == queries[i][1])
+				ans.push_back(1.0);
+			else {
+				unordered_set<string> visited;
+				double quo = 1.0;
+				if (dfs(g, visited, queries[i][0], queries[i][1], &quo))
+					ans.push_back(quo);
+				else
+					ans.push_back(-1.0);
+			}
+		}
+
+		return ans;
+	}
+private:
+	bool dfs(unordered_map<string, unordered_map<string, double>>& g, unordered_set<string>& visited, string start, string end, double* quo) {
+		if (visited.find(start) != visited.end() || start == end)
+			return true;
+
+		visited.insert(start);
+		for (auto neighbor : g[start]) {
+			if (visited.find(neighbor.first) != visited.end())
+				continue;
+			
+			if (dfs(g, visited, neighbor.first, end, quo)) {
+				(*quo) *= neighbor.second;
+				return true;
+			}
+		}
+
+		return false;
+	}
+};
+
+// union find
