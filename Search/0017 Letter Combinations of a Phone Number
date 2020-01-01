@@ -1,0 +1,31 @@
+// DFS
+class Solution {
+public:
+	vector<string> letterCombinations(string digits) {
+		if (digits.empty())
+			return {};
+
+		vector<string> mapping = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+		vector<string> ans;
+		string cur;
+
+		dfs(digits, mapping, cur, 0, ans);
+
+		return ans;
+	}
+private:
+	void dfs(const string& digits, const vector<string>& mapping, string& cur, int len, vector<string>& ans) {
+		if (len == digits.size()) {
+			ans.push_back(cur);
+			return;
+		}
+
+        for(const char c : mapping[digits[len] - '0']) {
+			cur.push_back(c);
+			dfs(digits, mapping, cur, len + 1, ans);
+			cur.pop_back();
+		}
+	}
+};
+
+// BFS
