@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        if(candidates.empty())
+            return {};
+        
+        vector<int> cur;
+        vector<vector<int>> ans;
+        std::sort(candidates.begin(), candidates.end());
+        combi(candidates, target, 0, cur, ans);
+        
+        return ans;
+    }
+private:
+    void combi(vector<int>& candidates, int target, int start, vector<int>& cur, vector<vector<int>>& ans) {
+        if(target == 0) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        for(int i = start;i < candidates.size();++i) {
+            if(target < candidates[i]) //prune
+                break;
+            cur.push_back(candidates[i]);
+            combi(candidates, target - candidates[i], i, cur, ans);
+            cur.pop_back();
+        }
+    }
+};
