@@ -1,1 +1,24 @@
-
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<int> cur;
+        vector<vector<int>> ans;
+        
+        com(n, k, 0, 1, cur, ans);
+        
+        return ans;
+    }
+private:
+    void com(int n, int k, int d, int start, vector<int>& cur, vector<vector<int>>& ans) {
+        if(d == k) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        for(int i = start; i <= n;++i) {
+            cur.push_back(i);
+            com(n, k, d + 1, i + 1, cur, ans);
+            cur.pop_back();
+        }
+    }
+};
