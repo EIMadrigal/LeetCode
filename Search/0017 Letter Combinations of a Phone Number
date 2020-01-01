@@ -28,4 +28,24 @@ private:
 	}
 };
 
-// BFS
+// BFS + 滚动数组
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty())
+            return {};
+        
+        vector<string> mapping = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> ans{""};
+        for(int i = 0;i < digits.size();++i) {
+            vector<string> tmp;
+            for(auto s : ans)
+                for(const char c : mapping[digits[i] - '0']) {
+                    tmp.push_back(s + c);
+                }
+            ans.swap(tmp);
+        }
+        
+        return ans;
+    }
+};
