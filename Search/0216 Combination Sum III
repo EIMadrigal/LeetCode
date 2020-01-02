@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> cur;
+        
+        com(k, n, 1, cur, ans);
+        
+        return ans;
+    }
+private:
+    void com(int k, int n, int start, vector<int>& cur, vector<vector<int>>& ans) {
+        if(k == cur.size() && n == 0) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        for(int i = start;i < 10;++i) {
+            cur.push_back(i);
+            com(k, n - i, i + 1, cur, ans);
+            cur.pop_back();
+        }
+    }
+};
