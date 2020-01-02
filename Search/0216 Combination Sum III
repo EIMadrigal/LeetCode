@@ -1,3 +1,4 @@
+// DFS
 class Solution {
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
@@ -20,5 +21,28 @@ private:
             com(k, n - i, i + 1, cur, ans);
             cur.pop_back();
         }
+    }
+};
+
+
+// bit
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        
+        for(int s = 0;s < 1 << 9;++s) {
+            vector<int> cur;
+            int sum = 0;
+            for(int i = 0;i < 9;++i)
+                if(s & (1 << i)) {
+                    sum += (i + 1);
+                    cur.push_back(i + 1);
+                }
+            if(sum == n && cur.size() == k)
+                ans.push_back(cur);
+        }
+        
+        return ans;
     }
 };
