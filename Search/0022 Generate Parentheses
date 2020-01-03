@@ -17,7 +17,7 @@ private:
             return;
         
         if(left > 0) {
-            generateParenthesis(left - 1, right, cur += "(", ans);
+            generateParenthesis(left - 1, right, cur += "(", ans);  //临时变量不能作为非const引用
             cur.pop_back();
         }
         if(right > 0) {
