@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> board(n, string(n, '.'));
+        
+        solve(n, 0, board, ans);
+            
+        return ans;
+    }
+private:
+    // current row
+    void solve(int n, int row, vector<string>& board, vector<vector<string>>& ans) {
+        if(n == row) {  //goal
+            ans.push_back(board);
+            return;
+        }
+        
+        for(int col = 0;col < n;++col) {   // for current row, we have n cols to choose
+            if(noAttack(board, row, col)) {  // prune
+                board[row][col] = 'Q';     // make a choice
+                solve(n, row + 1, board, ans);  // go to next row
+                board[row][col] = '.';   // undo our choice
+            }
+        }
+    }
+    
+    bool noAttack(vector<string>& board, int row, int col) {
+        int k = board.size();
+        for(int i = 0;i < k;++i) {
+            if(board[i][col] == 'Q')
+                return false;
+            // check 45
+            if(row - i >= 0 && col + i < k && board[row - i][col + i] == 'Q')
+                return false;
+            // check 135
+            if(row - i >= 0 && col - i >= 0 && board[row - i][col - i] == 'Q')
+                return false;
+        }
+        
+        return true;
+    }
+};
