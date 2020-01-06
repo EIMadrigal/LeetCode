@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<int> cur;
+        vector<string> ans;
+        dfs(s, 0, 0, cur, ans);  // driver
+        
+        return ans;
+    }
+private:
+    void dfs(string& s, int buildIndex, int seg, vector<int>& cur, vector<string>& ans) {
+        if(seg == 4 && buildIndex == s.length()) {
+            ans.push_back(to_string(cur[0]) + "." + to_string(cur[1]) + "." + to_string(cur[2]) + "." + to_string(cur[3]));
+            return;
+        }
+        else if(seg == 4 || buildIndex == s.length())
+            return;
+        
+        for(int len = 1;len < 4 && buildIndex + len <= s.length();++len) {
+            string partial = s.substr(buildIndex, len);
+            int n;
+            stringstream ss;
+            ss << partial;
+            ss >> n;
+            if(n > 255 || (len >= 2 && s[buildIndex] == '0'))
+                break;
+            cur.push_back(n);
+            dfs(s, buildIndex + len, seg + 1, cur, ans);
+            cur.pop_back();
+        }
+    }
+};
