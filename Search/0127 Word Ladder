@@ -1,0 +1,58 @@
+class Solution {
+public:
+	int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+		unordered_set<string> dic(wordList.cbegin(), wordList.cend());
+		if (dic.find(endWord) == dic.end())
+			return 0;
+
+        int level = 0;
+        
+        unordered_set<string> frontq = {beginWord};
+        unordered_set<string> backq = {endWord};
+        
+        unordered_map<string, int> fromPos;
+        fromPos[beginWord] = -1, fromPos[endWord] = -1;
+        
+		while (frontq.size() && backq.size()) {
+			++level;
+            
+            if(frontq.size() > backq.size())
+                std::swap(frontq, backq);
+            
+            unordered_set<string> q;
+            
+            // queue size is changing, take it out now
+            // otherwise we don't know how many items in current level
+			for (auto s : frontq) {
+				for (int pos = 0; pos < s.length(); ++pos) {
+                    if(fromPos[s] == pos)
+                            continue;
+                    
+					char origChar = s[pos];
+					for (char c = 'a'; c <= 'z'; ++c) {
+						s[pos] = c;
+                        
+                        if (backq.count(s))
+							return level + 1;
+                        
+						if (dic.find(s) == dic.end())
+							continue;
+
+                        fromPos[s] = pos;
+                        
+                        // we don't want to have a path : hit -> .... -> hit
+                        dic.erase(s);
+                        
+                        // move s to next level
+						q.insert(s);
+					}
+					s[pos] = origChar;
+				}
+                fromPos.erase(s);
+			}
+            std::swap(frontq, q);
+		}
+
+		return 0;
+	}
+};
