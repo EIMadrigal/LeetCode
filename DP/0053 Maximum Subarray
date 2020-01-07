@@ -1,1 +1,13 @@
-
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int cur = 0, ans = INT_MIN;
+        
+        for(int a: nums) {
+            cur = max(a, a + cur);
+            if(cur > ans)
+                ans = cur;
+        }
+        return ans;
+    }
+};
