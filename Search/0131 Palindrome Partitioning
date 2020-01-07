@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<string> cur;
+        vector<vector<string>> ans;
+        
+        dfs(s, 0, cur, ans);
+            
+        return ans;
+    }
+private:
+    void dfs(string& s, int buildPtr, vector<string>& cur, vector<vector<string>>& ans) {
+        if(buildPtr == s.length()) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        for(int i = buildPtr; i < s.length(); ++i) {
+            string ss = s.substr(buildPtr, i + 1 - buildPtr);
+            if(!isPan(ss))
+                continue;
+            
+            cur.push_back(ss);
+            dfs(s, i + 1, cur, ans);
+            cur.pop_back();
+        }
+    }
+    
+    bool isPan(string s) {
+        if(s.length() <= 1)
+            return true;
+        return s[0] == s[s.length() - 1] && isPan(s.substr(1, s.length() - 2));
+    }
+};
