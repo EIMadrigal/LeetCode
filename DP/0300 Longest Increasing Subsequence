@@ -1,0 +1,61 @@
+// DP
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        const int n = nums.size();
+        if(0 == n)
+            return 0;
+        
+        int ans = 1;
+        vector<int> maxlen(n, 1);
+        for(int i = 1;i < n;++i) {
+            for(int j = 0;j < i;++j) {
+                if(nums[i] > nums[j]) {
+                    maxlen[i] = max(maxlen[i], maxlen[j] + 1);
+                }
+            }
+            ans = max(ans, maxlen[i]);
+        }
+        return ans;
+    }
+};
+
+// Binary Search
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        const int n = nums.size();
+        if(0 == n)
+            return 0;
+        
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        int len = 0;
+        for(int i = 1;i < n;++i) {
+            if(nums[i] < dp[0]) {
+                dp[0] = nums[i];
+            }
+            else if(nums[i] > dp[len]) {
+                dp[++len] = nums[i];
+            }
+            else {
+                int index = biSearch(dp, 0, len, nums[i]);
+                dp[index] = nums[i];
+            }
+        }
+        return len + 1;
+    }
+private:
+    int biSearch(vector<int>& nums, int l, int r, int target) {
+        while(l <= r) {
+            int mid = (l + r) / 2;
+            if(target == nums[mid])
+                return mid;
+            else if(target < nums[mid])
+                r = mid - 1;
+            else
+                l = mid + 1;
+        }
+        return l;
+    }
+};
