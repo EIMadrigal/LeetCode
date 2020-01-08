@@ -1,0 +1,23 @@
+// DP
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        const int n = nums.size();
+        if(0 == n)
+            return 0;
+        
+        int ans = 1;
+        vector<int> maxlen(n, 1);
+        for(int i = 1;i < n;++i) {
+            for(int j = 0;j < i;++j) {
+                if(nums[i] > nums[j]) {
+                    maxlen[i] = max(maxlen[i], maxlen[j] + 1);
+                }
+            }
+            ans = max(ans, maxlen[i]);
+        }
+        return ans;
+    }
+};
+
+// Binary Search
