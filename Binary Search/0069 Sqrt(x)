@@ -1,1 +1,16 @@
-
+class Solution {
+public:
+    int mySqrt(int x) {
+        // 左闭右开
+        long l = 1, r = static_cast<long>(x) + 1;
+        
+        while(l < r) {
+            long m = l + ((r - l) >> 1);
+            if(x >= m * m)
+                l = m + 1;
+            else
+                r = m;
+        }
+        return l - 1;
+    }
+};
