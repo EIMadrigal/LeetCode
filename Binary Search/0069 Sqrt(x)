@@ -1,3 +1,4 @@
+// binary search
 class Solution {
 public:
     int mySqrt(int x) {
@@ -12,5 +13,18 @@ public:
                 r = m;
         }
         return l - 1;
+    }
+};
+
+
+// Newton's method
+class Solution {
+public:
+    int mySqrt(int x) {
+        const double epsilon = 1e-2;
+        double ans = x;
+        while(ans * ans - x > epsilon)
+            ans = (ans + x / ans) / 2.0;
+        return ans;
     }
 };
