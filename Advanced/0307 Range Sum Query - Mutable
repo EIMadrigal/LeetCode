@@ -1,0 +1,46 @@
+class BIT {
+public:
+	BIT(int n) : preSum(n + 1, 0) {}
+
+	void update(int i, int delta) {
+		while (i < preSum.size()) {
+			preSum[i] += delta;
+			i += lowbit(i);
+		}
+	}
+
+	int query(int i) {
+		int sum = 0;
+		while (i > 0) {
+			sum += preSum[i];
+			i -= lowbit(i);
+		}
+		return sum;
+	}
+private:
+	vector<int> preSum;
+	static inline int lowbit(int x) {
+		return x & (-x);
+	}
+};
+
+class NumArray {
+public:
+	// 按照声明顺序初始化，而不是初始化列表中的顺序
+	NumArray(vector<int>& nums) : nums_(nums), tree_(nums_.size()) {
+		for (int i = 0; i < nums_.size(); ++i)
+			tree_.update(i + 1, nums_[i]);
+	}
+
+	void update(int i, int val) {
+		tree_.update(i + 1, val - nums_[i]);
+		nums_[i] = val;
+	}
+
+	int sumRange(int i, int j) {
+		return tree_.query(j + 1) - tree_.query(i);
+	}
+private:
+	vector<int> nums_;
+	BIT tree_;
+};
