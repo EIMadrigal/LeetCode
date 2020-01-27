@@ -1,0 +1,23 @@
+// O(K*N^2) TLE
+class Solution {
+public:
+    int superEggDrop(int K, int N) {
+        // dp[K][N]: min moves to test N floors with K eggs
+        vector<vector<int>> dp(K + 1, vector<int>(N + 1, 0));
+        
+        for(int i = 0;i <= N;++i) {
+            dp[0][i] = 0;
+            dp[1][i] = i;
+        }
+        
+        for(int i = 2;i <= K;++i)
+            for(int j = 1;j <= N;++j) {
+                dp[i][j] = j;
+                for(int s = 1;s <= j;++s)
+                    dp[i][j] = min(dp[i][j], 1 + max(dp[i - 1][s - 1], dp[i][j - s]));
+            }
+        
+        return dp[K][N];
+    }
+};
+
