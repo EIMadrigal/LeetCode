@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool isUgly(int num) {
+        const vector<int> factor{2, 3, 5};
+        for(int f : factor) {
+            while(num && num % f == 0)
+                num /= f;
+        }
+        return num == 1;
+    }
+};
