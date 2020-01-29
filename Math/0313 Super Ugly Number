@@ -8,18 +8,13 @@ public:
         
         for(int i = 1;i < n;++i) {
             uglyNum[i] = INT_MAX;
-            for(int j = 0;j < m;++j)
+            for(int j = 0;j < m;++j) {
+                if(uglyNum[i - 1] == primes[j] * uglyNum[idx[j]])
+                    ++idx[j];
                 uglyNum[i] = min(uglyNum[i], primes[j] * uglyNum[idx[j]]);
-            
-            // skip duplicate
-            for(int k = 0;k < m;++k) {
-                while(uglyNum[i] == primes[k] * uglyNum[idx[k]])
-                    ++idx[k];
             }
         }
         
         return uglyNum[n - 1];
     }
 };
-
-// 
