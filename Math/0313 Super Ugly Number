@@ -11,7 +11,7 @@ public:
             for(int j = 0;j < m;++j)
                 uglyNum[i] = min(uglyNum[i], primes[j] * uglyNum[idx[j]]);
             
-            // slip duplicate
+            // skip duplicate
             for(int k = 0;k < m;++k) {
                 while(uglyNum[i] == primes[k] * uglyNum[idx[k]])
                     ++idx[k];
