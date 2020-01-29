@@ -1,3 +1,4 @@
+// 由于因子固定，每个丑数只能由前面丑数*2, *3, *5得到
 class Solution {
 public:
     int nthUglyNumber(int n) {
