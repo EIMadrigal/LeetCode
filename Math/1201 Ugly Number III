@@ -1,1 +1,33 @@
 // 0264题丑数的因子是固定的，本题除了a, b, c之外还可有其它因子.
+class Solution {
+public:
+    int nthUglyNumber(int n, int a, int b, int c) {
+        int l = a, h = n * min(a, min(b, c));
+        while(l < h) {
+            int mid = l + (h - l) / 2;
+            int num = uglySmallThanK(mid, a, b, c);
+            if(n > num)
+                l = mid + 1;
+            else
+                h = mid;
+        }
+        return l;
+    }
+private:
+    int uglySmallThanK(int K, int a, int b, int c) {
+        long lcmab = lcm(a, b);
+        long lcmac = lcm(a, c);
+        long lcmbc = lcm(b, c);
+        long lcmabc = a * lcmbc / gcd(a, lcmbc);
+        return K / a + K / b + K / c - K / lcmab - K / lcmac - K / lcmbc + K / lcmabc; 
+    }
+    
+    long lcm(int a, int b) {
+        int d = gcd(a, b);
+        return static_cast<long>(a) / d * b;
+    }
+    
+    inline int gcd(int a, int b) {
+        return !b ? a : gcd(b, a % b);
+    }
+};
