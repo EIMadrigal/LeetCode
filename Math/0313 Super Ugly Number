@@ -1,0 +1,25 @@
+// same idea as 0264
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        const int m = primes.size();
+        vector<int> uglyNum(n, 1);
+        vector<int> idx(m, 0);
+        
+        for(int i = 1;i < n;++i) {
+            uglyNum[i] = INT_MAX;
+            for(int j = 0;j < m;++j)
+                uglyNum[i] = min(uglyNum[i], primes[j] * uglyNum[idx[j]]);
+            
+            // slip duplicate
+            for(int k = 0;k < m;++k) {
+                while(uglyNum[i] == primes[k] * uglyNum[idx[k]])
+                    ++idx[k];
+            }
+        }
+        
+        return uglyNum[n - 1];
+    }
+};
+
+// 
