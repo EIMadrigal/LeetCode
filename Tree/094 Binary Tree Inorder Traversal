@@ -33,30 +33,27 @@ private:
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        TreeNode* p = root;
-        stack<TreeNode*> s;
-        vector<int> result;
+        if(!root) {
+            return {};
+        }
         
-        while(!s.empty() || p)
-        {
-            //找到左子树最下边，并且保存根节点
-            if(p)
-            {
-                s.push(p);
-                p = p->left;
+        stack<TreeNode*> s;
+        vector<int> ans;
+        TreeNode* cur = root;
+        while(cur || !s.empty()) {
+            if(cur) {
+                s.push(cur);
+                cur = cur->left;
             }
-            
-            //p为空时，需要出栈
-            else
-            {
-                p = s.top();
+            else {
+                cur = s.top();
                 s.pop();
-                result.push_back(p->val);
-                //进入右子树
-                p = p->right;
+                ans.push_back(cur->val);
+                // 借助栈顶元素走向右子树
+                cur = cur->right;
             }
         }
         
-        return result;
+        return ans;
     }
 };
