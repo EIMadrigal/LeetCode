@@ -1,29 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+// Recursive
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        TreeNode* p = root;
-        stack<TreeNode*> s;
-        vector<int> result;
+        vector<int> ans;
+        preorderTraversal(root, ans);
+        return ans;
+    }
+private:
+    void preorderTraversal(TreeNode* root, vector<int>& ans) {
+        if(!root) {
+            return;
+        }
         
-        while(!s.empty() || p)
-        {
-            //根节点压栈，后面需要借助这些根节点进右子树
-            if(p)
-            {
-                result.push_back(p->val);
-                s.push(p);
-                p = p->left;
+        ans.push_back(root->val);
+        preorderTraversal(root->left, ans);
+        preorderTraversal(root->right, ans);
+    }
+};
+
+
+// Iterative
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(!root) {
+            return {};
+        }
+        
+        vector<int> ans;
+        stack<TreeNode*> s;
+        TreeNode* cur = root;
+        while(cur || !s.empty()) {
+            if(cur) {
+                ans.push_back(cur->val);
+                s.push(cur);  // 根节点压栈，后面需要借助这些根节点进右子树
+                cur = cur->left;
             }
-            
-            //p为空，说明根和左子树遍历完毕
-            else
-            {
-                p = s.top();
+            else {
+                cur = s.top();
                 s.pop();
-                p = p->right;
+                cur = cur->right;
             }
         }
         
-       return result;
+        return ans;
     }
 };
