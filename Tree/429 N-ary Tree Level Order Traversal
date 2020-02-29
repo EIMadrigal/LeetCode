@@ -13,34 +13,64 @@ public:
     }
 };
 */
+
 class Solution {
 public:
     vector<vector<int>> levelOrder(Node* root) {
-        vector<vector<int>> result;
+        if(!root) {
+            return {};
+        }
+        
+        vector<vector<int>> ans;
         queue<Node*> q;
         
-        if(!root)  //别忘了特殊情况
-            return result;
+        q.push(root);
+        while(!q.empty()) {
+            int size = q.size();
+            vector<int> curLayer(size);
+            for(int i = 0;i < size;++i) {
+                Node* cur = q.front();
+                q.pop();
+                curLayer[i] = cur->val;
+                for(int j = 0;j < cur->children.size();++j) {
+                    q.push(cur->children[j]);
+                }
+            }
+            ans.push_back(curLayer);
+        }
+        
+        return ans;
+    }
+};
+
+
+// space optimized
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        if(!root) {
+            return {};
+        }
+        
+        vector<vector<int>> ans;
+        queue<Node*> q;
+        int depth = 0;
         
         q.push(root);
-        
-        while(!q.empty())
-        {
-            int n = q.size();
-            vector<int> elem(n);
-            
-            for(int i = 0;i < n;i++)
-            {
-                Node* now = q.front();
+        while(!q.empty()) {
+            int size = q.size();
+            ans.push_back({});
+            while(size--) {
+                Node* cur = q.front();
                 q.pop();
-                
-                for(int j = 0;j < now->children.size();j++)
-                    q.push(now->children[j]);
-                
-                elem[i] = now->val;
+                ans[depth].push_back(cur->val);
+                for(Node* child : cur->children) {
+                    q.push(child);
+                }
             }
-            result.push_back(elem);
+            ++depth;
         }
-        return result;
+        
+        return ans;
     }
 };
