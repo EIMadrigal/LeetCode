@@ -1,4 +1,3 @@
-//一、递归
 /*
 // Definition for a Node.
 class Node {
@@ -14,6 +13,8 @@ public:
     }
 };
 */
+
+// Recursive
 class Solution {
 public:
     vector<int> postorder(Node* root) {
@@ -32,8 +33,8 @@ private:
     }
 };
 
-//二、迭代
-//后根遍历是左右根，类似前序遍历，不过先去右孩子（顺序压栈），这样的次序就是根右左，最后逆置即可。
+
+// 迭代，后根遍历是左右根，类似前序遍历，不过先去右孩子（顺序压栈），这样的次序就是根右左，最后逆置即可。
 class Solution {
 public:
     vector<int> postorder(Node* root) {
