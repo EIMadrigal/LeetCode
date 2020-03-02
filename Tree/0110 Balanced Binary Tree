@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+// Top down, O(n^2)
+class Solution {
+private:
+	int depth(TreeNode* p)
+	{
+		return !p ? 0 : max(depth(p->left), depth(p->right)) + 1;
+	}
+
+public:
+	bool isBalanced(TreeNode* root)
+	{
+		if (!root)
+			return true;
+
+		int height1 = depth(root->left);
+		int height2 = depth(root->right);
+
+		if (abs(height1 - height2) > 1)
+			return false;
+		else
+			return isBalanced(root->left) && isBalanced(root->right);
+	}
+};
+
+	
+// Bottom up, O(n)
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        return dfs(root) != -1;
+    }
+private:
+    // return height of cur node if subtree is balanced, else return -1 
+    int dfs(TreeNode* root) {
+        if(!root) {
+            return 0;
+        }
+
+        int l = dfs(root->left);
+        if(l == -1) {
+            return -1;
+        }
+        int r = dfs(root->right);
+        if(r == -1) {
+            return -1;
+        }
+        
+        if(abs(l - r) > 1) {
+            return -1;
+        }
+        
+        return 1 + max(l, r);
+    }
+};
