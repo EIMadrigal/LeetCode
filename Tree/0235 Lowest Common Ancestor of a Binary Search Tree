@@ -1,13 +1,14 @@
 /**
 LCA必然大于等于一个，小于等于一个。
 **/
+
 //迭代
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         while(root)
         {
-            //LCA is in the left subtree
+            // LCA is in the left subtree
             if(root->val > p->val && root->val > q->val)
                 root = root->left;
             else if(root->val < p->val && root->val < q->val)
@@ -19,6 +20,7 @@ public:
         return root;
     }
 };
+
 
 //递归
 class Solution {
