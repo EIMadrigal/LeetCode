@@ -42,11 +42,11 @@ public:
 			carry = tmp / 10;
 		}
 
-        	if(carry)
-        	{
-            		ListNode* cur = new ListNode(carry);
-            		prev->next = cur;
-        	}
+        if(carry)
+        {
+            ListNode* cur = new ListNode(carry);
+            prev->next = cur;
+        }
 
 		return ans;
 	}
