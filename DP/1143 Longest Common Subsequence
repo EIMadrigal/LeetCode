@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        const int m = text1.size(), n = text2.size();
+        if(m < n) {
+            return longestCommonSubsequence(text2, text1);
+        }
+        
+        vector<int> curRow(n + 1, 0);
+        int pre = 0, ans = 0;
+        for(int i = 1;i <= m;++i) {
+            pre = curRow[0];
+            for(int j = 1;j <= n;++j) {
+                int tmp = curRow[j];
+                if(text1[i - 1] == text2[j - 1]) {
+                    curRow[j] = 1 + pre;
+                }
+                else {
+                    curRow[j] = max(curRow[j], curRow[j - 1]);
+                }
+                ans = max(ans, curRow[j]);
+                pre = tmp;
+            }
+        }
+        
+        return ans;
+    }
+};
