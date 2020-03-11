@@ -1,0 +1,65 @@
+// O(n^2) space
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        const int n = s.size();
+        if(!n) {
+            return 0;
+        }
+        
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        int ans = 1;
+        for(int i = n - 1;i >= 0;--i) {
+            for(int j = i;j < n;++j) {
+                if(i == j) {
+                    dp[i][j] = 1;
+                    continue;
+                }
+                if(s[i] == s[j]) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                }
+                else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+                }
+                ans = max(ans, dp[i][j]);
+            }
+        }
+        
+        return ans;
+    }
+};
+
+
+// O(n) space
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        const int n = s.size();
+        if(!n) {
+            return 0;
+        }
+        
+        vector<int> dp(n, 0);
+        int ans = 1, pre = 0;
+        for(int i = n - 1;i >= 0;--i) {
+            pre = dp[0];
+            for(int j = i;j < n;++j) {
+                int tmp = dp[j];
+                if(i == j) {
+                    dp[j] = 1;
+                    continue;
+                }
+                if(s[i] == s[j]) {
+                    dp[j] = pre + 2;
+                }
+                else {
+                    dp[j] = max(dp[j - 1], dp[j]);
+                }
+                pre = tmp;
+                ans = max(ans, dp[j]);
+            }
+        }
+        
+        return ans;
+    }
+};
