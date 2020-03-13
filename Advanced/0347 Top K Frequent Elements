@@ -1,0 +1,57 @@
+// min heap
+class Solution {
+public:
+	vector<int> topKFrequent(vector<int>& nums, int k) {
+		vector<int> ans;
+		unordered_map<int, int> cnt;
+
+		for (int i = 0; i < nums.size(); ++i) {
+			++cnt[nums[i]];
+		}
+
+		priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
+		for (auto p : cnt) {
+			q.emplace(p.second, p.first);
+			if (q.size() > k) {
+				q.pop();
+			}
+		}
+
+		for (int i = 0; i < k;++i) {
+			ans.push_back(q.top().second);
+			q.pop();
+		}
+		return ans;
+	}
+};
+
+
+// bucket sort
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> ans;
+        unordered_map<int, int> cnt;
+        
+        int maxFre = 0;
+        for(const int i : nums) {
+            maxFre = max(maxFre, ++cnt[i]);
+        }
+        
+        unordered_map<int, vector<int>> bucket;  // freq -> nums
+        for(const auto& p : cnt) {
+            bucket[p.second].push_back(p.first);
+        }
+        
+        for(int i = maxFre;i > 0;--i) {
+            for(int a : bucket[i]) {
+                ans.push_back(a);
+                if(ans.size() == k) {
+                    return ans;
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
