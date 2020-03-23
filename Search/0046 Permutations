@@ -4,24 +4,24 @@ public:
         vector<vector<int>> ans;
         vector<int> cur;
         vector<bool> used(nums.size(), false);
-        
-        per(nums, 0, used, cur, ans);
-        
+        per(nums, used, cur, ans);
         return ans;
     }
 private:
-    void per(vector<int>& nums, int d, vector<bool>& used, vector<int>& cur, vector<vector<int>>& ans) {
+    void per(vector<int>& nums, vector<bool>& used, vector<int>& cur, vector<vector<int>>& ans) {
         if(cur.size() == nums.size()) {
             ans.push_back(cur);
             return;
         }
         
+        // enumerate possible numbers for current position
         for(int i = 0;i < nums.size();++i) {
             if(used[i])
                 continue;
             used[i] = true;
             cur.push_back(nums[i]);
-            per(nums, i + 1, used, cur, ans);
+            per(nums, used, cur, ans);
+            // restore for the next possible number for current position
             cur.pop_back();
             used[i] = false;
         }
