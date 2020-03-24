@@ -5,24 +5,18 @@ public:
         vector<int> cur;
         
         std::sort(nums.begin(), nums.end());
-        for(int i = 0;i <= nums.size();++i) {
-            com(nums, 0, i, cur, ans);
-        }
-        
+        dfs(0, nums, cur, ans);
         return ans;
     }
 private:
-    void com(vector<int>& nums, int start, int n, vector<int>& cur, vector<vector<int>>& ans) {
-        if(n == cur.size()) {
-            ans.push_back(cur);
-            return;
-        }
+    void dfs(int start, vector<int>& nums, vector<int>& cur, vector<vector<int>>& ans) {
+        ans.push_back(cur);
         
         for(int i = start; i < nums.size();++i) {
             if(i > start && nums[i] == nums[i - 1])
                 continue;
             cur.push_back(nums[i]);
-            com(nums, i + 1, n, cur, ans);
+            dfs(i + 1, nums, cur, ans);
             cur.pop_back();
         }
     }
