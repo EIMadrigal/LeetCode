@@ -20,7 +20,7 @@ private:
         
         for(int i = start;i < candidates.size();++i) {
             if(target < candidates[i])
-                break;
+                return;
             // 去重
             if(i > start && candidates[i] == candidates[i - 1])
                 continue;
