@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int i = 0, j = 0;
+        while(j < t.size()) {
+            if(s[i] == t[j]) {
+                ++i;   
+            }
+            ++j;
+        }
+        return i == s.size();
+    }
+};
+
+
+// follow up
+// O(slgt)
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        unordered_map<char, vector<int>> m;  // char -> positions
+        for(int i = 0;i < t.size();++i) {
+            m[t[i]].push_back(i);
+        }
+        
+        int i = 0, j = -1;
+        while(i < s.size()) {
+            char c = s[i];
+            auto it = upper_bound(m[c].begin(), m[c].end(), j);
+            if(it == m[c].end()) {
+                return false;
+            }
+            ++i;
+            j = *it;
+        }
+        return true;
+    }
+};
