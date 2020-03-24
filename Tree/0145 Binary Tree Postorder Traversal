@@ -54,3 +54,35 @@ public:
         return vector<int>(ans.begin(), ans.end());
     }
 };
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        TreeNode* cur = root;
+        stack<TreeNode*> s;
+        while(cur || !s.empty()) {
+            if(cur) {
+                s.push(cur);
+                ans.push_back(cur->val);
+                cur = cur->right;
+            } else {
+                cur = s.top();
+                s.pop();
+                cur = cur->left;
+            }
+        }
+        std::reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
