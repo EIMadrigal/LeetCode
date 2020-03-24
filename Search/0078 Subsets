@@ -1,46 +1,39 @@
-// dfs
+// dfs, O(2^n)
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> ans;
         vector<int> cur;
-        
-        for(int i = 0;i <= nums.size();++i) {
-            combi(nums, i, 0, cur, ans);
-        }
-        
+        dfs(0, nums, cur, ans);
         return ans;
     }
 private:
-    void combi(const vector<int>& nums, int n, int start, vector<int>& cur, vector<vector<int>>& ans) {
-        if(n == cur.size()) {
-            ans.push_back(cur);
-            return;
-        }
-        
+    void dfs(int start, vector<int>& nums, vector<int>& cur, vector<vector<int>>& ans) {
+        ans.push_back(cur);
         for(int i = start;i < nums.size();++i) {
             cur.push_back(nums[i]);
-            combi(nums, n, i + 1, cur, ans);
+            dfs(i + 1, nums, cur, ans);
             cur.pop_back();
         }
     }
 };
 
-// binary
+// bit manipulation, O(n * 2^n)
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
+        // 001 -> choose first num, 011 -> choose first and second num
+        const int n = nums.size();
         vector<vector<int>> ans;
-        int n = nums.size();
-        
-        for(int s = 0;s < 1 << n;++s) {
+        for(int num = 0;num < 1 << n;++num) {
             vector<int> cur;
-            for(int i = 0;i < n;++i) 
-                if(s & (1 << i))
+            for(int i = 0;i < n;++i) {
+                if(num >> i & 1) {
                     cur.push_back(nums[i]);
+                }
+            }
             ans.push_back(cur);
         }
-
         return ans;
     }
 };
