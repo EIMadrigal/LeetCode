@@ -20,7 +20,7 @@ private:
         
         for(int i = start;i < candidates.size();++i) {
             if(target < candidates[i]) //prune
-                break;
+                return;
             cur.push_back(candidates[i]);
             combi(candidates, target - candidates[i], i, cur, ans);
             cur.pop_back();
