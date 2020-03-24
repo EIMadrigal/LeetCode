@@ -4,21 +4,25 @@ public:
     vector<vector<int>> combinationSum3(int k, int n) {
         vector<vector<int>> ans;
         vector<int> cur;
-        
-        com(k, n, 1, cur, ans);
-        
+        dfs(k, n, 1, cur, ans);
         return ans;
     }
 private:
-    void com(int k, int n, int start, vector<int>& cur, vector<vector<int>>& ans) {
-        if(k == cur.size() && n == 0) {
-            ans.push_back(cur);
+    void dfs(int k, int n, int start, vector<int>& cur, vector<vector<int>>& ans) {
+        if(!k) {
+            if(!n) {
+                ans.push_back(cur);
+            }
             return;
         }
         
-        for(int i = start;i < 10;++i) {
+        // when depth++, k--, so we have to choose k nums from i, i+ 1, ... 9
+        for(int i = start;i <= 10 - k;++i) {
+            if(i > n) {
+                return;
+            }
             cur.push_back(i);
-            com(k, n - i, i + 1, cur, ans);
+            dfs(k - 1, n - i, i + 1, cur, ans);
             cur.pop_back();
         }
     }
@@ -29,20 +33,22 @@ private:
 class Solution {
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
+        // i-th bit is 1 -> choose number i + 1
         vector<vector<int>> ans;
         
-        for(int s = 0;s < 1 << 9;++s) {
+        for(int num = 0;num < 1 << 9;++num) {
             vector<int> cur;
             int sum = 0;
-            for(int i = 0;i < 9;++i)
-                if(s & (1 << i)) {
-                    sum += (i + 1);
+            for(int i = 0;i < 9;++i) {
+                if(num >> i & 1) {
                     cur.push_back(i + 1);
+                    sum += (i + 1);
                 }
-            if(sum == n && cur.size() == k)
+            }
+            if(sum == n && cur.size() == k) {
                 ans.push_back(cur);
+            }
         }
-        
         return ans;
     }
 };
