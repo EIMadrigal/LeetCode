@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        // 5 is more useful than 10
+        int cnt5 = 0, cnt10 = 0;
+        for(int a : bills) {
+            if(a == 5) {
+                ++cnt5;
+            } else if(a == 10) {
+                if(cnt5 <= 0) {
+                    return false;
+                }
+                ++cnt10;
+                --cnt5;
+            } else {
+                if(cnt10 >= 1 && cnt5 >= 1) {
+                    --cnt10;
+                    --cnt5;
+                } else if(cnt5 >= 3){
+                        cnt5 -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
