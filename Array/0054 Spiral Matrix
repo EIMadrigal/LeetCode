@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        // change direc: out of bound || visited = true
+        const int m = matrix.size();
+        if(!m) {
+            return {};
+        }
+        const int n = matrix[0].size();
+        vector<int> ans, dx{0, 1, 0, -1}, dy{1, 0, -1, 0};
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+        int x = 0, y = 0, d = 0;
+        
+        for(int k = 0;k < m * n;++k) {
+            ans.push_back(matrix[x][y]);
+            visited[x][y] = true;  // marker
+            int i = x + dx[d], j = y + dy[d];
+            if(i < 0 || i >= m || j < 0 || j >= n || visited[i][j]) {
+                d = (d + 1) % 4;
+                i = x + dx[d], j = y + dy[d];
+            }
+            x = i, y = j;
+        }
+        return ans;
+    }
+};
