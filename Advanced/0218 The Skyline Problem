@@ -1,0 +1,32 @@
+class Solution {
+public:
+	vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+		vector<pair<int, int>> points;
+		for (auto& b : buildings) {
+			points.emplace_back(b[0], -b[2]);  //enter point, process high first if x is equal
+			points.emplace_back(b[1], b[2]);  // leave point
+		}
+
+		sort(points.begin(), points.end());
+		multiset<int> m{ 0 };
+		vector<vector<int>> ans;
+		for (const auto& p : points) {
+			bool enter = p.second < 0;
+			int curH = abs(p.second);
+			if (enter) {
+				if (curH > * m.rbegin()) {
+					ans.push_back({p.first, curH});
+				}
+				m.insert(curH);
+			}
+			else {
+				m.erase(m.find(curH));
+				if (curH > * m.rbegin()) {
+					ans.push_back({p.first, * m.rbegin()});
+				}
+			}
+		}
+
+		return ans;
+	}
+};
