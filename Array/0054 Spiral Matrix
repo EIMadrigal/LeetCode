@@ -17,9 +17,8 @@ public:
             int i = x + dx[d], j = y + dy[d];
             if(i < 0 || i >= m || j < 0 || j >= n || visited[i][j]) {
                 d = (d + 1) % 4;
-                i = x + dx[d], j = y + dy[d];
             }
-            x = i, y = j;
+            x = x + dx[d], y = y + dy[d];
         }
         return ans;
     }
