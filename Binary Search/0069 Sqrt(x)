@@ -2,17 +2,16 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        // 左闭右开
-        long l = 1, r = static_cast<long>(x) + 1;
+        int l = 0, r = x;
         
         while(l < r) {
-            long m = l + ((r - l) >> 1);
-            if(x >= m * m)
-                l = m + 1;
+            int m = l + (r - l) / 2 + 1;
+            if(x / m >= m)
+                l = m;
             else
-                r = m;
+                r = m - 1;
         }
-        return l - 1;
+        return l;
     }
 };
 
