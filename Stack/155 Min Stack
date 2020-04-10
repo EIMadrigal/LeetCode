@@ -47,41 +47,27 @@ public:
 
 
 class MinStack {
-private:
-    int curMin = INT_MAX;
-    stack<int> s;
 public:
     /** initialize your data structure here. */
     MinStack() {
         
     }
     
+    // 次小值存两遍
     void push(int x) {
-        //遇到一个更小的，就将次小值再入栈，这样次小值位于次栈顶
-        if(x <= curMin)
-        {
+        if (x <= curMin) {
             s.push(curMin);
-            s.push(x);
             curMin = x;
         }
-        else
-        {
-            s.push(x);
-        }
+        s.push(x);
     }
     
     void pop() {
-        //如果要pop最小值，就将次小值更新为最小值，并将多余的一个次小值pop
-        if(s.top() == curMin)
-        {
+        if (s.top() == curMin) {
             s.pop();
             curMin = s.top();
-            s.pop();
         }
-        else
-        {
-            s.pop();
-        }
+        s.pop();
     }
     
     int top() {
@@ -91,4 +77,16 @@ public:
     int getMin() {
         return curMin;
     }
+private:
+    stack<int> s;
+    int curMin = INT_MAX;
 };
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(x);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
