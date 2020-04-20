@@ -1,1 +1,23 @@
-d
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        // 异或所有数，得到3和5的异或
+        // 计算lowbit，即3的该位为1，5的该位为0
+        // 按照该位为0/1将所有数分为2组，组内异或即可得到答案
+        int sum = 0;
+        for (int num : nums) {
+            sum ^= num;
+        }
+        int lowbit = sum & (-sum);
+        vector<int> ans{0, 0};
+        for (int num : nums) {
+            if (num & lowbit) {
+                ans[0] ^= num;
+            }
+            else {
+                ans[1] ^= num;
+            }
+        }
+        return ans;
+    }
+};
