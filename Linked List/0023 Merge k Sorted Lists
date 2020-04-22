@@ -6,6 +6,8 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ 
+// O(nlgk) O(k) 
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -33,14 +35,7 @@ public:
 
 
 // divide and conquer
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+// merge two lists cost O(n), will merge O(lgk) times, O(nlgk) O(lgk)
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
