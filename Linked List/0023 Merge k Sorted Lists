@@ -30,3 +30,54 @@ public:
         return dummy.next;
     }
 };
+
+
+// divide and conquer
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        return merge(lists, 0, lists.size() - 1);
+    }
+private:
+    ListNode* merge(vector<ListNode*>& lists, int low, int high) {
+        if (low > high) {
+            return nullptr;
+        }
+        if (low == high) {
+            return lists[low];
+        }
+        
+        int mid = low + (high - low) / 2;
+        ListNode* l = merge(lists, low, mid);
+        ListNode* r = merge(lists, mid + 1, high);
+        return mergeTwoLists(l, r);
+    }
+    
+    ListNode* mergeTwoLists(ListNode* l, ListNode* r) {
+        ListNode dummy(-1);
+        ListNode* cur = &dummy;
+        
+        while (l && r) {
+            if (l->val < r->val) {
+                cur->next = l;
+                l = l->next;
+            }
+            else {
+                cur->next = r;
+                r = r->next;
+            }
+            cur = cur->next;
+        }
+        
+        cur->next = l ? l : r;
+        return dummy.next;
+    }
+};
