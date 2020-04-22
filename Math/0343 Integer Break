@@ -1,0 +1,18 @@
+class Solution {
+public:
+    // n个数的算术平均大于几何平均，所以当每个数相等时乘积最大
+    // 可以用求导证明当每个数取e时乘积最大，最靠近e的就是3
+    int integerBreak(int n) {
+        if (n == 2)
+            return 1;
+        if (n == 3)
+            return 2;
+        
+        int ans = 1;
+        while (n > 4) {
+            ans *= 3;
+            n -= 3;
+        }
+        return n * ans;
+    }
+};
