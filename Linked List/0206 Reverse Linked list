@@ -1,15 +1,10 @@
-https://leetcode.com/problems/reverse-linked-list/
-
-My Solution:
-
 Thought：
 	iteratively.
 	原地逆置：三步。
 	1、保留cur的下一个结点；
 	2、完成cur的逆置；
 	3、为下个结点做准备。
-		
-Code：
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -21,54 +16,34 @@ Code：
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if (head == NULL)
-		    return NULL;
-	    ListNode* pre = NULL;
-	    while (head)
-	    {
-		    ListNode* next = head->next;  //保存下一个结点
-		    head->next = pre;   //完成该结点逆置
-		    pre = head;  //为下次准备
-		    head = next;
-	    }
-	    return pre;
+        if (!head)
+            return nullptr;
+        
+        ListNode* cur = head;
+        while (cur->next) {
+            ListNode* n = cur->next;
+            cur->next = n->next;
+            n->next = head;
+            head = n;
+        }
+        return head;
     }
 };
 
-
-Performance:
-	Runtime:8ms, beats 100%
-	Memory:8.9MB, beats 99.21%
-		
-Superior Solution:
 
 Thought：
 	recursive.
 	代码简洁但很难实现。
-	
-Code：
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) 
-    {
-        if(!head || !head->next)
+    ListNode* reverseList(ListNode* head) {
+        if (!head || !head->next)
             return head;
-        ListNode* newHead = reverseList(head->next);
         
+        ListNode* newHead = reverseList(head->next); // newHead->5->4->3->2->nullptr, head->1->2
         head->next->next = head;
-        head->next = NULL;
+        head->next = nullptr;
         return newHead;
     }
 };
-
-Performance:
-	Runtime:8ms, beats 100%
-	Memory:9.2MB, beats 32.47%
