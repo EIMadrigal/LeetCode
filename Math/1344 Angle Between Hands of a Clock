@@ -1,0 +1,7 @@
+class Solution {
+public:
+    double angleClock(int hour, int minutes) {
+        double diff = fabs(5.5 * minutes - 30 * (hour % 12));
+        return diff > 180 ? 360 - diff : diff;
+    }
+};
