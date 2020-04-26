@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        vector<int> dp(400, 0);
+        for (int i = 365; i >= 0; --i) {
+            if (find(days.begin(), days.end(), i) == days.end())
+                dp[i] = dp[i + 1];
+            else
+                dp[i] = min(costs[0] + dp[i + 1], min(costs[1] + dp[i + 7], costs[2] + dp[i + 30]));
+        }
+        return dp[days[0]];
+    }
+};
