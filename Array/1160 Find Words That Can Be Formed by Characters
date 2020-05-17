@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        vector<int> freq(26, 0);
+        for (char c : chars) {
+            ++freq[c - 'a'];
+        }
+        
+        int ans = 0;
+        for (string word : words) {
+            vector<int> curFreq(freq);
+            bool flag = true;
+            for (char c : word) {
+                --curFreq[c - 'a'];
+                if (curFreq[c - 'a'] < 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            
+            if (flag) {
+                ans += word.length();
+            }
+        }
+        return ans;
+    }
+};
