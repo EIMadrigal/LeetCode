@@ -1,0 +1,21 @@
+// 如果l的高度小，++l；否则，--r。
+// 如果l的高度小，而仍然移动r到r-1的话，若r-1高度<l高度，显然容量变小了；若r-1高度>l高度，容量取决于l，但是距离变小了，所以容量还是变小了
+// 所以要排除这种情况。
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int ans = -1;
+        int l = 0, r = height.size() - 1;
+        while (l < r) {
+            if (height[l] < height[r]) {
+                ans = max(ans, height[l] * (r - l));
+                ++l;
+            }
+            else {
+                ans = max(ans, height[r] * (r - l));
+                --r;
+            }
+        }
+        return ans;
+    }
+};
