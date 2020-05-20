@@ -29,7 +29,7 @@ private:
 };
 
 
-// BFS + 滚动数组
+// BFS + 滚动数组 O(4^n)
 class Solution {
 public:
     vector<string> letterCombinations(string digits) {
