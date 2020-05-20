@@ -20,7 +20,7 @@ private:
 			return;
 		}
 
-        for(const char c : mapping[digits[len] - '0']) {
+                for(const char c : mapping[digits[len] - '0']) {
 			cur.push_back(c);
 			dfs(digits, mapping, cur, len + 1, ans);
 			cur.pop_back();
