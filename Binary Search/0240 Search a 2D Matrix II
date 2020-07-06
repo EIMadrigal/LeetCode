@@ -1,4 +1,4 @@
-// O(m + n)
+// start from top right corner, O(m + n)
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
