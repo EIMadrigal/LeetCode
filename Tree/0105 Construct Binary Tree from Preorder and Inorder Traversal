@@ -1,6 +1,5 @@
-//感觉自己的代码很蠢
 /**
- * Definition for a binary tree node.
+ * Definition for binary tree
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
@@ -10,84 +9,25 @@
  */
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if(preorder.empty() || inorder.empty())
-            return nullptr;
-        
-        TreeNode* root = new TreeNode(preorder[0]);
-        
-        vector<int> subleftInorder,subleftPreorder,subrightPreorder,subrightInorder;
-        int i = 0;
-        for(i = 0;i < inorder.size();i++)
-        {
-            if(inorder[i] == root->val)
-            {
-                break;
-            }
-            else
-            {
-                subleftInorder.push_back(inorder[i]);
-            }
-        }
-        
-        for(int j = i + 1;j < inorder.size();j++)
-        {
-            subrightInorder.push_back(inorder[j]);
-        }
-        
-        for(int j = 1;j < preorder.size();j++)
-        {
-            if(j <= i)
-                subleftPreorder.push_back(preorder[j]);
-            else
-            {
-                subrightPreorder.push_back(preorder[j]);
-            }
-        }
-        
-        
-        root->left = buildTree(subleftPreorder, subleftInorder);
-        root->right = buildTree(subrightPreorder, subrightInorder);
-            
-        return root;
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        return helper(pre, vin, 0, pre.size() - 1, 0, vin.size() - 1);
     }
-};
-
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
 private:
-    TreeNode* buildTreeCore(vector<int>& preorder, vector<int>& inorder, int preLow, int preHigh, int inLow, int inHigh)
-    {
-        //递归边界
-        if(preLow > preHigh || inLow > inHigh)
+    TreeNode* helper(vector<int>& pre,vector<int>& vin, int preL, int preR, int vinL, int vinR) {
+        if (preL > preR || vinL > vinR) {
             return nullptr;
-        
-        TreeNode* root = new TreeNode(preorder[preLow]);
-        int rootIndex;
-        for(rootIndex = inLow;rootIndex <= inHigh;rootIndex++)
-        {
-            if(inorder[rootIndex] == root->val)
-                break;
         }
-        
-        root->left = buildTreeCore(preorder, inorder, preLow + 1, rootIndex - inLow + preLow, inLow, rootIndex - 1);
-        root->right = buildTreeCore(preorder, inorder, preLow + rootIndex - inLow + 1, preHigh, rootIndex + 1, inHigh);
-        
-        return root;
-    }
-public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if(preorder.empty() || inorder.empty())
-            return nullptr;
-        
-        return buildTreeCore(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+        TreeNode* node = new TreeNode(pre[preL]);
+         
+        int nodePos;
+        for (nodePos = vinL; nodePos <= vinR; ++nodePos) {
+            if (vin[nodePos] == pre[preL]) {
+                break;
+            }
+        }
+         
+        node->left = helper(pre, vin, preL + 1, preL + nodePos - vinL, vinL, nodePos - 1);
+        node->right = helper(pre, vin, preL + nodePos - vinL + 1, preR, nodePos + 1, vinR);
+        return node;
     }
 };
