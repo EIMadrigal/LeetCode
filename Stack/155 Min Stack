@@ -53,7 +53,7 @@ public:
         
     }
     
-    // 次小值存两遍
+    // 只要是压栈过程中的次小值，保存两次
     void push(int x) {
         if (x <= curMin) {
             s.push(curMin);
