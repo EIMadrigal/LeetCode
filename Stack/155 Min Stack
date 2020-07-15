@@ -45,23 +45,24 @@ public:
 };
 
 
-
 class MinStack {
 public:
     /** initialize your data structure here. */
     MinStack() {
         
     }
-    
+
     // 只要是压栈过程中的次小值，保存两次
-    void push(int x) {
-        if (x <= curMin) {
-            s.push(curMin);
-            curMin = x;
+    void push(int value) {
+        if (s.empty()) {
+            curMin = value;
         }
-        s.push(x);
+        else if (value < curMin) {
+            s.push(curMin);
+            curMin = value;
+        }
+        s.push(value);
     }
-    
     void pop() {
         if (s.top() == curMin) {
             s.pop();
@@ -69,17 +70,15 @@ public:
         }
         s.pop();
     }
-    
     int top() {
         return s.top();
     }
-    
-    int getMin() {
+    int min() {
         return curMin;
     }
 private:
     stack<int> s;
-    int curMin = INT_MAX;
+    int curMin;
 };
 
 /**
