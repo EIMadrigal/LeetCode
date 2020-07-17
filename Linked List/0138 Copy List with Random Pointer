@@ -1,0 +1,61 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+
+    Node() {}
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+*/
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(!head) return nullptr;
+        
+        //构造interweave结构
+        Node* pre = head, *cur = pre->next;
+        while(pre) {
+            pre->next = new Node(pre->val, cur, nullptr);
+            pre = cur;
+            if(cur)
+                cur = cur->next;
+        }
+        
+        pre = head;
+        cur = pre->next;
+        //搞定random指针
+        while(pre) {
+            if(pre->random)
+                cur->random = pre->random->next;
+            else
+                cur->random = nullptr;
+            if(cur->next)
+                cur = cur->next->next;
+            pre = pre->next->next;
+        }
+        
+        //拆出最后结果
+        pre = head, cur = head->next;
+        Node* copy = cur;
+        while(cur) {
+            if(cur->next == nullptr) {
+                pre->next = nullptr;
+                break;
+            }
+            pre->next = cur->next;
+            cur->next = cur->next->next;
+            cur = cur->next;
+            pre = pre->next;
+        }
+        
+        return copy;
+    }
+};
