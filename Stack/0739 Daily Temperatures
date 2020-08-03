@@ -1,0 +1,17 @@
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        // Store currently unsolved elements, later if there is a bigger number,
+        // withdraw the unsolved elements and get the answer.
+        int len = T.length;
+        int[] ans = new int[len];
+        Stack<Integer> s = new Stack<>();
+        for (int i = 0; i < len; ++i) {
+            while (!s.empty() && T[i] > T[s.peek()]) {
+                int idx = s.pop();
+                ans[idx] = i - idx;
+            }
+            s.push(i);
+        }
+        return ans;
+    }
+}
