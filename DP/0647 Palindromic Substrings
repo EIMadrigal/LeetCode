@@ -1,0 +1,22 @@
+class Solution {
+    int ans = 0;
+    
+    public int countSubstrings(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        // For every possible palindrome, the center is unique.
+        for (int i = 0; i < s.length(); ++i) {
+            expandCenter(s, i, i);
+            expandCenter(s, i, i + 1);
+        }
+        return ans;
+    }
+    
+    private void expandCenter(String s, int start, int end) {
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+            --start;
+            ++end;
+            ++ans;
+        }
+    }
+}
