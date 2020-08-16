@@ -1,0 +1,38 @@
+// O(n^2), O(1)
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int len = nums.length;
+        
+        int ans = 0;
+        for (int i = 0; i < len; ++i) {
+            int sum = 0;
+            for (int j = i; j < len; ++j) {
+                sum += nums[j];
+                if (sum == k) {
+                    ++ans;
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+
+// O(n), O(n)
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        // hashmap: sum -> #occurence
+        HashMap<Integer, Integer> cnt = new HashMap<>();
+        int len = nums.length, sum = 0, ans = 0;
+        cnt.put(0, 1);
+        for (int i = 0; i < len; ++i) {
+            sum += nums[i];
+            // if previous pos has sum - k, then sum - (sum - k) = k
+            if (cnt.containsKey(sum - k)) {
+                ans += cnt.get(sum - k);   
+            }
+            cnt.put(sum, 1 + cnt.getOrDefault(sum, 0));
+        }
+        return ans;
+    }
+}
