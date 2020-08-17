@@ -1,0 +1,53 @@
+// O(2^n)
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int S) {
+        const int len = nums.size();
+        int ans = 0;
+        dfs(nums, 0, S, 0, ans);
+        return ans;
+    }
+private:
+    void dfs(vector<int>& nums, int depth, int S, int cur, int& ans) {
+        if (depth == nums.size()) {
+            if (S == cur) {
+                ++ans;
+            }
+            return;
+        }
+        dfs(nums, depth + 1, S, cur + nums[depth], ans);
+        dfs(nums, depth + 1, S, cur - nums[depth], ans);
+    }
+};
+
+
+// O(nS)
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int S) {
+        /** 
+           sum(P) - sum(N) = S
+           sum(P) + sum(N) + sum(P) - sum(N) = S + sum(nums)
+           2 * sum(P) = S + sum(nums) -> even
+           sum(P) = (S + sum(nums)) / 2 = target
+           The goal is to find the number of subset which sums up is equals to target
+        */
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        
+        return sum < S || (S + sum) & 1 ? 0 : numSubsetSum(nums, (S + sum) >> 1);
+    }
+private:
+    int numSubsetSum(vector<int>& nums, int target) {
+        vector<int> dp(target + 1, 0);
+        dp[0] = 1;
+        for (int i = 0; i < nums.size(); ++i) {
+            for (int j = target; j >= nums[i]; --j) {
+                dp[j] += dp[j - nums[i]];    
+            }
+        }
+        return dp[target];
+    }
+};
