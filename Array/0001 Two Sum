@@ -1,0 +1,80 @@
+Brute Force：
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int size = nums.size();
+        vector<int> ans;
+        
+        for(int i = 0;i < size;i++)
+        {
+            for(int j = i + 1;j < size;j++)
+            {
+                if(nums[i] + nums[j] == target)
+                {
+                    ans.push_back(i);
+                    ans.push_back(j);
+                    return ans;
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
+
+
+Two-pass Hash Table:
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> mymap;
+        vector<int> ans(2);
+        int size = nums.size();
+        
+        for(int i = 0;i < size;i++)
+        {
+            mymap[nums[i]] = i;
+        }
+        
+        for(int i = 0;i < size;i++)
+        {
+            int complement = target - nums[i];
+            if(mymap.find(complement) != mymap.end() && mymap[complement] != i)
+            {
+                ans[0] = i;
+                ans[1] = mymap[complement];
+                break;
+            }
+        }
+        
+        mymap.clear();
+        return ans;
+    }
+};
+
+
+One-pass Hash Table:
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ans(2);
+        unordered_map<int,int> mymap;
+        int size = nums.size();
+        
+        for(int i = 0;i < size;i++)
+        {
+            int complement = target - nums[i];
+            //访问当前元素时，判断之前所有元素组成的哈希表是否存在complement
+            if(mymap.find(complement) != mymap.end())
+            {
+                ans[0] = i;
+                ans[1] = mymap[complement];
+                break;
+            }
+            mymap[nums[i]] = i;
+        }
+        
+        mymap.clear();
+        return ans;
+    }
+};
