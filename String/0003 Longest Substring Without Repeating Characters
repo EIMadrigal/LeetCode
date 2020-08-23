@@ -1,0 +1,91 @@
+Brute Force: Time: O(n^3), Space: O(n)
+class Solution {
+private:
+    bool allUnique(string substring)
+    {
+        set<char> uniqueString;
+        int size = substring.size();
+        
+        for(int i = 0;i < size;i++)
+        {
+            if(uniqueString.find(substring[i]) != uniqueString.end())
+            {
+                return false;
+            }
+            else
+            {
+                uniqueString.insert(substring[i]);
+            }
+        }
+        
+        return true;
+    }
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int ans = 0;
+        
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = i;j < n;j++)
+            {
+                string substring = s.substr(i,j - i + 1);
+                if(allUnique(substring) && j - i + 1 > ans)
+                {
+                    ans = j - i + 1;
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
+
+Sliding Window: at most O(2n), Space: O(n)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int ans = 0;
+        set<char> myset;
+        
+        for(int i = 0, j = 0;i < n && j < n;)
+        {
+            //try to extend the range [i,j]
+            if(myset.find(s[j]) == myset.end())
+            {
+                ans = max(ans, j - i + 1);
+                myset.insert(s[j++]);
+            }
+            else
+            {
+                myset.erase(s[i++]);
+            }
+        }
+        
+        return ans;
+    }
+};
+
+Sliding Window Optimized: at most O(n), Space: O(n)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int ans = 0;
+        unordered_map<char, int> mymap;
+        
+        for(int i = 0, j = 0;i < n && j < n;j++)
+        {
+            //try to extend the range [i,j]
+            if(mymap.find(s[j]) != mymap.end())
+            { 
+                i = max(mymap[s[j]] + 1, i);
+            }
+            mymap[s[j]] = j;
+            ans = max(ans, j - i + 1);
+        }
+        
+        return ans;
+    }
+};
