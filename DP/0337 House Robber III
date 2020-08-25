@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+// TLE
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        if (!root) {
+            return 0;
+        }
+        int money = root->val;
+        if (root->left) {
+            money += rob(root->left->left) + rob(root->left->right);
+        }
+        if (root->right) {
+            money += rob(root->right->left) + rob(root->right->right);
+        }
+        
+        return max(money, rob(root->left) + rob(root->right));
+    }
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+// Top-Down
+class Solution {
+    public int rob(TreeNode root) {
+        Map<TreeNode, Integer> money = new HashMap<>();
+        return rob(root, money);
+    }
+    
+    private int rob(TreeNode root, Map<TreeNode, Integer> money) {
+        if (root == null) {
+            return 0;
+        }
+        if (money.containsKey(root)) {
+            return money.get(root);
+        }
+        int cur = root.val;
+        if (root.left != null) {
+            cur += rob(root.left.left, money) + rob(root.left.right, money);
+        }
+        if (root.right != null) {
+            cur += rob(root.right.left, money) + rob(root.right.right, money);
+        }
+        money.put(root, Math.max(cur, rob(root.left, money) + rob(root.right, money)));
+        return money.get(root);
+    }
+}
