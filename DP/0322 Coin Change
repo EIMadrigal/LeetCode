@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount + 1, 0);
+        for (int i = 1; i <= amount; ++i) {
+            int num = amount + 1;
+            for (int coin : coins) {
+                if (i - coin >= 0)
+                    num = min(num, 1 + dp[i - coin]);
+            }
+            dp[i] = num;
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
