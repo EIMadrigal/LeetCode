@@ -1,0 +1,32 @@
+/** state machine
+  we have 3 states: 
+  s0 represent that we do not have stock but we can buy;
+  s1 represent that we have a stock and we can sell;
+  s2 repesent that we do not have a stock and we can't buy(cooldown)
+  
+  so the transition are:
+  s0 could cooldown/buy to s0/s1
+  s1 could cooldown/sell to s1/s2
+  s2 could cooldown to s0
+  
+  s0[i] = max(s0[i - 1], s2[i - 1])
+  s1[i] = max(s1[i - 1], s0[i - 1] - prices[i])
+  s2[i] = s1[i - 1] + prices[i]
+*/
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.size() <= 1) {
+            return 0;
+        }
+        int s0 = 0, s1 = -prices[0], s2 = 0;
+        for (int i = 1; i < prices.size(); ++i) {
+            int pre0 = s0;
+            int pre1 = s1;
+            s0 = max(s0, s2);
+            s1 = max(s1, pre0 - prices[i]);
+            s2 = pre1 + prices[i];
+        }
+        return max(s0, s2);
+    }
+};
