@@ -1,0 +1,47 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        cnt = 0;
+    }
+    
+    void addNum(int num) {
+        ++cnt;
+        if (cnt & 1) {
+            if (!small.empty() && num > small.top()) {
+                small.push(num);
+                num = small.top();
+                small.pop();
+            }
+            big.push(num);
+        }
+        else {
+            if (!big.empty() && num < big.top()) {
+                big.push(num);
+                num = big.top();
+                big.pop();
+            }
+            small.push(num);
+        }
+    }
+    
+    double findMedian() {
+        if (cnt & 1) {
+            return big.top();
+        }
+        else {
+            return (big.top() + small.top()) / 2.0;
+        }
+    }
+private:
+    priority_queue<int, vector<int>, greater<int>> small; 
+    priority_queue<int, vector<int>, less<int>> big;
+    int cnt;
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
