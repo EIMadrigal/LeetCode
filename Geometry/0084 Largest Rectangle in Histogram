@@ -3,7 +3,7 @@ class Solution {
         if (heights == null || heights.length == 0) {
             return 0;
         }
-        // for any bar i, the width is r - l - 1, r is the right one h[r] < h[i], l is the left one h[r] < h[i]
+        // for any bar i, the width is r - l - 1, r is the right one h[r] < h[i], l is the left one h[l] < h[i]
         int len = heights.length;
         
         int[] l = new int[len];
