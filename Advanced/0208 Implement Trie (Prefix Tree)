@@ -67,7 +67,7 @@ private:
  
  
  // hashmap
- class Trie {
+class Trie {
 public:
     /** Initialize your data structure here. */
     Trie() : root(new trieNode()) {}
@@ -82,7 +82,7 @@ public:
         trieNode* node = root;
         for(const char c : word) {
             auto p = node->children.emplace(c, nullptr);
-            if(p.second)
+            if(p.second)  // insert successfully
                 p.first->second = new trieNode();  // key does not exist yet, replace nullptr with trieNode
             node = p.first->second;
         }
