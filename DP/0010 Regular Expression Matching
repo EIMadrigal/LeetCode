@@ -1,0 +1,13 @@
+class Solution {
+    public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+        boolean first = !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.');
+        if (p.length() > 1 && p.charAt(1) == '*') {
+            // *匹配0个或*匹配若干个
+            return isMatch(s, p.substring(2)) || (first && isMatch(s.substring(1), p));
+        }
+        else { // 没有*
+            return first && isMatch(s.substring(1), p.substring(1));
+        }
+    }
+}
