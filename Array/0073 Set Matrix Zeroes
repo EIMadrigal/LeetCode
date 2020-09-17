@@ -1,0 +1,50 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        // 用第0行和第0列记录矩阵中0的位置，如果第0行/第0列含有0，特判
+        boolean has0Row0 = false, has0Col0 = false;
+        // check first col
+        for (int i = 0; i < matrix.length; ++i) {
+            if (matrix[i][0] == 0) {
+                has0Col0 = true;
+                break;
+            }
+        }
+        
+        // check first row
+        for (int i = 0; i < matrix[0].length; ++i) {
+            if (matrix[0][i] == 0) {
+                has0Row0 = true;
+            }
+        }
+        
+        // check 0 and store the info in the first row/col
+        for (int i = 1; i < matrix.length; ++i)
+            for (int j = 1; j < matrix[0].length; ++j) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        
+        // set the corresponding pos in first row/col to 0
+        for (int i = 1; i < matrix.length; ++i)
+            for (int j = 1; j < matrix[0].length; ++j) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        
+        // handle the first row/col
+        if (has0Row0) {
+            for (int i = 0; i < matrix[0].length; ++i) {
+                matrix[0][i] = 0;
+            }
+        }
+        
+        if (has0Col0) {
+            for (int i = 0; i < matrix.length; ++i) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+}
