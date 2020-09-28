@@ -46,46 +46,50 @@ public:
 
 
 class MinStack {
-public:
-    /** initialize your data structure here. */
-    MinStack() {
-        
-    }
 
-    // 只要是压栈过程中的次小值，保存两次
-    void push(int value) {
+    private Stack<Integer> s;
+    private int min;
+
+    /** initialize your data structure here. */
+    public MinStack() {
+        s = new Stack<>();
+    }
+    
+    public void push(int x) {
         if (s.empty()) {
-            curMin = value;
+            min = x;
         }
-        else if (value <= curMin) {
-            s.push(curMin);
-            curMin = value;
+        else if (x <= min) {
+            s.push(min);
+            min = x;
         }
-        s.push(value);
+        s.push(x);
     }
-    void pop() {
-        if (s.top() == curMin) {
+    
+    public void pop() {
+        if (s.peek() == min) {
             s.pop();
-            curMin = s.top();
+            if (!s.empty())
+                min = s.peek();
         }
-        s.pop();
+        if (!s.empty())
+            s.pop();
     }
-    int top() {
-        return s.top();
+    
+    public int top() {
+        return s.peek();
     }
-    int min() {
-        return curMin;
+    
+    public int getMin() {
+        return min;
     }
-private:
-    stack<int> s;
-    int curMin;
-};
+}
 
 /**
  * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(x);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
  */
