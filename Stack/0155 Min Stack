@@ -57,7 +57,7 @@ public:
         if (s.empty()) {
             curMin = value;
         }
-        else if (value < curMin) {
+        else if (value <= curMin) {
             s.push(curMin);
             curMin = value;
         }
