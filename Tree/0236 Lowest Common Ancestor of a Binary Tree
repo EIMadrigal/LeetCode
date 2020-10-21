@@ -9,32 +9,13 @@
  */
 
 class Solution {
-private:
-    TreeNode* lca = nullptr;
-    //功能：判断cur是否找到了p或q
-    bool traverse(TreeNode* cur, TreeNode* p, TreeNode* q)  //初始条件
-    {
-        if(!cur)   //终止条件
-            return false;
-        
-        //以cur为根左子树没有p或q
-        bool left = false, right = false, mid = false;
-        
-        //缩小问题规模
-        if(p == cur || cur == q)
-            mid = true; 
-        left = traverse(cur->left, p, q);
-        right = traverse(cur->right, p, q);
-        
-        if(left + right + mid > 1)
-            lca = cur; 
-        
-        //三个标志有1个为真，说明找到了p或q
-        return (left + right + mid > 0);
-    }
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        bool ans = traverse(root, p, q);
-        return lca;
+        if (!root) return nullptr;
+        if (root == p || root == q) return root; 
+        TreeNode* l = lowestCommonAncestor(root->left, p, q);
+        TreeNode* r = lowestCommonAncestor(root->right, p, q);
+        if (l && r) return root;
+        return l ? l : r;
     }
 };
