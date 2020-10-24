@@ -44,3 +44,29 @@ class Solution {
 
 
 // O(n)
+class Solution {
+public:
+    int pathSum(TreeNode* root, int sum) {
+        unordered_map<int, int> prefixSumCnt;  // prefixSum -> number of the prefix sum
+        prefixSumCnt[0] = 1;  // there is only 1 path for prefixsum = 0, nothing to select
+        return pathSum(root, sum, prefixSumCnt, 0);
+    }
+private:
+    int pathSum(TreeNode* root, int target, unordered_map<int, int>& prefixSumCnt, int curSum) {
+        if (!root) return 0;
+
+        int ans = 0;
+        curSum += root->val;
+        
+        ans += prefixSumCnt[curSum - target];
+        prefixSumCnt[curSum] += 1;
+
+        // go into next level
+        ans += pathSum(root->left, target, prefixSumCnt, curSum);
+        ans += pathSum(root->right, target, prefixSumCnt, curSum);
+        
+        // go back to cur level, restore previous state
+        prefixSumCnt[curSum] -= 1;
+        return ans;
+    }
+};
