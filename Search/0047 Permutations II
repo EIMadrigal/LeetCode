@@ -20,7 +20,9 @@ private:
         for(int i = 0;i < nums.size();++i) {
             if(used[i])
                 continue;
-            // skip some number for current position
+            // 2 circumstances if nums[i - 1] == nums[i]
+			// 1: nums[i - 1] have not been used, backtrack to the same layer, if use nums[i], it will repeat with nums[i - 1] on the same layer
+			// 2: nums[i - 1] have used, it is on the next layer of nums[i - 1], it will not repeat
             if(i > 0 && nums[i - 1] == nums[i] && !used[i - 1])
                 continue;
             used[i] = true;
