@@ -1,3 +1,12 @@
+先用二分法（左闭右开）找到target的lower_bound。
+	对于下界：
+	1. target > nums[m]: l = m + 1
+	2. target < nums[m]: r = m
+	3. target == nums[m]: 如果m不是第一个target，那么要向左寻找，因此r = m；如果m是第一个target，此时如果继续令r = m，意味着
+		接下来考虑的区间在第一个target左侧且不含第一个target，因此l必然会一直右移直到l == r == 第一个target
+
+	对于上界，只需要返回lower_bound(target + 1) - 1即可
+	
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
