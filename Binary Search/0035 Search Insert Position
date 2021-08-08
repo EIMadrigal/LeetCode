@@ -1,16 +1,19 @@
-class Solution {
-public:
-    int searchInsert(vector<int>& nums, int target) {
-        int l = 0, r = nums.size() - 1;
-        while(l <= r) {
-            int m = l + ((r - l) >> 1);
-            if(nums[m] == target)
-                return m;
-            if(nums[m] > target)
-                r = m - 1;
-            else
-                l = m + 1;
-        }
-        return l;
-    }
-};
+共有4种可能的情况（区间左闭右开）：
+	1. target不存在且应该插入到数组最左边：l始终不变，最终的l和r都会指向0，返回其一即可
+	2. target存在：二分法直接返回index
+	3. target不存在且应该插入到数组最右边：r始终不变，最终的l和r都会指向len(nums)，返回其一即可
+	4. target不存在且应该插入到数组中间某个位置：不论元素个数奇偶，最终的l和r都会指向target在数组中的上界，返回其一即可
+
+
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums)
+        while l < r:
+            m = (l + r) // 2
+            if target == nums[m]:
+                return m
+            if target < nums[m]:
+                r = m
+            else:
+                l = m + 1
+        return l
