@@ -1,0 +1,20 @@
+fast遇到val就继续，遇到!val就用该元素去覆盖slow，相当于把所有!val都移动到了数组前半部分
+
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        slow = 0
+        for fast in range(len(nums)):
+            if nums[fast] != val:
+                nums[slow] = nums[fast]
+                slow += 1
+        return slow
+
+简洁一些：
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        slow = 0
+        for num in nums:
+            if num != val:
+                nums[slow] = num
+                slow += 1
+        return slow
