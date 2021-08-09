@@ -25,3 +25,15 @@ class Solution:
             else:
                 r = m
         return l
+
+	# find the smallest index which > target
+	# 关键仍然在于target == nums[m]时l要尽可能地右移
+	def upper_bound(self, nums: List[int], target: int) -> int:
+ 		l, r = 0, len(nums)
+		while l < r:
+			m = (l + r) // 2
+			if target >= nums[m]:
+				l = m + 1
+			else:
+				r = m
+		return l
