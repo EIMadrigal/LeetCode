@@ -1,0 +1,22 @@
+某个字符是否保留取决于其后有几个#，因此反向遍历，遇到#就跳过下一个非#字符
+
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        
+        def nextCharGenerator(s):
+            skip = 0
+            for c in reversed(s):
+                if c == '#':
+                    skip += 1
+                elif skip > 0:
+                    skip -= 1
+                else:
+                    yield c
+                    
+        sGenerator = nextCharGenerator(s)
+        tGenerator = nextCharGenerator(t)
+        
+        for a, b in itertools.zip_longest(sGenerator, tGenerator):
+            if a != b:
+                return False
+        return True
