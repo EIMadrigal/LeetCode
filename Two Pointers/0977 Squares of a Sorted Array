@@ -1,0 +1,12 @@
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        i, j = 0, len(nums) - 1
+        ans = []
+        while j >= i:
+            if abs(nums[j]) > abs(nums[i]):
+                ans.insert(0, nums[j] ** 2)
+                j -= 1
+            else:
+                ans.insert(0, nums[i] ** 2)
+                i += 1
+        return ans
