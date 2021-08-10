@@ -1,18 +1,16 @@
-class Solution {
-public:
-    void moveZeroes(vector<int>& nums) {
-        int i = 0, j = 0;
-        while (j < nums.size()) {
-            while (i < nums.size() && nums[i]) {
-                ++i;
-            }
-            j = i + 1;
-            while (j < nums.size() && !nums[j]) {
-                ++j;
-            }
-            if (j < nums.size()) {
-                swap(nums[i], nums[j]);
-            }
-        }
-    }
-};
+slow指向0，fast从slow出发寻找大于0的元素与之交换
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        fast, slow = 0, 0
+        for fast in range(len(nums)):
+            while slow < len(nums) and nums[slow]:
+                slow += 1
+            fast = slow + 1
+            while fast < len(nums) and nums[fast] == 0:
+                fast += 1
+            if fast < len(nums):
+                nums[fast], nums[slow] = nums[slow], nums[fast]
