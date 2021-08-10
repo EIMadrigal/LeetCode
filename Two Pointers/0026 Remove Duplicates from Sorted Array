@@ -1,33 +1,10 @@
-class Solution {
-public:
-    int removeDuplicates(vector<int>& nums) {
-        const int n = nums.size();
-        if(n < 2)
-            return n;
-        
-        int ans = 0, i = 0;
-        while(i < n) {
-            nums[ans++] = nums[i];
-            int j = i + 1;
-            
-            while(j < n && nums[j - 1] == nums[j])
-                ++j;
-            i = j;
-        }
-        return ans;
-    }
-};
+经典双指针问题
 
-
-// concise one 
-class Solution {
-public:
-    int removeDuplicates(vector<int>& nums) {
-        int ans = 0;
-        for(int n : nums) {
-            if(ans < 1 || n > nums[ans - 1])
-                nums[ans++] = n;
-        }
-        return ans;
-    }
-};
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        slow = 0
+        for fast in range(len(nums)):
+            if nums[fast] != nums[slow]:
+                nums[slow + 1] = nums[fast]
+                slow += 1
+        return slow + 1
