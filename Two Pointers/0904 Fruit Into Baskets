@@ -1,0 +1,22 @@
+题意说人话就是：找一个最长的子数组，使得其中最多有2个不同的元素
+滑动窗口维护最多有2个不同元素的最长子数组，怎么快速知道窗口内不同元素个数呢？
+
+set肯定不行，比如[1 0 1 4]，i指向第一个1，j指向4，此时set为{1 0 4}不满足条件，删掉1并且i指向0，此时set={0 4}但窗口内仍有3个不同元素，
+即无法用set判断窗口内不同元素数目
+
+所以用dict，dict[m] = n表示当前窗口内值为m的元素数目为n，n不为0时就不能删除m
+
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        cnt= {}
+        ans = i = 0
+        
+        for j, fruit in enumerate(fruits):
+            cnt[fruit] = cnt.get(fruit, 0) + 1
+            if len(cnt) > 2:
+                cnt[fruits[i]] -= 1
+                if cnt[fruits[i]] == 0:
+                    del cnt[fruits[i]]
+                i += 1
+            ans = max(ans, j - i + 1)
+        return ans
