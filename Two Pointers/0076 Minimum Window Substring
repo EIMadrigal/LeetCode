@@ -1,0 +1,27 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not s or not t:
+            return ""
+        
+        dict_t = Counter(t)
+        l, r, cnt = 0, 0, len(t)  # cnt represents the number of chars of t to be found in s
+        
+        ans = float("inf"), None, None
+        
+        # move r to find a valid window
+        while r < len(s):
+            char = s[r]
+            if dict_t[char] > 0:  # if char exists in t, decrease cnt
+                cnt -= 1
+            # if char does not exist in t, this will be negative
+            dict_t[char] -= 1
+            r += 1
+            # we find a valid window, move l to find smaller window
+            while cnt == 0:
+                if r - l < ans[0]:
+                    ans = (r - l, l, r)
+                dict_t[s[l]] += 1
+                if dict_t[s[l]] > 0:  # if char exists in t, increase cnt
+                    cnt += 1
+                l += 1
+        return "" if ans[0] == float("inf") else s[ans[1] : ans[2]]
