@@ -1,3 +1,24 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        m, n = len(matrix), len(matrix[0])
+        ans = []
+        left, right, up, down = 0, n - 1, 0, m - 1
+        while left <= right and up <= down:
+            for x in range(left, right + 1):
+                ans.append(matrix[up][x])
+            for y in range(up + 1, down + 1):
+                ans.append(matrix[y][right])
+            if left < right and up < down:
+                for x in range(right - 1, left - 1, -1):
+                    ans.append(matrix[down][x])
+                for y in range(down - 1, up, -1):
+                    ans.append(matrix[y][left])
+            left += 1
+            right -= 1
+            up += 1
+            down -= 1
+        return ans
+
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
