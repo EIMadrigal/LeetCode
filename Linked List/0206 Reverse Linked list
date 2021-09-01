@@ -1,49 +1,24 @@
-Thought：
-	iteratively.
-	原地逆置：三步。
-	1、保留cur的下一个结点；
-	2、完成cur的逆置；
-	3、为下个结点做准备。
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-class Solution {
-public:
-    ListNode* reverseList(ListNode* head) {
-        if (!head)
-            return nullptr;
-        
-        ListNode* cur = head;
-        while (cur->next) {
-            ListNode* n = cur->next;
-            cur->next = n->next;
-            n->next = head;
-            head = n;
-        }
-        return head;
-    }
-};
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur, prev = head, None
+        while cur:
+            tmp = cur.next  # save the next node in order to change ptr
+            cur.next = prev
+            prev = cur
+            cur = tmp
+        return prev
 
 
-Thought：
-	recursive.
-	代码简洁但很难实现。
-
-class Solution {
-public:
-    ListNode* reverseList(ListNode* head) {
-        if (!head || !head->next)
-            return head;
-        
-        ListNode* newHead = reverseList(head->next); // newHead->5->4->3->2->nullptr, head->1->2
-        head->next->next = head;
-        head->next = nullptr;
-        return newHead;
-    }
-};
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        new_head = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return new_head
