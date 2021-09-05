@@ -17,3 +17,24 @@ public:
         return true;
     }
 };
+
+
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        
+        def cal(n: int) -> int:
+            s = 0
+            while n:
+                digit = n % 10
+                s += digit ** 2
+                n //= 10
+            return s
+        
+        record = set()
+        while True:
+            if n == 1:
+                return True
+            if n in record:
+                return False
+            record.add(n)
+            n = cal(n)
