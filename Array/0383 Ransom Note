@@ -1,0 +1,12 @@
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        records = [0] * 26
+        for c in magazine:
+            records[ord(c) - ord('a')] += 1
+        
+        for c in ransomNote:
+            if records[ord(c) - ord('a')] == 0:
+                return False
+            else:
+                records[ord(c) - ord('a')] -= 1
+        return True
