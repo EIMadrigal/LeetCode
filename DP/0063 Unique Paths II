@@ -1,38 +1,38 @@
-class Solution {
-public:
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        const int m = obstacleGrid.size();
-        if(!m) {
-            return 0;
-        }
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        dp = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(n):
+            if obstacleGrid[0][i] == 1:
+				break
+            dp[0][i] = 1
+        for i in range(m):
+            if obstacleGrid[i][0] == 1:
+                break
+            dp[i][0] = 1
         
-        const int n = obstacleGrid[0].size();
-        vector<vector<long>> dp(m, vector<long>(n, 0));
+        for i in range(1, m):
+            for j in range(1, n):
+                if obstacleGrid[i][j] == 0:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        return dp[-1][-1]
         
-        // fill 0-th column
-        for(int i = 0;i < m;++i) {
-            if(obstacleGrid[i][0] == 1)
-                break;
-            dp[i][0] = 1;
-        }
+		
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        dp = [0] * n
+        for i in range(n):
+            if obstacleGrid[0][i] == 1:
+                break
+            dp[i] = 1
+            
+        for i in range(1, m):
+            for j in range(n):
+                if obstacleGrid[i][j] == 0:
+                    if j > 0:
+                        dp[j] += dp[j - 1]
+                else:
+                    dp[j] = 0
+        return dp[-1]
         
-        // fill 0-th row
-        for(int i = 0;i < n;++i) {
-            if(obstacleGrid[0][i] == 1)
-                break;
-            dp[0][i] = 1;
-        }
-        
-        for(int i = 1;i < m;++i)
-            for(int j = 1;j < n;++j) {
-                if(obstacleGrid[i][j] == 1)
-                    continue;
-                
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-            }
-        
-        return dp[m - 1][n - 1];
-    }
-};
-
-
