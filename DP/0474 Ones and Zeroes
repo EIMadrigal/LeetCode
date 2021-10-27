@@ -1,0 +1,33 @@
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        # dp[i][j][k]表示前i个串0和1的容量为j和k时能包含的最大子集个数 空集不算
+        dp = [[[0 for _ in range(n + 1)] for  _ in range(m + 1)] for _ in range(len(strs) + 1)]
+        
+        for i in range(1, len(strs) + 1):
+            ones = strs[i - 1].count('1')
+            zeros = strs[i - 1].count('0')
+            for j in range(m + 1):
+                for k in range(n + 1):
+                    if zeros <= j and ones <= k:
+                        # 对第i个可选可不选：选意味着要占据背包容量但可能价值增加
+                        # 不选意味着价值虽然不能增加但是剩余更多的空间给后续的物品
+                        dp[i][j][k] = max(dp[i - 1][j][k], dp[i - 1][j - zeros][k - ones] + 1)
+                    else:
+                        dp[i][j][k] = dp[i - 1][j][k]
+        return dp[-1][-1][-1]
+        
+        
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        # 滚动数组
+        dp = [[0 for _ in range(n + 1)] for  _ in range(m + 1)]
+        
+        for i in range(1, len(strs) + 1):
+            ones = strs[i - 1].count('1')
+            zeros = strs[i - 1].count('0')
+            for j in range(m, -1, -1):
+                for k in range(n, -1, -1):
+                    if zeros <= j and ones <= k:
+                        dp[j][k] = max(dp[j][k], dp[j - zeros][k - ones] + 1)
+        return dp[-1][-1]
+                
