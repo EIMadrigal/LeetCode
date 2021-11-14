@@ -1,0 +1,28 @@
+这道题的核心在于:如果出现0xxxx到1xxxx那么&后的结果必然为0,因为有01111到10000的全部反转
+因此从最高位开始,相同就保留,直到遇到不同的位(该位必然m = 0, n = 1), 后面的位必然全0
+
+class Solution:
+    def rangeBitwiseAnd(self, left: int, right: int) -> int:
+        
+        def cnt_bits(num):
+            cnt = 0
+            while num > 0:
+                num >>= 1
+                cnt += 1
+            return cnt
+        
+        if cnt_bits(left) != cnt_bits(right):
+            return 0
+        
+        ans = 0
+        for i in range(cnt_bits(left) - 1, -1, -1):
+            l = (left >> i) & 1
+            r = (right >> i) & 1
+            if l == 1 and r == 1:
+               ans += 1 << i
+            elif l == 0 and r == 0:
+                continue
+            else:
+                break
+        return ans
+        
