@@ -1,4 +1,5 @@
-  
+// 核心在于该元素至少出现 n / 2 + 1次, 左半部分majorityElement a至少n / 4 + 1, 右半部分majorityElement b至少n / 4 + 1
+// 因此整体的majorityElement必然在{a, b}中, 因为其他元素最多出现n / 2次, 不满足条件
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
