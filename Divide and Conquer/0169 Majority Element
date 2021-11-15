@@ -1,5 +1,6 @@
 // 核心在于该元素至少出现 n / 2 + 1次, 左半部分majorityElement a至少n / 4 + 1, 右半部分majorityElement b至少n / 4 + 1
 // 因此整体的majorityElement必然在{a, b}中, 因为其他元素最多出现n / 2次, 不满足条件
+// O(nlgn)
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
@@ -16,5 +17,25 @@ private:
             return left;
         return count(nums.begin() + low, nums.begin() + high + 1, left)
             > count(nums.begin() + low, nums.begin() + high + 1, right) ? left : right;
+    }
+};
+
+
+// 用一个栈: 空, 入栈; 当前元素 == 栈顶元素, 入栈; 否则出栈
+// 相当于用其他元素不断抵消majorityElement, 最终剩下的就是答案
+// O(n)
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        stack<int> s;
+        for (int num : nums) {
+            if (s.empty() || num == s.top()) {
+                s.push(num);
+            }
+            else {
+                s.pop();
+            }
+        }
+        return s.top();
     }
 };
