@@ -6,6 +6,22 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         fast, slow = 0, 0
+        while slow < len(nums) and fast < len(nums):
+            while fast < len(nums) and nums[fast] == 0:
+                fast += 1
+            while slow < len(nums) and nums[slow]:
+                slow += 1
+            if slow < fast and slow < len(nums) and fast < len(nums):
+                nums[fast], nums[slow] = nums[slow], nums[fast]
+            fast += 1
+
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        fast, slow = 0, 0
         for fast in range(len(nums)):
             while slow < len(nums) and nums[slow]:
                 slow += 1
