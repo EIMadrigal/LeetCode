@@ -1,3 +1,36 @@
+class Solution:
+    def __init__(self):
+        self.cur = ''
+        self.ans = []
+        self.letter_map = {
+            '2': 'abc',
+            '3': 'def',
+            '4': 'ghi',
+            '5': 'jkl',
+            '6': 'mno',
+            '7': 'pqrs',
+            '8': 'tuv',
+            '9': 'wxyz'
+        }
+        
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits:
+            return []
+        self.backtrack(digits, 0)
+        return self.ans
+    
+    def backtrack(self, digits, depth) -> None:
+        if depth == len(digits):
+            self.ans.append(self.cur)
+            return
+            
+        letters = self.letter_map[digits[depth]]
+        for letter in letters:
+            self.cur = self.cur + letter
+            self.backtrack(digits, depth + 1)
+            self.cur = self.cur[:-1]
+
+
 // DFS O(4^n)
 class Solution {
 public:
