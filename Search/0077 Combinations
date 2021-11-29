@@ -1,3 +1,42 @@
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res, path = [], []
+        
+        def backtrack(n, k, start):
+            if k == len(path):
+                res.append(path[:])  # slice returns a deep copy here, should not shallow copy res.append(path)
+                return
+            
+            for i in range(start, n + 1):
+                path.append(i)
+                backtrack(n, k, i + 1)
+                path.pop()
+        
+        backtrack(n, k, 1)
+        return res
+		
+
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res, path = [], []
+        
+        def backtrack(n, k, start):
+            if k == len(path):
+                res.append(path[:])  # slice returns a deep copy here, should not shallow copy res.append(path)
+                return
+            
+            for i in range(start, n + 1):
+                if k - len(path) > n - i + 1:  # 需要的元素个数大于可供选择的元素个数
+                    break
+                path.append(i)
+                backtrack(n, k, i + 1)
+                path.pop()
+        
+        backtrack(n, k, 1)
+		
+        return res
+
+
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
