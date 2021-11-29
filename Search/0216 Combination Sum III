@@ -1,3 +1,44 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        ans, path = [], []
+        
+        def backtrack(k, n, path_sum, start):
+            if k == len(path):
+                if path_sum == n:
+                    ans.append(path[:])
+                return
+            
+            for i in range(start, 10):
+                path.append(i)
+                backtrack(k, n, path_sum + i, i + 1)
+                path.pop()
+        backtrack(k, n, 0, 1)
+        return ans
+
+
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        ans, path = [], []
+        
+        def backtrack(k, n, path_sum, start):
+            if path_sum > n:  # 剪枝1：当前路径长度大于n，没有必要继续向下递归，直接返回上一层
+                return
+            
+            if k == len(path):
+                if path_sum == n:
+                    ans.append(path[:])
+                return
+            
+            for i in range(start, 10):
+                if k - len(path) > 9 - i + 1:  # 剪枝2：当前所需的元素个数大于可供选择的元素个数，没必要继续向右循环
+                    break
+                path.append(i)
+                backtrack(k, n, path_sum + i, i + 1)
+                path.pop()
+        backtrack(k, n, 0, 1)
+        return ans
+
+
 // DFS
 class Solution {
 public:
