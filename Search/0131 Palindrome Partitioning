@@ -1,3 +1,57 @@
+class Solution:
+    def __init__(self):
+        self.ans = []
+        self.path = []
+            
+    def partition(self, s: str) -> List[List[str]]:
+        self.backtrack(s, 0)
+        return self.ans
+        
+    def backtrack(self, s: str, start: int) -> None:  # 从start开始切割
+        if start >= len(s):
+            self.ans.append(self.path[:])
+            return
+        
+        for i in range(start, len(s)):
+            if not self.is_palindrome(s[start:i + 1]):
+                continue
+            self.path.append(s[start:i + 1])
+            self.backtrack(s, i + 1)
+            self.path.pop()
+            
+    def is_palindrome(self, s: str):
+        i, j = 0, len(s) - 1
+        while i < j:
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
+    
+
+class Solution:
+    def __init__(self):
+        self.ans = []
+        self.path = []
+            
+    def partition(self, s: str) -> List[List[str]]:
+        self.backtrack(s, 0)
+        return self.ans
+        
+    def backtrack(self, s: str, start: int) -> None:  # 从start开始切割
+        if start >= len(s):
+            self.ans.append(self.path[:])
+            return
+        
+        for i in range(start, len(s)):
+            tmp = s[start:i + 1]
+            if tmp != tmp[::-1]:  # should not s[start:i + 1] != s[i:start - 1:-1] because s[0:3] and s[2:-1:-1] == ""
+                continue
+            self.path.append(tmp)
+            self.backtrack(s, i + 1)
+            self.path.pop()
+    
+
 class Solution {
 public:
     vector<vector<string>> partition(string s) {
