@@ -1,3 +1,30 @@
+# candidates存在重复，但结果不应包含重复组合
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans, path = [], []
+        
+        def backtrack(candidates, cur_sum, start):
+            if cur_sum > target:
+                return
+            
+            if cur_sum == target:
+                ans.append(path[:])
+                return
+            
+            for i in range(start, len(candidates)):
+                if i > start and candidates[i] == candidates[i - 1]:  # 本层不能选取重复元素
+                    continue
+                if cur_sum + candidates[i] > target:
+                    break
+                path.append(candidates[i])
+                backtrack(candidates, cur_sum + candidates[i], i + 1)
+                path.pop()
+        
+        candidates.sort()  # 排序去重
+        backtrack(candidates, 0, 0)
+        return ans
+
+
 class Solution {
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
