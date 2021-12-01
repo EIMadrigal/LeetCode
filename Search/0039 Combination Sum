@@ -1,3 +1,46 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans, path = [], []
+        
+        def backtrack(candidates, target, cur_sum, start):
+            if cur_sum > target:
+                return
+            if cur_sum == target:
+                ans.append(path[:])
+                return
+            
+            for i in range(start, len(candidates)):
+                path.append(candidates[i])
+                backtrack(candidates, target, cur_sum + candidates[i], i)
+                path.pop()
+            
+        backtrack(candidates, target, 0, 0)
+        return ans
+
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans, path = [], []
+        
+        def backtrack(candidates, target, cur_sum, start):
+            if cur_sum > target:
+                return
+            if cur_sum == target:
+                ans.append(path[:])
+                return
+            
+            for i in range(start, len(candidates)):
+                if cur_sum + candidates[i] > target:
+                    break
+                path.append(candidates[i])
+                backtrack(candidates, target, cur_sum + candidates[i], i)
+                path.pop()
+        
+        candidates.sort()  # 排序后剪枝
+        backtrack(candidates, target, 0, 0)
+        return ans
+
+
 class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
