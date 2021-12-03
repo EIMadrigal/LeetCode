@@ -1,3 +1,36 @@
+class Solution:
+    def __init__(self):
+        self.ans = []
+        self.path = ""
+    
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        self.backtrack(s, 0, 0)
+        return self.ans
+        
+    def backtrack(self, s: str, start: int, depth: int) -> None:  # 递归4层
+        if depth == 3:
+            if self.valid(s[start:]):  # 第4段是否合法
+                self.ans.append(self.path[:] + s[start:])
+            return
+        
+        for i in range(start, len(s)):
+            tmp = s[start:i + 1]
+            if not self.valid(tmp):
+                break
+            self.path = self.path + tmp + '.'
+            self.backtrack(s, i + 1, depth + 1)
+            self.path = self.path[:-(i - start + 2)]
+        
+    def valid(self, s: str) -> bool:
+        if not s:
+            return False
+        if len(s) > 1 and s[0] == '0':
+            return False
+        if not 0 <= int(s) <= 255:
+            return False
+        return True
+    
+
 class Solution {
 public:
     vector<string> restoreIpAddresses(string s) {
