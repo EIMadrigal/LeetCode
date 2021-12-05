@@ -1,3 +1,21 @@
+class Solution:
+    def __init__(self):
+        self.ans = []
+        self.path = []
+    
+    def backtrack(self, nums, start):
+        self.ans.append(self.path[:])
+        
+        for i in range(start, len(nums)):
+            self.path.append(nums[i])
+            self.backtrack(nums, i + 1)
+            self.path.pop()
+            
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        self.backtrack(nums, 0)
+        return self.ans
+        
+
 // dfs, O(2^n)
 class Solution {
 public:
