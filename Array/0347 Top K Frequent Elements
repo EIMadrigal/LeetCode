@@ -1,0 +1,59 @@
+O(nlgn) O(n)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        cnt = collections.Counter(nums)
+        return [item[0] for item in cnt.most_common(k)]
+
+
+维护k个元素的小顶堆 O(nlgk) O(n)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        cnt = collections.Counter(nums)
+        heap = []
+        for key, val in cnt.items():
+            if len(heap) < k:
+                heapq.heappush(heap, (val, key))
+            else:
+                if val > heap[0][0]:
+                    heapq.heapreplace(heap, (val, key))
+        return [item[1] for item in heap]
+
+
+基于快排partition O(n) O(n)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        cnt = list(collections.Counter(nums).items())
+        
+        def qsort(low, high, k):
+            if low >= high:
+                return
+            
+            pivot_idx = random.randint(low, high)
+            cnt[pivot_idx], cnt[low] = cnt[low], cnt[pivot_idx]
+            smaller_idx = low
+            for i in range(low + 1, high + 1):
+                if cnt[i][1] >= cnt[low][1]:
+                    smaller_idx += 1
+                    cnt[smaller_idx], cnt[i] = cnt[i], cnt[smaller_idx]
+            cnt[smaller_idx], cnt[low] = cnt[low], cnt[smaller_idx]
+            if smaller_idx == k - 1:
+                return
+            elif smaller_idx > k - 1:
+                qsort(low, smaller_idx - 1, k)
+            else:
+                qsort(smaller_idx + 1, high, k - (smaller_idx - low + 1))
+
+        qsort(0, len(cnt) - 1, k)
+        return [item[0] for item in cnt[:k]]
+        
+        
+桶排序：对于每种可能的频率1-n创建list O(n) O(n)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        buckets = [[] for _ in range(1 + len(nums))]
+        cnt = collections.Counter(nums)
+        for num, freq in cnt.items():
+            buckets[freq].append(num)
+        flat = list(itertools.chain(*buckets))
+        return flat[::-1][:k]
+        
