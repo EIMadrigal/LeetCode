@@ -1,8 +1,0 @@
-class Solution {
-public:
-    int getSum(int a, int b) {
-        // a^b: a+b without carry
-        // a&b: the carry
-        return b == 0 ? a : getSum(a ^ b, (unsigned int)(a & b) << 1);
-    }
-};
