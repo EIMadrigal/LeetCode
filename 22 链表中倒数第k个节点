@@ -1,1 +1,35 @@
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# @param pHead ListNode类 
+# @param k int整型 
+# @return ListNode类
 
+class Solution:
+    def FindKthToTail(self, pHead: ListNode, k: int) -> ListNode:
+        # write code here
+        fast = slow = pHead
+        for i in range(k):
+            if not fast:
+                return None
+            fast = fast.next
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        return slow
+        
+        
+class Solution:
+    def FindKthToTail(self , pHead: ListNode, k: int) -> ListNode:
+        # write code here
+        if not k:
+            return None
+        stack = []
+        while pHead:
+            stack.append(pHead)
+            pHead = pHead.next
+        if k > len(stack):
+            return None
+        return stack[-k]
