@@ -1,0 +1,68 @@
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param proot TreeNode类 
+# @param k int整型 
+# @return int整型
+#
+class Solution:
+    def KthNode(self, proot: TreeNode, k: int) -> int:
+        nums = []
+        
+        def inorder(root):
+            if not root:
+                return
+            inorder(root.left)
+            nums.append(root.val)
+            inorder(root.right)
+        
+        inorder(proot)
+        if k < 1 or k > len(nums):
+            return -1
+        return nums[k - 1]
+
+
+class Solution:
+    def KthNode(self, proot: TreeNode, k: int) -> int:
+        if not proot or k < 1:
+            return -1
+        cnt, ans = 0, -1
+        
+        def inorder(root):
+            nonlocal cnt, ans
+            if not root:
+                return
+            inorder(root.left)
+            cnt += 1
+            if cnt == k:
+                ans = root.val
+                return
+            inorder(root.right)
+        
+        inorder(proot)
+        return ans
+        
+
+class Solution:
+    def KthNode(self , proot: TreeNode, k: int) -> int:
+        if not proot or k < 1:
+            return -1
+        stack = []
+        cur = proot
+        cnt = 0
+        while cur or len(stack):
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            cnt += 1
+            if cnt == k:
+                return cur.val
+            cur = cur.right
+        return -1
