@@ -1,0 +1,29 @@
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param root TreeNode类 
+# @param sum int整型 
+# @return int整型
+#
+
+# O(n^2)
+class Solution:
+    def FindPath(self, root: TreeNode, sum: int) -> int:
+        
+        def path_cnt(root, sum):
+            if not root:
+                return 0
+            if root.val == sum:
+                return 1 + path_cnt(root.left, 0) + path_cnt(root.right, 0)
+            else:
+                return path_cnt(root.left, sum - root.val) + path_cnt(root.right, sum - root.val)
+        
+        if not root:
+            return 0
+        return self.FindPath(root.left, sum) + self.FindPath(root.right, sum) + path_cnt(root, sum)
