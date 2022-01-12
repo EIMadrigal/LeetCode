@@ -33,12 +33,12 @@ class Solution:
 
 # 暴力做法问题在于重复计算，对于根结点需要计算下面结点的和，对其孩子又要重新计算下面结点的和
 # 因此对每个结点如果能存储其到根的和（前缀和），这样就无需重复计算相同路径的和了，结点间的路径和 = 两个结点的前缀和之差
-# 因此hashmap: 前缀和 -> 父结点到根结点出现该前缀和的路径数目
+# 因此hashmap: 父结点到根结点的所有前缀和 -> 父结点到根结点出现该前缀和的路径数目
 # 1 -> 0 -> 2 sum = 2 举例
 
 class Solution:
     def FindPath(self, root: TreeNode, sum: int) -> int:
-        # hashmap存储的是前缀和 -> 父结点到根结点出现该前缀和的路径数目
+        # hashmap存储的是父结点到根结点的所有前缀和 -> 父结点到根结点出现该前缀和的路径数目
         # 因此如果从根结点开始的某条路径和为sum，这样初始化To consider path starting from root.
         cache = {0: 1}
         ans = 0
