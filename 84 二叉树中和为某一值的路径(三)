@@ -39,7 +39,7 @@ class Solution:
 class Solution:
     def FindPath(self, root: TreeNode, sum: int) -> int:
         # hashmap存储的是前缀和 -> 父结点到根结点出现该前缀和的路径数目
-        # 因此如果结点本身就是sum，必然是一条合法路径，这样初始化相当于给每个结点自成合法路径的机会
+        # 因此如果从根结点开始的某条路径和为sum，这样初始化To consider path starting from root.
         cache = {0: 1}
         ans = 0
         
