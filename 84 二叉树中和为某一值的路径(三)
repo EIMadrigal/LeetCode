@@ -12,7 +12,9 @@
 # @return int整型
 #
 
-# O(n^2)
+# 遍历每个结点n，以n作为根结点寻找路径
+# 最好情况：T(n) = 2T(n/2) + n -> O(nlgn)
+# 最坏情况：T(n) = T(n - 1) + n -> O(n^2)
 class Solution:
     def FindPath(self, root: TreeNode, sum: int) -> int:
         
@@ -27,3 +29,32 @@ class Solution:
         if not root:
             return 0
         return self.FindPath(root.left, sum) + self.FindPath(root.right, sum) + path_cnt(root, sum)
+
+
+# 暴力做法问题在于重复计算，对于根结点需要计算下面结点的和，对其孩子又要重新计算下面结点的和
+# 因此对每个结点如果能存储其到根的和（前缀和），这样就无需重复计算相同路径的和了，结点间的路径和 = 两个结点的前缀和之差
+# 因此hashmap: 前缀和 -> 父结点到根结点出现该前缀和的路径数目
+# 1 -> 0 -> 2 sum = 2 举例
+
+class Solution:
+    def FindPath(self, root: TreeNode, sum: int) -> int:
+        # hashmap存储的是前缀和 -> 父结点到根结点出现该前缀和的路径数目
+        # 因此如果结点本身就是sum，必然是一条合法路径，这样初始化相当于给每个结点自成合法路径的机会
+        cache = {0: 1}
+        ans = 0
+        
+        def dfs(root, sum, cursum):
+            nonlocal ans
+            if not root:
+                return
+            cursum += root.val
+            ans += cache.get(cursum - sum, 0)
+            cache[cursum] = cache.get(cursum, 0) + 1
+            
+            dfs(root.left, sum, cursum)
+            dfs(root.right, sum, cursum)
+            cache[cursum] -= 1
+            
+        dfs(root, sum, 0)
+        return ans
+
