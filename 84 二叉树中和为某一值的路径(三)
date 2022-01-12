@@ -40,6 +40,8 @@ class Solution:
     def FindPath(self, root: TreeNode, sum: int) -> int:
         # hashmap存储的是父结点到根结点的所有前缀和 -> 父结点到根结点出现该前缀和的路径数目
         # 因此如果从根结点开始的某条路径和为sum，这样初始化To consider path starting from root.
+        # 类似于做了一次padding，比如区间[i,j]的和 = prefixsum[j] - prefixsum[i - 1]，如果i == 0，就需要prefixsum做一个填补
+        # 即prefixsum的第一个元素填充为0，这里认为根结点往上的前缀和为0
         cache = {0: 1}
         ans = 0
         
