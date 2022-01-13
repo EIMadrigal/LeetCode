@@ -1,0 +1,52 @@
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param root TreeNode类 
+# @param o1 int整型 
+# @param o2 int整型 
+# @return int整型
+#
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, o1: int, o2: int) -> int:
+        # 如果o1/o2均存在于以root为根的树，返回LCA
+        # 如果o1/o2均不存在于以root为根的树，返回None
+        # 如果o1/o2有一个存在于以root为根的树，返回该值
+        if not root:
+            return None
+        if o1 == root.val or o2 == root.val:
+            return root.val
+        l = self.lowestCommonAncestor(root.left, o1, o2)
+        r = self.lowestCommonAncestor(root.right, o1, o2)
+        if l and r:
+            return root.val
+        return l if l else r
+        
+        
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, o1: int, o2: int) -> int:
+        parent = {}
+        queue = []
+        queue.append(root)
+        
+        while not parent.get(o1) or not parent.get(o2):
+            cur = queue.pop(0)
+            if cur.left:
+                parent[cur.left.val] = cur.val
+                queue.append(cur.left)
+            if cur.right:
+                parent[cur.right.val] = cur.val
+                queue.append(cur.right)
+            
+        path1 = set()
+        while o1:
+            path1.add(o1)
+            o1 = parent.get(o1)
+        while o2 not in path1:
+            o2 = parent.get(o2)
+        return o2
