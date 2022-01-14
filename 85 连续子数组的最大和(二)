@@ -1,0 +1,22 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param array int整型一维数组 
+# @return int整型一维数组
+#
+class Solution:
+    def FindGreatestSumOfSubArray(self, array: List[int]) -> List[int]:
+        dp = max_sum = array[0]
+        left = right = 0
+        cur_left = cur_right = 0
+        for i in range(1, len(array)):
+            if dp >= 0:
+                cur_right = i
+            else:
+                cur_left = cur_right = i
+            dp = max(dp + array[i], array[i])
+            if dp > max_sum or (dp == max_sum and cur_right - cur_left > right - left):
+                left, right = cur_left, cur_right
+                max_sum = dp
+        return array[left:right + 1]
