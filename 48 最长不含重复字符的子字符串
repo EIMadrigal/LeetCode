@@ -1,0 +1,35 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param s string字符串 
+# @return int整型
+#
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        i = j = 0
+        ans = 0
+        chars = set()
+        while j < len(s):
+            if s[j] in chars:
+                chars.remove(s[i])
+                i += 1
+            else:
+                ans = max(ans, j - i + 1)
+                chars.add(s[j])
+                j += 1
+        return ans
+        
+        
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ans = 0
+        i = j = 0
+        seen = {}
+        while j < len(s):
+            if s[j] in seen:
+                i = max(i, seen[s[j]] + 1)
+            ans = max(ans, j - i + 1)
+            seen[s[j]] = j
+            j += 1
+        return ans
