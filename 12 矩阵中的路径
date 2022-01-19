@@ -1,0 +1,34 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param matrix char字符型二维数组 
+# @param word string字符串 
+# @return bool布尔型
+#
+class Solution:
+    def hasPath(self, matrix: List[List[str]], word: str) -> bool:
+        
+        vis = [[False for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+        
+        def dfs(i, j, k):
+            if k == len(word):
+                return True
+            if i < 0 or j < 0 or i >= len(matrix) or j >= len(matrix[0]) or vis[i][j] == True:
+                return False
+            if word[k] != matrix[i][j]:
+                return False
+            
+            vis[i][j] = True
+            direc = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            for m in range(4):
+                if dfs(i + direc[m][0], j + direc[m][1], k + 1):
+                    return True
+            vis[i][j] = False
+            return False
+        
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if dfs(i, j, 0):
+                    return True
+        return False
