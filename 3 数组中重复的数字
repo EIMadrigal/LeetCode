@@ -1,0 +1,21 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param numbers int整型一维数组 
+# @return int整型
+#
+class Solution:
+    def duplicate(self, numbers: List[int]) -> int:
+        # 原地hash, 确保i左边的元素与其下标对应
+        i = 0
+        while i < len(numbers):
+            if i == numbers[i]:
+                i += 1
+            else:
+                if numbers[i] == numbers[numbers[i]]:
+                    return numbers[i]
+                else:
+                    # numbers[i], numbers[numbers[i]] = numbers[numbers[i]], numbers[i] bug
+                    numbers[numbers[i]], numbers[i] = numbers[i], numbers[numbers[i]]
+        return -1
