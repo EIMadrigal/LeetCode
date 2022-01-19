@@ -1,0 +1,24 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param array int整型一维数组 
+# @return int整型一维数组
+#
+class Solution:
+    def FindNumsAppearOnce(self, array: List[int]) -> List[int]:
+        # 全部异或得到 1 ^ 4 ^ 1 ^ 6 = 4 ^ 6
+        # 通过lowbit操作得到4和6的最右边的不同的一位
+        # 按照该位将数组分为2组，4和6必然不同组，组内异或即可
+        s = 0
+        for num in array:
+            s ^= num
+        lowbit = s & (-s)
+        ans = [0] * 2
+        for num in array:
+            if num & lowbit:
+                ans[0] ^= num
+            else:
+                ans[1] ^= num
+        ans.sort()
+        return ans
