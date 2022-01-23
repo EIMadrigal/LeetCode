@@ -1,0 +1,22 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param s string字符串 
+# @return int整型
+#
+class Solution:
+    def StrToInt(self, s: str) -> int:
+        s = s.strip()
+        if not s:
+            return 0
+        
+        sign = -1 if s[0] == '-' else 1
+        if s[0] == '+' or s[0] == '-':
+            s = s[1:]
+        i = ans = 0
+        while i < len(s) and s[i].isdigit():
+            ans = ans * 10 + (ord(s[i]) - ord('0'))
+            i += 1
+        ans = sign * ans
+        return min(2 ** 31 - 1, ans) if sign == 1 else max(-2 ** 31, ans)
