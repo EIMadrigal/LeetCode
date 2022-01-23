@@ -1,0 +1,33 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param str string字符串 
+# @return bool布尔型
+#
+class Solution:
+    def isNumeric(self, str: str) -> bool:
+        str = str.strip()
+        if not str:
+            return False
+        sign = dot = exp = False
+        for i, c in enumerate(str):
+            if c == 'e' or c == 'E':
+                if exp or i == len(str) - 1 or i == 0 or str[i - 1] == '+' or str[i - 1] == '-':
+                    return False
+                exp = True
+            elif c == '.':
+                if dot or exp or (i == len(str) - 1 and not str[i - 1].isdigit()):
+                    return False
+                dot = True
+            elif c == '+' or c == '-':
+                if i == len(str) - 1:
+                    return False
+                if sign == False and i != 0 and str[i - 1] != 'e' and str[i - 1] != 'E':
+                    return False
+                if sign and str[i - 1] != 'e' and str[i - 1] != 'E':
+                    return False
+                sign = True
+            elif not c.isdigit():
+                return False
+        return True
