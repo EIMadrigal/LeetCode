@@ -1,0 +1,33 @@
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param number long长整型 
+# @return long长整型
+#
+class Solution:
+    def cutRope(self, number: int) -> int:
+        if number == 2:
+            return 1
+        if number == 3:
+            return 2
+        cnt = number // 3
+        
+        def my_pow(base, power):
+            if power == 0:
+                return 1
+            if power == 1:
+                return base
+            part = my_pow(base, power // 2)
+            if power % 2:
+                return base * part * part % 998244353
+            else:
+                return part * part % 998244353
+        
+        if number % 3 == 0:
+            return my_pow(3, cnt) % 998244353
+        elif number % 3 == 1:
+            cnt -= 1
+            return 2 * 2 * my_pow(3, cnt) % 998244353
+        else:
+            return 2 * my_pow(3, cnt) % 998244353
