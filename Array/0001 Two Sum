@@ -1,3 +1,13 @@
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        records = {}
+        for i, num in enumerate(nums):
+            if target - num in records:
+                return [records[target - num], i]
+            records[num] = i
+        return
+
+
 Brute Force：
 class Solution {
 public:
