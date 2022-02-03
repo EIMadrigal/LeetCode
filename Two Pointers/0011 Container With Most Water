@@ -1,3 +1,17 @@
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        i, j = 0, len(height) - 1
+        ans = 0
+        while i < j:
+            if height[i] < height[j]:
+                ans = max(ans, (j - i) * height[i])
+                i += 1
+            else:
+                ans = max(ans, (j - i) * height[j])
+                j -= 1
+        return ans
+
+
 // 如果l的高度小，++l；否则，--r。
 // 如果l的高度小，而仍然移动r到r-1的话，若r-1高度<l高度，显然容量变小了；若r-1高度>l高度，容量取决于l，但是距离变小了，所以容量还是变小了
 // 所以要排除这种情况。
