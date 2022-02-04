@@ -3,6 +3,7 @@ class Solution:
         l, r = 0, len(nums)
         while l < r:
             m = (l + r) // 2
+			# 从m到m+1上升，最后下降，因此右侧必然存在局部极大
             if m + 1 < len(nums) and nums[m] < nums[m + 1]:  # 注意nums[m + 1]可能越界
                 l = m + 1
             else:
