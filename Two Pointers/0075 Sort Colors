@@ -3,14 +3,16 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        red, white, blue = 0, 0, len(nums) - 1
-        while white <= blue:
-            if nums[white] == 0:
-                nums[white], nums[red] = nums[red], nums[white]
-                red += 1
-                white += 1
-            elif nums[white] == 1:
-                white += 1
+        zero, two = -1, len(nums)
+        i = 0
+        
+        while i < two:
+            if nums[i] < 1:
+                zero += 1
+                nums[i], nums[zero] = nums[zero], nums[i]
+                i += 1
+            elif nums[i] == 1:
+                i += 1
             else:
-                nums[white], nums[blue] = nums[blue], nums[white]
-                blue -= 1
+                two -= 1
+                nums[i], nums[two] = nums[two], nums[i]
