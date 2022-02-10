@@ -1,0 +1,22 @@
+class StockSpanner:
+
+    def __init__(self):
+        self.idx = 0
+        self.stack = []
+
+    # 左边第一个大的
+    def next(self, price: int) -> int:
+        self.idx += 1
+        while self.stack and price >= self.stack[-1][1]:
+            self.stack.pop()
+        if self.stack:
+            more_idx = self.stack[-1][0]
+        else:
+            more_idx = 0
+        self.stack.append((self.idx, price))
+        return self.idx - more_idx
+
+
+# Your StockSpanner object will be instantiated and called as such:
+# obj = StockSpanner()
+# param_1 = obj.next(price)
