@@ -29,3 +29,27 @@ public:
         return ans;
     }
 };
+
+
+class Solution:
+    def avoidFlood(self, rains: List[int]) -> List[int]:
+        ans = [-1] * len(rains)
+        dryDays = []
+        fullLakes = dict()
+        for i, lake in enumerate(rains):
+            if lake == 0:
+                ans[i] = 1
+                dryDays.append(i)
+            else:
+                if lake not in fullLakes:
+                    fullLakes[lake] = i
+                else:
+                    fullDay = fullLakes[lake]
+                    dryDayIdx = bisect.bisect(dryDays, fullDay)
+                    if dryDayIdx == len(dryDays):
+                        return []
+                    else:
+                        ans[dryDays[dryDayIdx]] = lake
+                        dryDays.pop(dryDayIdx)
+                        fullLakes[lake] = i
+        return ans
