@@ -1,16 +1,10 @@
-class Solution {
-public:
-    int peakIndexInMountainArray(vector<int>& A) {
-        int l = 0, r = A.size();
-        while (l < r) {
-            int m = l + (r - l) / 2;
-            if (A[m] < A[m + 1]) {
-                l = m + 1;
-            }
-            else {
-                r = m;
-            }
-        }
-        return l;
-    }
-};
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        l, r = 0, len(arr)
+        while l < r:
+            m = (l + r) // 2
+            if m + 1 < len(arr) and arr[m] < arr[m + 1]:
+                l = m + 1
+            else:
+                r = m
+        return l
