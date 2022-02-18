@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int kEmptySlots(vector<int>& flowers, int k) {
+        vector<int> days(flowers.size());
+        for (int i = 0; i < flowers.size(); ++i) {
+            days[flowers[i] - 1] = i + 1;
+        }
+
+        int l = 0, r = k + 1, ans = INT_MAX;
+        int i = l + 1;
+        while (r < days.size()) {
+            if (days[i] <= max(days[l], days[r])) {
+                if (i == r) {
+                    ans = min(ans, max(days[l], days[r]));
+                }
+                l = i, r = i + k + 1;
+                i++;
+            } else {
+                i++;
+            }
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
