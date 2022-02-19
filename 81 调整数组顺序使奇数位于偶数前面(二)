@@ -1,23 +1,42 @@
-#
-# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
-#
-# 
-# @param array int整型一维数组 
-# @return int整型一维数组
-#
-class Solution:
-    def reOrderArrayTwo(self, array: List[int]) -> List[int]:
-        i, j = 0, len(array) - 1
-        while i < j:
-            if array[i] % 2 and array[j] % 2:
-                i += 1
-            elif not array[i] % 2 and not array[j] % 2:
-                j -= 1
-            elif array[i] % 2 and not array[j] % 2:
-                i += 1
-                j -= 1
-            else:
-                array[i], array[j] = array[j], array[i]
-                i += 1
-                j -= 1
-        return array
+首尾指针
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param array int整型vector 
+     * @return int整型vector
+     */
+    vector<int> reOrderArrayTwo(vector<int>& array) {
+        int i = 0, j = array.size() - 1;
+        while (i < j) {
+            while (i < j && array[i] & 1) ++i;
+            while (i < j && (array[j] & 1) == 0) --j;
+            swap(array[i++], array[j--]);
+        }
+        return array;
+    }
+};
+
+
+快慢指针（类快排）
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param array int整型vector 
+     * @return int整型vector
+     */
+    vector<int> reOrderArrayTwo(vector<int>& array) {
+        int l = -1;
+        for (int i = 0; i < array.size(); ++i) {
+            if (array[i] & 1) {
+                swap(array[i], array[++l]);
+            }
+        }
+        return array;
+    }
+};
