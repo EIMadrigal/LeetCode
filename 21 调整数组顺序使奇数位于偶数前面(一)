@@ -1,17 +1,70 @@
-#
-# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
-#
-# 
-# @param array int整型一维数组 
-# @return int整型一维数组
-#
-class Solution:
-    def reOrderArray(self, array: List[int]) -> List[int]:
-        j = 0  # 奇数插入位置
-        for i, num in enumerate(array):
-            if num % 2:
-                for k in range(i - 1, j - 1, -1):
-                    array[k + 1] = array[k]
-                array[j] = num
-                j += 1
-        return array
+辅助数组
+class Solution {
+public:
+    vector<int> reOrderArray(vector<int>& array) {
+        vector<int> odds, evens;
+        for (int num : array) {
+            if (num & 1) {
+                odds.emplace_back(num);
+            } else {
+                evens.emplace_back(num);
+            }
+        }
+        for (int i = 0; i < odds.size(); ++i) {
+            array[i] = odds[i];
+        }
+        for (int i = 0; i < evens.size(); ++i) {
+            array[i + odds.size()] = evens[i];
+        }
+        return array;
+    }
+};
+
+
+插入排序：遇到奇数就插入到合适的位置
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param array int整型vector 
+     * @return int整型vector
+     */
+    vector<int> reOrderArray(vector<int>& array) {
+        int odd_idx = 0;
+        for (int i = 0; i < array.size(); ++i) {
+            if (array[i] & 1) {
+                int tmp = array[i];
+                for (int j = i - 1; j >= odd_idx; --j) {
+                    array[j + 1] = array[j];
+                }
+                array[odd_idx++] = tmp;
+            }
+        }
+        return array;
+    }
+};
+
+
+冒泡排序: 遇到偶数在奇数前就交换
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param array int整型vector 
+     * @return int整型vector
+     */
+    vector<int> reOrderArray(vector<int>& array) {
+        for (int i = array.size() - 1; i > 0; --i) {
+            for (int j = 0; j < i; ++j) {
+                if ((array[j] & 1) == 0 && array[j + 1] & 1) {
+                    swap(array[j], array[j + 1]);
+                }
+            }
+        }
+        return array;
+    }
+};
