@@ -4,92 +4,84 @@
 法二：用一个变量curMin记录当前最小值，如果要入栈的元素小于等于curMin，先将curMin入栈，再更新curMin的值；
     弹出时，如果要弹出最小值，先pop()，再更新curMin为栈顶元素，弹出栈顶元素。
 **/
+
 class MinStack {
-private:
-    stack<int> s1, s2;
-    int curMin = INT_MAX;
 public:
-    /** initialize your data structure here. */
     MinStack() {
         
     }
     
-    void push(int x) {
-        s1.push(x);
-        if(x <= curMin)
-        {
-            s2.push(x);
-            curMin = x;
+    void push(int val) {
+        data_.push(val);
+        if (min_.empty() || val <= min_.top()) {
+            min_.push(val);
         }
     }
     
     void pop() {
-        if(s1.top() == curMin)
-        { 
-            s2.pop();
-            if(!s2.empty())
-                curMin = s2.top();
-            else
-                curMin = INT_MAX;
+        if (data_.top() == min_.top()) {
+            min_.pop();
         }
-        s1.pop();
+        data_.pop();
     }
     
     int top() {
-        return s1.top();
+        return data_.top();
+    }
+    
+    int getMin() {
+        return min_.top();
+    }
+private:
+    stack<int> data_;
+    stack<int> min_;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+
+
+class MinStack {
+public:
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if (val <= curMin) {
+            s_.push(curMin);
+            s_.push(val);
+            curMin = val;
+        }
+        else {
+            s_.push(val);
+        }
+    }
+    
+    void pop() {
+        if (s_.top() == curMin) {
+            s_.pop();
+            curMin = s_.top();
+            s_.pop();
+        } else {
+            s_.pop();
+        }
+    }
+    
+    int top() {
+        return s_.top();
     }
     
     int getMin() {
         return curMin;
     }
+private:
+    stack<int> s_;
+    int curMin = INT_MAX;
 };
-
-
-class MinStack {
-
-    private Stack<Integer> s;
-    private int min;
-
-    /** initialize your data structure here. */
-    public MinStack() {
-        s = new Stack<>();
-    }
-    
-    public void push(int x) {
-        if (s.empty()) {
-            min = x;
-        }
-        else if (x <= min) {
-            s.push(min);
-            min = x;
-        }
-        s.push(x);
-    }
-    
-    public void pop() {
-        if (s.peek() == min) {
-            s.pop();
-            if (!s.empty())
-                min = s.peek();
-        }
-        if (!s.empty())
-            s.pop();
-    }
-    
-    public int top() {
-        return s.peek();
-    }
-    
-    public int getMin() {
-        return min;
-    }
-}
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack obj = new MinStack();
- * obj.push(x);
- * obj.pop();
- * int param_3 = obj.top();
- * int param_4 = obj.getMin();
- */
