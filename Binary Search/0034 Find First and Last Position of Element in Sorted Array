@@ -1,3 +1,44 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int l = lowerBound(nums, target);
+        if (l == nums.size() || nums[l] != target) {
+            return {-1, -1};
+        }
+        int u = upperBound(nums, target);
+        return {l, u - 1};
+    }
+
+    int lowerBound(vector<int>& nums, int target) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (target > nums[m]) {
+                l = m + 1;
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;
+    }
+
+    int upperBound(vector<int>& nums, int target) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (target >= nums[m]) {
+                l = m + 1;
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;
+    }
+};
+
+
 先用二分法（左闭右开）找到target的lower_bound。
 	对于下界：
 	1. target > nums[m]: l = m + 1
