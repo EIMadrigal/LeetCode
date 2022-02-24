@@ -1,0 +1,25 @@
+class RangeFreqQuery {
+public:
+    RangeFreqQuery(vector<int>& arr) {
+        for (int i = 0; i < arr.size(); ++i) {
+            index[arr[i]].push_back(i);
+        }
+    }
+    
+    int query(int left, int right, int value) {
+        if (index.find(value) == index.end()) {
+            return 0;
+        }
+        auto l = lower_bound(index[value].begin(), index[value].end(), left);
+        auto r = upper_bound(index[value].begin(), index[value].end(), right);
+        return r - l;
+    }
+    
+    unordered_map<int, vector<int>> index;
+};
+
+/**
+ * Your RangeFreqQuery object will be instantiated and called as such:
+ * RangeFreqQuery* obj = new RangeFreqQuery(arr);
+ * int param_1 = obj->query(left,right,value);
+ */
