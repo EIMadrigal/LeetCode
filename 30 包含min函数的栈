@@ -1,0 +1,75 @@
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+
+    }
+    
+    void push(int x) {
+        dataS.push(x);
+        if (minS.empty() || x <= minS.top()) {
+            minS.push(x);
+        }
+    }
+    
+    void pop() {
+        if (dataS.top() == minS.top()) {
+            minS.pop();
+        }
+        dataS.pop();
+    }
+    
+    int top() {
+        return dataS.top();
+    }
+    
+    int min() {
+        return minS.top();
+    }
+
+    stack<int> dataS, minS;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(x);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->min();
+ */
+ 
+ class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        s.push(curMin);
+    }
+    
+    void push(int x) {
+        if (x <= curMin) {
+            s.push(curMin);
+            curMin = x;
+        }
+        s.push(x);
+    }
+    
+    void pop() {
+        if (s.top() == curMin) {
+            s.pop();
+            curMin = s.top();
+        }
+        s.pop();
+    }
+    
+    int top() {
+        return s.top();
+    }
+    
+    int min() {
+        return curMin;
+    }
+
+    stack<int> s;
+    int curMin = INT_MAX;
+};
