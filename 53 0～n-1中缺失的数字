@@ -1,0 +1,17 @@
+class Solution {
+public:
+    // 定位第一个 i != nums[i] 的位置
+    int missingNumber(vector<int>& nums) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (m == nums[m]) {
+                l = m + 1;
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;
+    }
+};
