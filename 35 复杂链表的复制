@@ -1,0 +1,77 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) {
+            return head;
+        }
+        Node* cur = head;
+        unordered_map<Node*, Node*> m;  // old node -> new node
+        while (cur) {
+            Node* newCur = new Node(cur->val);
+            m[cur] = newCur;
+            cur = cur->next;
+        }
+        cur = head;
+        while (cur) {
+            m[cur]->next = m[cur->next];
+            m[cur]->random = m[cur->random];
+            cur = cur->next;
+        }
+        return m[head];
+    }
+};
+
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) {
+            return nullptr;
+        }
+        Node* cur = head;
+        while (cur) {
+            Node* nxt = cur->next;
+            cur->next = new Node(cur->val);
+            cur->next->next = nxt;
+            cur = cur->next->next;
+        }
+
+        cur = head;
+        while (cur) {
+            Node* nxt = cur->next;
+            if (!cur->random) {
+                nxt->random = nullptr;
+            }
+            else {
+                nxt->random = cur->random->next;
+            }
+            cur = cur->next->next;
+        }
+
+        cur = head;
+        Node* newHead = cur->next;
+        while (cur) {
+            Node* nxt = cur->next;
+            cur->next = nxt->next;
+            if (nxt->next)
+                nxt->next = nxt->next->next;
+            cur = cur->next;
+        }
+        return newHead;
+    }
+};
