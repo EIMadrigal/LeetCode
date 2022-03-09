@@ -1,0 +1,83 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.empty()) {
+            return 0;
+        }
+        int l = lower_bound(nums, target);
+        int r = upper_bound(nums, target);
+        if (l < nums.size() && nums[l] == target)
+            return r - l;
+        else {
+            return 0;
+        }
+    }
+
+    int lower_bound(vector<int>& nums, int target) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] < target) {
+                l = m + 1;
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;
+    }
+
+    int upper_bound(vector<int>& nums, int target) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] <= target) {
+                l = m + 1;
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;    
+    }
+};
+
+
+代码复用
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.empty()) {
+            return 0;
+        }
+        int l = binary(nums, target, true);
+        int r = binary(nums, target, false);
+        if (l < nums.size() && nums[l] == target)
+            return r - l;
+        else {
+            return 0;
+        }
+    }
+
+    int binary(vector<int>& nums, int target, bool lower) {
+        int l = 0, r = nums.size();
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] < target) {
+                l = m + 1;
+            }
+            else if (nums[m] == target) {
+                if (lower) {
+                    r = m;
+                }
+                else {
+                    l = m + 1;
+                }
+            }
+            else {
+                r = m;
+            }
+        }
+        return l;
+    }
+};
