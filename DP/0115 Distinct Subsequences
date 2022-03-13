@@ -1,0 +1,66 @@
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        // 相等：可以选s[i]和t[j]匹配得到dp(i - 1, j - 1), 也可以不选s[i]得到dp(i - 1, j)
+        // dp(i, j) = dp(i - 1, j) + dp(i - 1, j - 1) if s[i] == t[j]
+        // 不相等：s[i]必然不能匹配
+        // dp(i, j) = dp(i - 1, j) if s[i] != t[j]
+        if (t.length() > s.length()) {
+            return 0;
+        }
+        
+        vector<vector<unsigned long long>> dp(s.length(), vector<unsigned long long>(t.length(), 0));
+        if (s[0] == t[0]) {
+            dp[0][0] = 1;
+        }
+        for (int i = 1; i < s.length(); ++i) {
+            dp[i][0] = dp[i - 1][0];
+            if (s[i] == t[0]) {
+                dp[i][0] += 1;
+            }
+        }
+        for (int i = 1; i < s.length(); ++i) {
+            for (int j = 1; j < t.length(); ++j) {
+                if (j > i) {
+                    continue;
+                }
+                dp[i][j] = dp[i - 1][j];
+                if (s[i] == t[j]) {
+                    dp[i][j] += dp[i - 1][j - 1];
+                }
+            }
+        }
+        return dp[s.length() - 1][t.length() - 1];
+    }
+};
+
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.length(), n = t.length();
+        if (n > m) {
+            return 0;
+        }
+        vector<unsigned long long> dp(n, 0);
+        if (s[0] == t[0]) {
+            dp[0] = 1;
+        }
+        
+        for (int i = 1; i < m; ++i) {
+            unsigned long long pre = dp[0];  // pre是上一层的dp[0]
+            dp[0] = t[0] == s[i] ? dp[0] + 1 : dp[0];
+            for (int j = 1; j < n; ++j) {
+                if (j > i) {
+                    continue;
+                }
+                int cur = dp[j];
+                if (s[i] == t[j]) {
+                    dp[j] += pre;
+                }
+                pre = cur;
+            }
+        }
+        return dp[n - 1];
+    }
+};
