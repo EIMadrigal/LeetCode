@@ -33,3 +33,22 @@ class Solution:
             seen[s[j]] = j
             j += 1
         return ans
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int ans = 0;
+        unordered_map<char, int> vis;
+        int i = 0;
+        for (int j = 0; j < s.size(); ++j) {
+            // 没找到或者找到了但在窗口外 i保持不变
+            if (vis.find(s[j]) != vis.end() && vis[s[j]] >= i) {
+                i = vis[s[j]] + 1;
+            }
+            vis[s[j]] = j;
+            ans = max(ans, j - i + 1);
+        }
+        return ans;
+    }
+};
