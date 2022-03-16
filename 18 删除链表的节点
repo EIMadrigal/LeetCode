@@ -20,3 +20,30 @@ class Solution:
                 return dummy.next
             pre = pre.next
         return dummy.next
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteNode(ListNode* head, int val) {
+        ListNode preHead(-1), *dummy = &preHead;
+        dummy->next = head;
+        ListNode* cur = head, *prev = dummy;
+        while (cur) {
+            if (cur->val == val) {
+                prev->next = cur->next;
+                break;
+            }
+            cur = cur->next;
+            prev = prev->next;
+        }
+        return dummy->next;
+    }
+};
