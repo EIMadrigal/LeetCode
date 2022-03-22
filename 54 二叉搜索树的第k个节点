@@ -66,3 +66,39 @@ class Solution:
                 return cur.val
             cur = cur.right
         return -1
+
+第k大
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int ans = -1, kk = 0;
+    int kthLargest(TreeNode* root, int k) {
+        if (!root || k <= 0) {
+            return -1;
+        }
+        kk = k;
+        reverseInorder(root);
+        return ans;
+    }
+
+    void reverseInorder(TreeNode* root) {
+        if (!root || kk == 0) {
+            return;
+        }
+        reverseInorder(root->right);
+        --kk;
+        if (kk == 0) {
+            ans = root->val;
+            return;
+        }
+        reverseInorder(root->left);
+    }
+};
