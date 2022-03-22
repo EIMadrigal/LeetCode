@@ -90,7 +90,7 @@ public:
     }
 
     void reverseInorder(TreeNode* root) {
-        if (!root || kk == 0) {
+        if (!root || kk <= 0) {
             return;
         }
         reverseInorder(root->right);
