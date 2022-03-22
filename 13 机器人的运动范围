@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int movingCount(int m, int n, int k) {
+        vector<vector<bool>> vis(m, vector<bool>(n, false));
+        return dfs(m, n, 0, 0, k, vis);
+    }
+
+    // dfs(i, j)表示刚进入新的地方(i, j)应该采取什么操作 vis无需回溯
+    int dfs(int m, int n, int i, int j, int k, vector<vector<bool>>& vis) {
+        if (i < 0 || j < 0 || i >= m || j >= n || vis[i][j]) {
+            return 0;
+        }
+        if (getSum(i) + getSum(j) > k) {
+            return 0;
+        }
+        vis[i][j] = true;
+        return 1 + dfs(m, n, i + 1, j, k, vis) + dfs(m, n, i, j + 1, k, vis);
+    }
+
+    int getSum(int x) {
+        int ans = 0;
+        while (x) {
+            ans += x % 10;
+            x /= 10;
+        }
+        return ans;
+    }
+};
