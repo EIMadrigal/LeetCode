@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string minNumber(vector<int>& nums) {
+        // 左神贪心
+        vector<string> strs;
+        for (int num : nums) {
+            strs.push_back(to_string(num));
+        }
+        sort(strs.begin(), strs.end(), [](string& a, string& b){return a + b < b + a;});
+        string ans;
+        for (string str : strs) {
+            ans += str;
+        }
+        return ans;
+    }
+};
