@@ -1,0 +1,40 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+
+    }
+    
+    void addNum(int num) {
+        // maxq比minq多一个元素，插入num后要给minq一个元素
+        // 先将num扔到maxq，将maxq的堆顶扔进minq
+        if (maxq.size() > minq.size()) {
+            maxq.push(num);
+            minq.push(maxq.top()); maxq.pop();
+        }
+        else {
+            minq.push(num);
+            maxq.push(minq.top()); minq.pop();
+        }
+    }
+    
+    double findMedian() {
+        if (maxq.size() > minq.size()) {
+            return maxq.top();
+        }
+        else if (minq.size() > maxq.size()) {
+            return minq.top();
+        }
+        return 0.5 * (minq.top() + maxq.top());
+    }
+
+    priority_queue<int, vector<int>, less<int>> maxq;
+    priority_queue<int, vector<int>, greater<int>> minq;
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
