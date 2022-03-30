@@ -1,18 +1,19 @@
 class Solution {
-    public int firstMissingPositive(int[] nums) {
-        // put every legal num into right place
-        for (int i = 0; i < nums.length; ++i) {
-            while (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                int tmp = nums[i];
-                nums[i] = nums[nums[i] - 1];
-                nums[tmp - 1] = tmp;
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        // 缺失的第一个正整数只可能[1, len(nums)]
+        // 原地哈希，使得i位置放 i + 1
+        for (int i = 0; i < nums.size(); ++i) {
+            // 注意条件不能写为 i + 1 != nums[i]  [2, 2]
+            while (nums[i] > 0 && nums[i] <= nums.size() && nums[i] != nums[nums[i] - 1]) {
+                swap(nums[i], nums[nums[i] - 1]);
             }
         }
-        for (int i = 0; i < nums.length; ++i) {
+        for (int i = 0; i < nums.size(); ++i) {
             if (nums[i] != i + 1) {
                 return i + 1;
             }
         }
-        return nums.length + 1;
+        return 1 + nums.size();
     }
-}
+};
