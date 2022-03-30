@@ -5,6 +5,8 @@ public:
         // 原地哈希，使得i位置放 i + 1
         for (int i = 0; i < nums.size(); ++i) {
             // 注意条件不能写为 i + 1 != nums[i]  [2, 2]
+			// 只有在 nums[i] 是 [1, len] 之间的数，并且不在自己应该呆的位置， nums[i] != i + 1 ，
+            // 并且它应该呆的位置没有被同伴占有（即存在重复值占有）nums[nums[i] - 1] != nums[i] 的时候才进行交换
             while (nums[i] > 0 && nums[i] <= nums.size() && nums[i] != nums[nums[i] - 1]) {
                 swap(nums[i], nums[nums[i] - 1]);
             }
