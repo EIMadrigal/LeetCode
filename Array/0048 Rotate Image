@@ -12,3 +12,19 @@ public:
         }
     }
 };
+
+// 旋转左上点A和右下点B构成的每层即可
+void rotateInPlace(vector<vector<int>> &matrix) {
+    int Arow = 0, Acol = 0, Brow = matrix.size() - 1, Bcol = matrix[0].size() - 1;
+    while (Arow < Brow) {
+        // 每层共Brow - Arow组 每组4个数
+        for (int i = 0; i < Brow - Arow; ++i) {
+            int tmp = matrix[Arow][Acol + i];
+            matrix[Arow][Acol + i] = matrix[Brow - i][Acol];
+            matrix[Brow - i][Acol] = matrix[Brow][Bcol - i];
+            matrix[Brow][Bcol - i] = matrix[Arow + i][Bcol];
+            matrix[Arow + i][Bcol] = tmp;
+        }
+        ++Arow, ++Acol, --Brow, --Bcol;
+    }
+}
