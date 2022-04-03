@@ -1,3 +1,4 @@
+按层生成并填充中心点即可
 class Solution:
     def generateMatrix(self, n: int) -> List[List[int]]:
         # 四次循环始终坚持左闭右开
