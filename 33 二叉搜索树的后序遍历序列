@@ -1,0 +1,30 @@
+最后一个结点必然是根，找到第一个比根大的必然是右子树的开始，检查该结点到根的元素是否均大于根，递归判断左右子树 O(nlgn)
+
+class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        int n = postorder.size();
+        return verifyPostorder(postorder, 0, n - 1);
+    }
+
+    bool verifyPostorder(vector<int>& postorder, int l, int r) {
+        if (l >= r) {
+            return true;
+        }
+        int root = postorder[r];
+        int i;
+        for (i = l; i < r; ++i) {
+            if (postorder[i] > root) {
+                break;
+            }
+        }
+        for (int j = i; j < r; ++j) {
+            if (postorder[j] <= root) {
+                return false;
+            }
+        }
+        return verifyPostorder(postorder, l, i - 1) && verifyPostorder(postorder, i, r - 1);
+    }
+};
+
+单调栈，后序逆序是根右左，从根向右找第一个小于根的结点，该点向后应该都小于根
