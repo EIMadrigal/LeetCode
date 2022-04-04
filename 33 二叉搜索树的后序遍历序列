@@ -28,3 +28,25 @@ public:
 };
 
 单调栈，后序逆序是根右左，从根向右找第一个小于根的结点，该点向后应该都小于根
+class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        stack<int> s;
+        int n = postorder.size() - 1;
+        int parent = INT_MAX;
+        // 根右左
+        for (int i = n; i >= 0; --i) {
+            // 当前结点小于栈顶，即构成了逆序
+            // 当前结点是前面某个结点的左孩子，不断弹出右子树找到该父结点
+            while (!s.empty() && postorder[i] < s.top()) {
+                parent = s.top(); s.pop();
+            }
+            // 左孩子大于父结点
+            if (postorder[i] > parent) {
+                return false;
+            }
+            s.push(postorder[i]);
+        }
+        return true;
+    }
+};
