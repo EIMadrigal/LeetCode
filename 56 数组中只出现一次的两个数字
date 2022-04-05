@@ -22,3 +22,25 @@ class Solution:
                 ans[1] ^= num
         ans.sort()
         return ans
+
+一个数字出现了1次，其它均出现了3次，找出1次的数字
+出现3次的数其所有位上1的数目模3必为0
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        vector<int> bits(32, 0);
+        for (int num : nums) {
+            for (int i = 0; i < 32; ++i) {
+                bits[i] += num >> i & 1;
+            }
+        }
+
+        int ans = 0;
+        for (int i = 0; i < 32; ++i) {
+            if (bits[i] % 3) {
+                ans += 1 << i;
+            }
+        }
+        return ans;
+    }
+};
