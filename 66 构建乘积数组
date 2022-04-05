@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> constructArr(vector<int>& a) {
+        // [a b c d e]
+        // [1 a ab abc abcd] after first traversal
+        // [bcde acde abde abce abcd] after second traversal
+        vector<int> b(a.size(), 1);
+        for (int i = 1; i < a.size(); ++i) {
+            b[i] = b[i - 1] * a[i - 1];
+        }
+        int tmp = 1;
+        for (int i = a.size() - 1; i >= 0; --i) {
+            b[i] *= tmp;
+            tmp *= a[i];
+        }
+        return b;
+    }
+};
