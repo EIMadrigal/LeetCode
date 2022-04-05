@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int add(int a, int b) {
+        while (b) {
+            // left shift of negative value is undefined
+            // convert to unsigned int and then convert to int
+            int carry = (unsigned int)(a & b) << 1;
+            a ^= b;  // 无进位加法
+            b = carry;
+        }
+        return a;
+    }
+};
