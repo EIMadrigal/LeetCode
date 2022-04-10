@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        // 3个数组合并为1个有序数组
+        vector<int> ans{1};
+        int i = 0, j = 0, k = 0;
+        while (ans.size() < n) {
+            int n2 = ans[i] * 2, n3 = ans[j] * 3, n5 = ans[k] * 5;
+            int cur = min(n2, min(n3, n5));
+            ans.push_back(cur);
+            if (cur == n2) ++i;
+            if (cur == n3) ++j;  // 不能用else if, 遇到重复值多个指针同时跳
+            if (cur == n5) ++k;
+        }
+        return ans[n - 1];
+    }
+};
