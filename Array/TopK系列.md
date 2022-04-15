@@ -1,3 +1,5 @@
+## 215 数组中的第K个最大元素
+```cpp
 // partition
 class Solution {
 public:
@@ -30,7 +32,6 @@ private:
     }
 };
 
-
 // priority_queue
 class Solution {
 public:
@@ -41,13 +42,4 @@ public:
         return q.top();
     }
 };
-
-
-// sort
-class Solution {
-public:
-    int findKthLargest(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end());
-        return nums[nums.size() - k];
-    }
-};
+```
