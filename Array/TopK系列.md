@@ -1,45 +1,52 @@
 ## 215 数组中的第K个最大元素
 ```cpp
-// partition
+// quick select O(n) O(1)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        int l = 0, r = nums.size() - 1;
-	    while (true) {
-		    int pivotPos = partition(nums, l, r);
-		    if (k - 1 == pivotPos)
-			    return nums[pivotPos];
-		    if (k - 1 < pivotPos)
+        int l = 0, r = nums.size() - 1, target = nums.size() - k;
+        while (l < r) {
+            int pivotPos = partition(nums, l, r);
+            if (pivotPos == target) {
+                return nums[pivotPos];
+            }
+            if (pivotPos < target) {
+                l = pivotPos + 1;
+            }
+            else {
                 r = pivotPos - 1;
-		    else
-			    l = pivotPos + 1;
-	    }  
+            }
+        }
+        return nums[l];
     }
 private:
-    int partition(vector<int>& nums, int low, int high) {
-        int pivot = nums[low];
-        
-        while(low < high) {
-            while(low < high && nums[high] <= pivot)
-                --high;
-            nums[low] = nums[high];
-            while(low < high && nums[low] >= pivot)
-                ++low;
-            nums[high] = nums[low];
+    int partition(vector<int>& nums, int l, int r) {
+        srand(time(nullptr));
+        int idx = l + rand() % (r - l + 1);
+        swap(nums[idx], nums[r]);
+        int smallIdx = l - 1;
+        for (int i = l; i < r; ++i) {
+            if (nums[i] < nums[r]) {
+                swap(nums[i], nums[++smallIdx]);
+            }
         }
-        nums[low] = pivot;
-        return low;
+        swap(nums[r], nums[++smallIdx]);
+        return smallIdx;
     }
 };
 
-// priority_queue
+// min heap O(nlogk) O(k)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int> q(nums.begin(), nums.end());
-        while(--k)
-            q.pop();
-        return q.top();
+        priority_queue<int, vector<int>, greater<int>> heap(nums.begin(), nums.begin() + k);
+        for (int i = k; i < nums.size(); ++i) {
+            if (nums[i] > heap.top()) {
+                heap.pop();
+                heap.push(nums[i]);
+            }
+        }
+        return heap.top();
     }
 };
 ```
