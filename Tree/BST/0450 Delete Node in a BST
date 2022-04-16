@@ -1,49 +1,33 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
-        # case 1: leaf node, just delete it  
-        # case 2: just have one child, use child replace it
-        # case 3: have two children, find its direct successor and let successor points to root's left
-        #         let root's right replace root and delete original root
-        
-        if not root:
-            return root
-        
-        if key == root.val:
-            # case 1
-            if not root.left and not root.right:
-                del root
-                return None
-            
-            # case 2
-            if not root.left and root.right:
-                tmp = root.right
-                del root
-                return tmp
-            if root.left and not root.right:
-                tmp = root.left
-                del root
-                return tmp
-        
-            # case 3
-            successor = root.right
-            
-            while successor.left:
-                successor = successor.left
-            
-            successor.left = root.left
-            tmp = root.right
-            del root
-            return tmp
-        
-        if key < root.val:
-            root.left = self.deleteNode(root.left, key)
-        else:
-            root.right = self.deleteNode(root.right, key)
-        
-        return root
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+ # case 1: 没有左孩子, 右孩子顶替 
+ # case 2: 没有右孩子, 左孩子顶替
+ # case 3: 左右孩子都有, 左孩子接到右子树最左节点的左子树, 右子树顶替该节点
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (!root) return root;
+        if (key < root->val) root->left = deleteNode(root->left, key);
+        else if (key > root->val) root->right = deleteNode(root->right, key);
+        else {
+            if (!root->left) return root->right;
+            if (!root->right) return root->left;
+            TreeNode* leftMost = root->right;
+            while (leftMost->left) {
+                leftMost = leftMost->left;
+            }
+            leftMost->left = root->left;
+            root = root->right;
+        }
+        return root;
+    }
+};
