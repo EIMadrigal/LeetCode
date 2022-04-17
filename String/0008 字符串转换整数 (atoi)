@@ -1,0 +1,46 @@
+直接怼字符串就死定了...
+
+class Automaton {
+private:
+    string state = "start";
+    unordered_map<string, vector<string>> table = {
+        {"start", {"start", "signed", "number", "end"}},
+        {"signed", {"end", "end", "number", "end"}},
+        {"number", {"end", "end", "number", "end"}},
+        {"end", {"end", "end", "end", "end"}}
+    };
+
+    int getCol(char c) {
+        if (isspace(c)) return 0;
+        if (c == '+' or c == '-') return 1;
+        if (isdigit(c)) return 2;
+        return 3;
+    }
+public:
+    int sign = 1;
+    long long ans = 0;
+    void get(char c) {
+        state = table[state][getCol(c)];
+        if (state == "number") {
+            ans = ans * 10 + c - '0';
+            if (sign == 1) {
+                ans = min(ans, (long long)INT_MAX);
+            }
+            else {
+                ans = min(ans, -(long long)INT_MIN);
+            }
+        }
+        else if (state == "signed")
+            sign = c == '+' ? 1 : -1;
+    }
+};
+
+class Solution {
+public:
+    int myAtoi(string s) {
+        Automaton automaton;
+        for (char c : s)
+            automaton.get(c);
+        return automaton.sign * automaton.ans;
+    }
+};
