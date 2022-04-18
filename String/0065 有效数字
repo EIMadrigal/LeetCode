@@ -1,1 +1,87 @@
+class Solution {
+public:
+    enum states {
+        s0 = 0, s1 = 1, s2 = 2, s3 = 3, s4 = 4, s5 = 5, s6 = 6, s7 = 7, s8 = 8
+    };
 
+    bool isNumber(string s) {
+        int n = s.length(), state = s0;
+        for (int i = 0; i < n; ++i) {
+            switch (state) {
+                case s0:
+                    if (s[i] == '+' || s[i] == '-')
+                        state = s1;
+                    else if (isdigit(s[i]))
+                        state = s2;
+                    else if (s[i] == '.')
+                        state = s4;
+                    else
+                        return false;
+                    break;
+                case s1:
+                    if (isdigit(s[i]))
+                        state = s2;
+                    else if (s[i] == '.')
+                        state = s4;
+                    else
+                        return false;
+                    break;
+                case s2:
+                    if (isdigit(s[i]))
+                        state = s2;
+                    else if (s[i] == '.')
+                        state = s3;
+                    else if (s[i] == 'e' || s[i] == 'E')
+                        state = s6;
+                    else
+                        return false;
+                    break;
+                case s3:
+                    if (isdigit(s[i]))
+                        state = s5;
+                    else if (s[i] == 'e' || s[i] == 'E')
+                        state = s6;
+                    else
+                        return false;
+                    break;
+                case s4:
+                    if (isdigit(s[i]))
+                        state = s5;
+                    else
+                        return false;
+                    break;
+                case s5:
+                    if (isdigit(s[i]))
+                        state = s5;
+                    else if (s[i] == 'e' || s[i] == 'E')
+                        state = s6;
+                    else
+                        return false;
+                    break;
+                case s6:
+                    if (isdigit(s[i]))
+                        state = s8;
+                    else if (s[i] == '+' || s[i] == '-')
+                        state = s7;
+                    else
+                        return false;
+                    break;
+                case s7:
+                    if (isdigit(s[i]))
+                        state = s8;
+                    else
+                        return false;
+                    break;
+                case s8:
+                    if (isdigit(s[i]))
+                        state = s8;
+                    else
+                        return false;
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return state == s2 || state == s3 || state == s5 || state == s8;
+    }
+};
