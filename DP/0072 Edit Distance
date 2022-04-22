@@ -1,8 +1,8 @@
 // if word1[i] == word2[j], dp(i, j) = dp(i - 1, j - 1)
 // else we have 3 ops, dp(i, j) = 1 + min(dp(i - 1, j - 1), dp(i - 1, j), dp(i, j - 1))
-// replace: dp(i, j) = 1 + dp(i - 1, j - 1)
-// delete: dp(i, j) = 1 + dp(i - 1, j)
-// insert: dp(i, j) = 1 + dp(i, j - 1)
+// replace word1[i] word2[j]: dp(i, j) = 1 + dp(i - 1, j - 1)
+// insert at word1[i] is the same as delete at word2[j]: dp(i, j) = 1 + dp(i - 1, j)
+// insert at word2[j] is the same as delete at word1[i]: dp(i, j) = 1 + dp(i, j - 1)
 
 class Solution {
     public int minDistance(String word1, String word2) {
