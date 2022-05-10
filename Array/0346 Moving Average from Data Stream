@@ -1,0 +1,24 @@
+```java
+class MovingAverage {
+  int[] nums;
+  int size_;
+  int cnt;
+  int i;
+  
+  public MovingAverage(int size) {
+    size_ = size;
+    cnt = 0;
+    nums = new int[size_];
+    i = 0;
+  }
+  
+  public double next(int val) {
+    s -= nums[i];
+    nums[i++] = val;
+    if (i == size_) i = 0;
+    s += val;
+    cnt = cnt == size_ ? cnt : cnt + 1;
+    return 1.0 * s / cnt;
+  }
+}
+```
