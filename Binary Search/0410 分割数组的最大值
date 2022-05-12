@@ -1,0 +1,19 @@
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        
+        memo = {}
+        def dfs(m, start):
+            if m == 1:
+                return sum(nums[start:])
+            if (m, start) in memo:
+                return memo[(m, start)]
+            
+            res, curSum = float('inf'), 0
+            for i in range(start, len(nums) - m + 1):
+                curSum += nums[i]
+                maxSum = max(curSum, dfs(m - 1, i + 1))
+                res = min(res, maxSum)
+            memo[(m, start)] = res
+            return res
+    
+        return dfs(m, 0)
