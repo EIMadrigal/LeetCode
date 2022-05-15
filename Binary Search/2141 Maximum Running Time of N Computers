@@ -9,3 +9,23 @@ class Solution:
             else:
                 r = mid
         return l - 1
+
+class Solution {
+public:
+    long long maxRunTime(int n, vector<int>& batteries) {
+        long long l = 0, r = 1 + accumulate(batteries.begin(), batteries.end(), 0LL) / n;
+        while (l < r) {
+            long long m = l + (r - l) / 2;
+            long long s = 0;
+            for (int battery : batteries) {
+                s += min(static_cast<long long>(battery), m);
+            }
+            if (s >= n * m) {
+                l = m + 1;
+            } else {
+                r = m;
+            }
+        }
+        return l - 1;
+    }
+};
