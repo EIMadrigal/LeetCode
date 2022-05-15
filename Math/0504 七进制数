@@ -1,0 +1,14 @@
+class Solution {
+public:
+    string convertToBase7(int num) {
+        if (!num) return "0";
+        bool isNegative = num < 0;
+        if (isNegative) num = -num;
+        string res;
+        while (num) {
+            res = to_string(num % 7) + res;
+            num /= 7;
+        }
+        return isNegative ? "-" + res : res;
+    }
+};
