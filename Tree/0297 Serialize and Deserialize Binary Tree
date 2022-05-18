@@ -9,42 +9,28 @@
  */
 class Codec {
 public:
-
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        // preorder traversal
-        ostringstream out;
-        serialize(root, out);
-        return out.str();
+        if (!root) return "#";
+        return to_string(root->val) + " " + serialize(root->left)
+                + " " + serialize(root->right);
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        istringstream in(data);
-        return deserialize(in);
+        istringstream d(data);
+        return deserialize(d);
     }
-private:
-    void serialize(TreeNode* root, ostringstream& out) {
-        if(!root) {
-            out << "# ";
-            return;
-        }
-        
-        out << root->val << ' ';
-        serialize(root->left, out);
-        serialize(root->right, out);
-    }
-    
-    TreeNode* deserialize(istringstream& in) {
+
+    TreeNode* deserialize(istringstream& data) {
         string cur;
-        in >> cur;
-        if(cur == "#") {
-            return nullptr;;
-        }
-        
-        TreeNode* root = new TreeNode(stoi(cur));
-        root->left = deserialize(in);
-        root->right = deserialize(in);
+        data >> cur;
+        if (cur == "#")
+            return nullptr;
+        int val = stoi(cur);
+        TreeNode* root = new TreeNode(val);
+        root->left = deserialize(data);
+        root->right = deserialize(data);
         return root;
     }
 };
