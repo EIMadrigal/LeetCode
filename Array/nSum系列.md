@@ -11,8 +11,21 @@ class Solution:
 ```
 
 ## 167 两数之和 II - 输入有序数组
+双指针一定会收敛到最优解[l,r]
 ```cpp
-
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int l = 0, r = numbers.size() - 1;
+        while (l < r) {
+            int s = numbers[l] + numbers[r];
+            if (s == target) return {l + 1, r + 1};
+            if (s < target) ++l;
+            else --r;
+        }
+        return {-1, -1};
+    }
+};
 ```
 
 ## 170 Two Sum III - Data structure design
