@@ -59,3 +59,21 @@ class Solution {
     }
 }
 ```
+
+## 633 平方数之和
+```cpp
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        int l = 0, r = sqrt(c);
+        while (l <= r) {
+            if (l * l == c - r * r) return true;
+            if (l * l < c - r * r) ++l;
+            else --r;
+        }
+        return false;
+    }
+};
+```
+
+## 
