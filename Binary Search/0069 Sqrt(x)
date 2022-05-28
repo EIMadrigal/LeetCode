@@ -1,13 +1,11 @@
-要寻找满足t * t <= x的最大的t
-用二分法转换为互补的t * t > x，就可以用lower_bound/upper_bound求解，最后的index - 1即为答案
-upper_bound在等于时要尽量将l右移
+要寻找满足t * t <= x的最大的t, 即第一个t * t > x的t
 
 class Solution:
     def mySqrt(self, x: int) -> int:
         l, r = 0, x + 1
         while l < r:
             m = (l + r) // 2
-            if x >= m * m:
+            if m * m <= x:
                 l = m + 1
             else:
                 r = m
@@ -20,7 +18,7 @@ public:
     int mySqrt(int x) {
         const double epsilon = 1e-2;
         double ans = x;
-        while(ans * ans - x > epsilon)
+        while (ans * ans - x > epsilon)
             ans = (ans + x / ans) / 2.0;
         return ans;
     }
