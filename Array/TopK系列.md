@@ -132,3 +132,28 @@ public:
     }
 };
 ```
+
+## 451 根据字符出现频率排序
+```cpp
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> counts;
+        int maxCount = 0;
+        for (const char& c : s) {
+            maxCount = max(maxCount, ++counts[c]);
+        }
+        vector<vector<char>> buckets(maxCount + 1);
+        for (const auto& p : counts) {
+            buckets[p.second].push_back(p.first);
+        }
+        string res = "";
+        for (int i = maxCount; i >= 0; --i) {
+            for (const char& c : buckets[i]) {
+                res += string(i, c);
+            }
+        }
+        return res;
+    }
+};
+```
