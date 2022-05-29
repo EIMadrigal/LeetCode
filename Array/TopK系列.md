@@ -53,13 +53,6 @@ public:
 
 ## 347 前K个高频元素
 ```python
-O(nlgn) O(n)
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        cnt = collections.Counter(nums)
-        return [item[0] for item in cnt.most_common(k)]
-
-
 维护k个元素的小顶堆 O(nlgk) O(n)
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
@@ -74,7 +67,7 @@ class Solution:
         return [item[1] for item in heap]
 
 
-基于快排partition O(n) O(n)
+# 基于快排partition O(n) O(n)
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         cnt = list(collections.Counter(nums).items())
@@ -102,7 +95,7 @@ class Solution:
         return [item[0] for item in cnt[:k]]
         
         
-桶排序：对于每种可能的频率1-n创建list O(n) O(n)
+# 桶排序：对于每种可能的频率1-n创建list O(n) O(n)
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         buckets = [[] for _ in range(1 + len(nums))]
