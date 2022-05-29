@@ -105,3 +105,30 @@ class Solution:
         flat = list(itertools.chain(*buckets))
         return flat[::-1][:k]
 ```
+
+```cpp
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> counts;
+        int maxCount = 0;
+        for (const int& num : nums) {
+            maxCount = max(maxCount, ++counts[num]);
+        }
+        vector<vector<int>> buckets(maxCount + 1);
+        for (const auto& p : counts) {
+            buckets[p.second].push_back(p.first);
+        }
+        vector<int> res;
+        for (int i = maxCount; i >= 0 && res.size() < k; --i) {
+            for (const int& num : buckets[i]) {
+                res.push_back(num);
+                if (res.size() == k) {
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+};
+```
