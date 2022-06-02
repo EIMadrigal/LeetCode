@@ -1,0 +1,71 @@
+```cpp
+class Solution {
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> dict;
+        for (const string& s : wordList) {
+            dict.insert(s);
+        }
+        if (!dict.count(endWord)) {
+            return {};
+        }
+        dict.erase(beginWord);
+        dict.erase(endWord);
+        unordered_set<string> q1{beginWord}, q2{endWord}, tmp;
+        unordered_map<string, vector<string>> children;
+        bool found = false, reversed = false;
+        while (!q1.empty() && !q2.empty()) {
+            if (q1.size() > q2.size()) {
+                reversed = !reversed;
+                swap(q1, q2);
+            }
+            tmp.clear();
+            for (auto word : q1) {
+                string original = word;
+                for (int i = 0; i < word.size(); ++i) {
+                    char cur = word[i];
+                    for (char j = 'a'; j <= 'z'; ++j) {
+                        word[i] = j;
+                        if (q2.find(word) != q2.end()) {
+                            reversed ? children[word].push_back(original) : children[original].push_back(word);
+                            found = true;
+                        }
+                        if (dict.find(word) != dict.end()) {
+                            // dict.erase(word);  bug here
+                            tmp.insert(word);
+                            reversed ? children[word].push_back(original) : children[original].push_back(word);
+                        }
+                    }
+                    word[i] = cur;
+                }
+            }
+            if (found) {
+                break;
+            }
+            for (auto w : tmp) {
+                dict.erase(w);
+            }
+            swap(q1, tmp);
+        }
+
+        vector<vector<string>> res;
+        if (found) {
+            vector<string> cur{beginWord};
+            dfs(beginWord, endWord, children, cur, res);
+        }
+        return res;
+    }
+
+    void dfs(const string& s, const string& e, unordered_map<string, vector<string>>& children, vector<string>& cur, vector<vector<string>>& res) {
+        if (s == e) {
+            res.push_back(cur);
+            return;
+        }
+        for (const string& child : children[s]) {
+            cur.push_back(child);
+            dfs(child, e, children, cur, res);
+            cur.pop_back();
+        }
+    }
+};
+```
