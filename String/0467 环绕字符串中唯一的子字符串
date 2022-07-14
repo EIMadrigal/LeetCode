@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findSubstringInWraproundString(string p) {
+        if (p.empty()) {
+            return 0;
+        }
+        unordered_map<char, int> cnt;  // 以c结尾的连续子串最长长度
+        cnt[p[0]]++;
+        int len = 1;
+        for (int i = 1; i < p.size(); ++i) {
+            if ((p[i - 1] == 'z' && p[i] == 'a') || p[i - 1] + 1 == p[i]) {
+                ++len;
+            } else {
+                len = 1;
+            }
+            cnt[p[i]] = max(cnt[p[i]], len);
+        }
+        int res = 0;
+        for (auto& [k, v] : cnt) {
+            res += v;
+        }
+        return res;
+    }
+};
