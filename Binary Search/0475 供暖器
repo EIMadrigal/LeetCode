@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        sort(houses.begin(), houses.end());
+        sort(heaters.begin(), heaters.end());
+        int res = 0, j = 0;
+        for (int i = 0; i < houses.size(); ++i) {
+            int radius = abs(houses[i] - heaters[j]);
+            while (j < heaters.size() && abs(houses[i] - heaters[j]) <= radius) {
+                radius = min(radius, abs(houses[i] - heaters[j]));
+                ++j;
+            }
+            j--;  // j位置是对应i最优的加热器
+            res = max(res, radius);
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        sort(houses.begin(), houses.end());
+        sort(heaters.begin(), heaters.end());
+
+        int l = 0, r = 1e9;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (check(houses, heaters, m)) {
+                r = m;
+            } else {
+                l = m + 1;
+            }
+        }
+        return l;
+    }
+
+    bool check(vector<int>& houses, vector<int>& heaters, int radius) {
+        int j = 0;
+        for (int i = 0; i < houses.size(); ++i) {
+            if (abs(houses[i] - heaters[j]) <= radius) {
+                continue;
+            }
+            while (j < heaters.size() && abs(houses[i] - heaters[j]) > radius) {
+                ++j;
+            }
+            if (j >= heaters.size()) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
