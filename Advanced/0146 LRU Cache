@@ -86,6 +86,70 @@ private:
     list<pair<int, int>> l;
 };
 
+class LRUCache {
+public:
+
+    struct Node {
+        int key, val;
+        Node *prev, *next;
+        Node() : key(-1), val(-1), prev(nullptr), next(nullptr) {}
+        Node(int key, int val) : key(key), val(val), prev(nullptr), next(nullptr) {}
+    };
+
+    LRUCache(int capacity) : capacity(capacity) {
+        head = new Node(), tail = new Node();
+        head->next = tail, tail->prev = head;
+    }
+    
+    int get(int key) {
+        auto it = m.find(key);
+        if (it == m.end()) {
+            return -1;
+        }
+        Node* node = it->second;
+        del(node);
+        insert(node);
+        return node->val;
+    }
+    
+    void put(int key, int value) {
+        auto it = m.find(key);
+        if (it == m.end()) {
+            if (m.size() == capacity) {
+                Node* r = tail->prev;
+                m.erase(r->key);
+                del(r);
+                delete r;
+            }
+            Node* node = new Node(key, value);
+            insert(node);
+            m[key] = node;
+        }
+        else {
+            Node* node = it->second;
+            node->val = value;
+            del(node);
+            insert(node);
+        }
+    }
+
+    void del(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+
+    void insert(Node* node) {
+        node->prev = head;
+        node->next = head->next;
+        head->next = node;
+        node->next->prev = node;
+    }
+
+    int capacity;
+    unordered_map<int, Node*> m;
+    Node *head, *tail;
+};
+
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache* obj = new LRUCache(capacity);
