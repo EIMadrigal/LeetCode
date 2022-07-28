@@ -1,3 +1,4 @@
+```cpp
 class Skiplist {
 private:
     struct Node {
@@ -8,9 +9,9 @@ private:
     };
 
     Node *head, *tail;
-    int level, len;
+    int level;
     
-    // 在level[0]找到第一个大于等于target的节点
+    // 在level[0]找到小于target的最大节点
     Node *find(int target) {
         Node *p = head;
         for (int i = level - 1; i >= 0; --i) {
@@ -40,7 +41,6 @@ public:
         }
 
         level = 0;
-        len = 0;
     }
 
     bool search(int target) {
@@ -62,7 +62,7 @@ public:
         if (lv > level) {
             ++level;
             lv = level;
-            prev[lv - 1] = head;
+            prev[level - 1] = head;
         }
 
         Node *newNode = new Node(num, lv);
@@ -71,7 +71,6 @@ public:
             newNode->level[i] = p->level[i];
             p->level[i] = newNode;
         }
-        ++len;
     }
     
     bool erase(int num) {
@@ -95,7 +94,6 @@ public:
         while (level > 0 && head->level[level - 1] == tail) {
             --level;
         }
-        --len;
         return true;
     }
 };
@@ -107,3 +105,4 @@ public:
  * obj->add(num);
  * bool param_3 = obj->erase(num);
  */
+```
