@@ -19,7 +19,7 @@ public:
 };
 
 
-找规律从最后一轮反推初始时存活人的index：(当前index + m) % 上轮存活数字个数
+找规律从最后一轮反推初始时存活人的index：(当前index + m) % 上轮存活数字个数，将上一轮杀死的人补到最后，右移m并取模
 class Solution {
 public:
     int lastRemaining(int n, int m) {
