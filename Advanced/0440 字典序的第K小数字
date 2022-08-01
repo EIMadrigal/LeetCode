@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int findKthNumber(int n, int k) {
+        long cur = 1;
+        while (k > 1) {
+            long count = getCount(cur, n);
+            // 以cur开头的合法节点数不足, cur向右走, cur++
+            if (count < k) {
+                cur++;
+                k -= count;
+            } else {  // 以cur开头的合法节点数足够, cur向下走, cur *= 10
+                cur *= 10;
+                k--;
+            }
+        }
+        return cur;
+    }
+
+    // 以cur开头且小于等于n的数字个数
+    long getCount(long cur, long n) {
+        long res = 0;
+        long next = cur + 1;  // cur右边的数
+        while (cur <= n) {
+            // 当n不在cur层, 该层有效节点数next - cur
+            // 当n在cur层, 该层有效节点数只有部分n - cur + 1
+            res += min(next - cur, n - cur + 1);
+            cur *= 10, next *= 10;  // 均向下计算
+        }
+        return res;
+    }
+};
