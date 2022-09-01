@@ -51,6 +51,81 @@ public:
 };
 ```
 
+## 剑指40 最小的k个数
+```cpp
+// 堆 O(nlgk)
+class Solution {
+public:
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        if (arr.empty() || k <= 0) {
+            return {};
+        }
+        priority_queue<int, vector<int>> maxq;
+        for (int i = 0; i < arr.size(); ++i) {
+            if (i < k) {
+                maxq.push(arr[i]);
+            }
+            else if (arr[i] < maxq.top()) {
+                maxq.pop();
+                maxq.push(arr[i]);
+            }
+        }
+        vector<int> ans;
+        while (!maxq.empty()) {
+            ans.push_back(maxq.top());
+            maxq.pop();
+        }
+        return ans;
+    }
+};
+
+// partition O(n)
+class Solution {
+public:
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        if (arr.empty() || k <= 0) {
+            return {};
+        }
+        vector<int> ans;
+        getLeastNumbers(arr, 0, arr.size() - 1, k);
+        for (int i = 0; i < k; ++i) {
+            ans.push_back(arr[i]);
+        }
+        return ans;
+    }
+
+    void getLeastNumbers(vector<int>& arr, int l, int r, int k) {
+        if (l > r || k <= 0) {
+            return;
+        }
+        int pivotIdx = partition(arr, l, r);
+        if (pivotIdx + 1 - l == k) {  // 个数k与索引pivotIdx不同！！！
+            return;
+        }
+        else if (pivotIdx + 1 - l < k) {
+            getLeastNumbers(arr, pivotIdx + 1, r, k - (pivotIdx + 1 - l));
+        }
+        else {
+            getLeastNumbers(arr, l, pivotIdx - 1, k);
+        }
+    }
+
+    int partition(vector<int>& nums, int l, int r) {
+        srand(time(nullptr));
+        int pivotIdx = l + rand() % (r - l + 1);
+        swap(nums[pivotIdx], nums[r]);
+        int smallIdx = l - 1;
+        for (int i = l; i < r; ++i) {
+            if (nums[i] <= nums[r]) {
+                swap(nums[++smallIdx], nums[i]);
+            }
+        }
+        swap(nums[++smallIdx], nums[r]);
+        return smallIdx;
+    }
+};
+```
+
 ## 347 前K个高频元素
 ```python
 维护k个元素的小顶堆 O(nlgk) O(n)
