@@ -101,7 +101,7 @@ public:
         if (pivotIdx - l + 1 == k) {  // 个数k与索引pivotIdx不同！！！
             return;
         } else if (pivotIdx - l + 1 < k) {
-            getLeastNumbers(arr, pivotIdx + 1, r, k - (pivotIdx + 1 - l));
+            getLeastNumbers(arr, pivotIdx + 1, r, k - (pivotIdx - l + 1));
         } else {
             getLeastNumbers(arr, l, pivotIdx - 1, k);
         }
