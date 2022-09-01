@@ -64,8 +64,7 @@ public:
         for (int i = 0; i < arr.size(); ++i) {
             if (i < k) {
                 maxq.push(arr[i]);
-            }
-            else if (arr[i] < maxq.top()) {
+            } else if (arr[i] < maxq.top()) {
                 maxq.pop();
                 maxq.push(arr[i]);
             }
