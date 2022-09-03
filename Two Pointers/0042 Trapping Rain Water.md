@@ -1,6 +1,6 @@
-京东一面没做出来。。。我是傻逼
-```cpp
+京东一面没做出来。。。我是傻逼  
 暴力
+```cpp
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -19,9 +19,10 @@ public:
         return ans;
     }
 };
-
+```
 
 提前计算每个格子左边的最大值和右边的最大值
+```cpp
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -51,13 +52,13 @@ public:
         return ans;
     }
 };
+```
 
-
-单调栈
-# 找右侧第一个比nums[i]大的作为右墙，左墙就是弹出当前元素cur后的栈顶元素
-# 遇到右墙就清算其和左墙间所有的蓄水面积，i必然比cur大但是不一定比s.top()大所以取min
-# 注意底部宽度不是i - cur而是i - s.top() - 1，比如[4,2,0,3,2,5]的最后一个宽度是4而非2
-
+单调栈  
+找右侧第一个比nums[i]大的作为右墙，左墙就是弹出当前元素cur后的栈顶元素  
+遇到右墙就清算其和左墙间所有的蓄水面积，i必然比cur大但是不一定比s.top()大所以取min  
+注意底部宽度不是i - cur而是i - s.top() - 1，比如[4,2,0,3,2,5]的最后一个宽度是4而非2
+```python
 class Solution:
     def trap(self, height: List[int]) -> int:
         ans = 0
@@ -73,10 +74,10 @@ class Solution:
                 ans += width * heigh
             stack.append(i)
         return ans
+```
 
-
-双指针
-max_left和max_right哪个小就可以结算哪边的水量, 相等时结算任意一边均可
+双指针: max_left和max_right哪个小就可以结算哪边的水量, 相等时结算任意一边均可
+```cpp
 class Solution {
 public:
     int trap(vector<int>& height) {
