@@ -88,6 +88,7 @@ public:
         }
     }
 
+    // get也要删除, 因此不能用tail
     void del(Node* node) {
         node->prev->next = node->next;
         node->next->prev = node->prev;
