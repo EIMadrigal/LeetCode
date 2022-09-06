@@ -51,6 +51,41 @@ public:
         return heap.top();
     }
 };
+
+// heap insert建小根堆
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        for (int i = 0; i < k; ++i) {
+            heapInsert(nums, i);
+        }
+        for (int i = k; i < nums.size(); ++i) {
+            if (nums[i] > nums[0]) {
+                swap(nums[0], nums[i]);
+                heapify(nums, 0, k - 1);
+            }
+        }
+        return nums[0];
+    }
+    
+    void heapInsert(vector<int>& nums, int i) {
+        while (nums[i] < nums[(i - 1) / 2]) {
+            swap(nums[i], nums[(i - 1) / 2]);
+            i = (i - 1) / 2;
+        }
+    }
+    
+    void heapify(vector<int>& nums, int l, int r) {
+        if (l >= r) return;
+        int minIdx = l, left = 2 * l + 1, right = 2 * l + 2;
+        if (left <= r && nums[left] < nums[minIdx]) minIdx = left;
+        if (right <= r && nums[right] < nums[minIdx]) minIdx = right;
+        if (minIdx != l) {
+            swap(nums[minIdx], nums[l]);
+            heapify(nums, minIdx, r);
+        }
+    }
+};
 ```
 
 ## 剑指40 最小的k个数
