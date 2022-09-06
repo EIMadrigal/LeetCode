@@ -4,36 +4,38 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        int l = 0, r = nums.size() - 1, target = nums.size() - k;
-        while (l < r) {
-            int pivotPos = partition(nums, l, r);
-            if (pivotPos == target) {
-                return nums[pivotPos];
-            }
-            if (pivotPos < target) {
-                l = pivotPos + 1;
-            }
-            else {
-                r = pivotPos - 1;
-            }
-        }
-        return nums[l];
+        int n = nums.size();
+        findKthLargest(nums, n - k, 0, n - 1);
+        return nums[n - k];
     }
-private:
+    
+    void findKthLargest(vector<int>& nums, int k, int l, int r) {
+        int pivotPos = partition(nums, l, r);
+        if (pivotPos == k) {
+            return;
+        }
+        if (pivotPos < k) {
+            findKthLargest(nums, k, pivotPos + 1, r);
+        } else {
+            findKthLargest(nums, k, l, pivotPos - 1);
+        }
+    }
+    
     int partition(vector<int>& nums, int l, int r) {
-        srand(time(nullptr));
-        int idx = l + rand() % (r - l + 1);
-        swap(nums[idx], nums[r]);
-        int smallIdx = l - 1;
+        srand(time(0));
+        int pivotIdx = l + rand() % (r - l + 1);
+        swap(nums[r], nums[pivotIdx]);
+        int smallerIdx = l - 1;
         for (int i = l; i < r; ++i) {
             if (nums[i] < nums[r]) {
-                swap(nums[i], nums[++smallIdx]);
+                swap(nums[i], nums[++smallerIdx]);
             }
         }
-        swap(nums[r], nums[++smallIdx]);
-        return smallIdx;
+        swap(nums[r], nums[++smallerIdx]);
+        return smallerIdx;
     }
 };
+
 
 // min heap O(nlogk) O(k)
 class Solution {
