@@ -1,5 +1,5 @@
 ```cpp
-遇到左括号压栈，遇到右括号判断其与栈顶的左括号是否匹配，若匹配，弹出
+// 遇到左括号压栈，遇到右括号判断其与栈顶的左括号是否匹配，若匹配，弹出
 class Solution {
 public:
     bool isValid(string s) {
