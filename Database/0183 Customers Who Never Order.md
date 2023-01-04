@@ -14,4 +14,11 @@ insert into Orders (id, customerId) values ('2', '1')
 select name as Customers
 from Customers
 where Customers.id not in (select customerId from Orders);
+
+# Write your MySQL query statement below
+select a.name as Customers
+from Customers as a
+left join Orders as b
+on a.id = b.customerId
+where b.customerId is NULL;
 ```
