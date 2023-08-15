@@ -54,7 +54,7 @@ public:
  */
 ```
 
-
+Actually we can use linked list to store tweets:
 
 ```java
 
