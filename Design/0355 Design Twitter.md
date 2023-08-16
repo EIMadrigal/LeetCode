@@ -56,7 +56,8 @@ public:
 
 Actually we can use linked list to store tweets. When `getNewsFeed`, the newest tweets from every following will be in a heap and multi-way merge to choose the top 10.
 
-```class Twitter {
+```java
+class Twitter {
 
     private Map<Integer, Set<Integer>> followings;
     private Map<Integer, Tweet> tweets;  // user -> head of linked list
@@ -143,5 +144,4 @@ Actually we can use linked list to store tweets. When `getNewsFeed`, the newest 
  * obj.follow(followerId,followeeId);
  * obj.unfollow(followerId,followeeId);
  */
-
 ```
