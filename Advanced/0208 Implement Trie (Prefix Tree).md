@@ -1,3 +1,8 @@
+Trie
+
+
+## C++
+
 ```cpp
 // vector
 class Trie {
@@ -125,6 +130,9 @@ private:
 };
 ```
 
+
+## Python
+
 ```python
 class TrieNode:
     def __init__(self):
@@ -167,3 +175,8 @@ class Trie:
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
 ```
+
+
+## Java
+
+
