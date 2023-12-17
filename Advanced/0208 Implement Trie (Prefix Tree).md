@@ -1,15 +1,5 @@
 Trie
 
-```javascript [group1-JavaScript]
-console.log('你好力扣')
-```
-```python [group1-Python]
-print('你好力扣')
-```
-```ruby [group1-Ruby]
-puts '你好力扣'
-```
-
 ## C++
 
 ```cpp
