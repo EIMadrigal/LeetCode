@@ -7,22 +7,20 @@ Trie作为一种树型的数据结构，适合用来store/retrieve字符串的�
 1. build阶段为 $O(n)$， $n$ 为所有字符串的长度之和。
 2. search阶段为 $O(k)$， $k$ 为待查找的字符串长度。
 
-
+实现时，每个结点需要存储指向所有孩子的指针，由于本题中的所有字符均为小写英文字母，故可以用数组存储指向孩子结点的指针，更加general的做法应该是使用哈希表存储每个孩子字符与其地址间的映射关系，在 $O(1)$ 的时间复杂度快速定位某个孩子结点。
 
 ### C++
 
 ```cpp
-// vector
+// vector用c - 'a'快速定位孩子结点
 class Trie {
 public:
-    /** Initialize your data structure here. */
     Trie() : root(new TrieNode()) {}
     ~Trie() {
         if (root)
             delete root;
     }
     
-    /** Inserts a word into the trie. */
     void insert(string word) {
         TrieNode* node = root;
         for (const char c : word) {
@@ -33,27 +31,26 @@ public:
         node->isWord = true;
     }
     
-    /** Returns if the word is in the trie. */
     bool search(string word) {
         TrieNode* node = root;
         for (const char c : word) {
-            node = node->children[c - 'a'];
-            if (!node)
+            if (!node->children[c - 'a'])
                 return false;
+            node = node->children[c - 'a'];
         }
-        return node && node->isWord;
+        return node->isWord;
     }
     
-    /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) {
         TrieNode* node = root;
         for (const char c : prefix) {
-            node = node->children[c - 'a'];
-            if (!node)
+            if (!node->children[c - 'a'])
                 return false;
+            node = node->children[c - 'a'];
         }
-        return node != nullptr;
+        return true;
     }
+
 private:
     struct TrieNode {
         TrieNode() : children(26, nullptr), isWord(false) {}
@@ -80,17 +77,15 @@ private:
 ```
  
 ```cpp
-// hashmap
+// unordered_map用c定位孩子结点
 class Trie {
 public:
-    /** Initialize your data structure here. */
     Trie() : root(new TrieNode()) {}
     ~Trie() {
         if (root)
             delete root;
     }
     
-    /** Inserts a word into the trie. */
     void insert(string word) {
         TrieNode* node = root;
         for (const char c : word) {
@@ -102,25 +97,26 @@ public:
         node->isWord = true;
     }
     
-    /** Returns if the word is in the trie. */
     bool search(string word) {
         TrieNode* node = root;
         for (const char c : word) {
-            if (!node->children.count(c)) return false;
+            if (!node->children.count(c))
+                return false;
             node = node->children[c];
         }
         return node->isWord;
     }
     
-    /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) {
         TrieNode* node = root;
         for (const char c : prefix) {
-            if (!node->children.count(c)) return false;
+            if (!node->children.count(c))
+                return false;
             node = node->children[c];
         }
         return true;
     }
+
 private:
     struct TrieNode {
         TrieNode() : isWord(false) {}
