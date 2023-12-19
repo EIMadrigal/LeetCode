@@ -1,6 +1,15 @@
-Trie
+## 0208 Implement Trie (Prefix Tree)
 
-## C++
+Trie作为一种树型的数据结构，适合用来store/retrieve字符串的集合，典型的应用包括autocomplete、spellchecker等。
+
+时间复杂度分为：
+
+1. build阶段为$O(n)$，$n$为所有字符串的长度之和。
+2. search阶段为$O(k)$，$k$为待查找的字符串长度。
+
+
+
+### C++
 
 ```cpp
 // vector
@@ -130,7 +139,7 @@ private:
 ```
 
 
-## Python
+### Python
 
 ```python
 class TrieNode:
@@ -176,6 +185,6 @@ class Trie:
 ```
 
 
-## Java
+### Java
 
 
