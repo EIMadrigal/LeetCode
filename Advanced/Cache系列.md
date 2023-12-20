@@ -1,3 +1,7 @@
+## 146 LRU Cache
+
+### C++
+
 ```cpp
 class LRUCache {
 public:
@@ -10,7 +14,6 @@ public:
         
         // move the key-value pair to the front of the list
         l.splice(l.begin(), l, it->second);
-        
         return it->second->second;
     }
     
@@ -19,91 +22,88 @@ public:
         
         // key exists
         if(it != m.cend()) {
-            it->second->second = value;   // update the value
+            it->second->second = value;  // update the value
             l.splice(l.begin(), l, it->second);
-            return;
+        } else {
+             // capacity is reached, remove the oldest entry
+            if(l.size() == capacity_) {
+                m.erase(l.back().first);  // why we need the key in the pair
+                l.pop_back();
+            }
+            l.emplace_front(key, value);
+            m[key] = l.begin();
         }
-        
-        // capacity is reached, remove the oldest entry
-        if(l.size() == capacity_) {
-            m.erase(l.back().first);  // why we need the key in the pair
-            l.pop_back();
-        }
-        
-        l.emplace_front(key, value);
-        m[key] = l.begin();
     }
+
 private:
     int capacity_;
-    unordered_map<int, list<pair<int, int>>::iterator> m;
-    list<pair<int, int>> l;
+    unordered_map<int, list<pair<int, int>>::iterator> m;  // key -> node iterator
+    list<pair<int, int>> l;  // list node stores (key, val) pair
 };
 ```
 
 ```cpp
 class LRUCache {
-public:
-
-    struct Node {
+private:
+    struct ListNode {
         int key, val;
-        Node *prev, *next;
-        Node() : key(-1), val(-1), prev(nullptr), next(nullptr) {}
-        Node(int key, int val) : key(key), val(val), prev(nullptr), next(nullptr) {}
+        ListNode* prev, *next;
+        ListNode() : key(0), val(0), prev(nullptr), next(nullptr) {}
+        ListNode(int key, int val) : key(key), val(val), prev(nullptr), next(nullptr) {}
     };
 
-    LRUCache(int capacity) : capacity(capacity) {
-        head = new Node(), tail = new Node();
-        head->next = tail, tail->prev = head;
+    int capacity_;
+    ListNode *head_, *tail_;
+    unordered_map<int, ListNode*> map_;
+
+public:
+    LRUCache(int capacity) : capacity_(capacity) {
+        head_ = new ListNode();
+        tail_ = new ListNode();
+        head_->next = tail_;
+        tail_->prev = head_;
     }
-    
+
     int get(int key) {
-        auto it = m.find(key);
-        if (it == m.end()) {
+        if (map_.find(key) == map_.end()) {
             return -1;
         }
-        Node* node = it->second;
-        del(node);
-        insert(node);
+        ListNode* node = map_[key];
+        _remove(node);
+        _addHead(node);
         return node->val;
     }
-    
+
     void put(int key, int value) {
-        auto it = m.find(key);
-        if (it == m.end()) {
-            if (m.size() == capacity) {
-                Node* r = tail->prev;
-                m.erase(r->key);
-                del(r);
-                delete r;
-            }
-            Node* node = new Node(key, value);
-            insert(node);
-            m[key] = node;
+        if (map_.find(key) != map_.end()) {
+            ListNode* cur = map_[key];
+            cur->val = value;
+            _remove(cur);
+            _addHead(cur);
+            return;
         }
-        else {
-            Node* node = it->second;
-            node->val = value;
-            del(node);
-            insert(node);
+        if (map_.size() == capacity_) {
+            ListNode* removed = tail_->prev;
+            _remove(removed);
+            map_.erase(removed->key);
+            delete removed;
         }
+        ListNode *node = new ListNode(key, value);
+        _addHead(node);
+        map_[key] = node;   
     }
 
-    // get也要删除, 因此不能用tail
-    void del(Node* node) {
-        node->prev->next = node->next;
-        node->next->prev = node->prev;
+    void _remove(ListNode* cur) {
+        cur->prev->next = cur->next;
+        cur->next->prev = cur->prev;
     }
 
-    void insert(Node* node) {
-        node->prev = head;
-        node->next = head->next;
-        head->next = node;
-        node->next->prev = node;
+    void _addHead(ListNode* cur) {
+        cur->prev = head_;
+        cur->next = head_->next;
+        head_->next->prev = cur;
+        head_->next = cur;
     }
-
-    int capacity;
-    unordered_map<int, Node*> m;
-    Node *head, *tail;
 };
 
 /**
@@ -113,6 +113,8 @@ public:
  * obj->put(key,value);
  */
 ```
+
+### Python
 
 ```python
 class Node:
@@ -162,3 +164,5 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 ```
+
+### Java
